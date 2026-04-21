@@ -298,6 +298,33 @@ body{line-height:1.6}
 .member-card{transition:box-shadow .2s,transform .2s}
 .member-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.09);transform:translateY(-2px)}
 
+
+/* ── SWIMLANE PORTFOLIO ── */
+.swimlane-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:36px}
+.swimlane{background:rgba(255,255,255,.72);backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);border-radius:var(--rlg);border:1px solid rgba(255,255,255,.6);box-shadow:0 4px 24px rgba(0,0,0,.06),0 1px 2px rgba(255,255,255,.8) inset;overflow:hidden}
+.sl-head{display:flex;align-items:center;gap:10px;padding:14px 18px 12px;border-bottom:1px solid rgba(0,0,0,.06)}
+.sl-org-badge{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:800;letter-spacing:.04em;padding:3px 9px;border-radius:4px}
+.sl-org-iw{background:var(--blue);color:white}
+.sl-org-tj{background:var(--mustard);color:var(--blue)}
+.sl-count{font-size:11px;color:var(--grey);flex:1}
+.sl-alerts{display:flex;gap:5px;flex-wrap:wrap}
+.sl-alert{font-size:9px;font-weight:700;padding:2px 7px;border-radius:3px}
+.sl-alert-red{background:var(--maroon-08);color:var(--maroon)}
+.sl-alert-yellow{background:var(--orange-08);color:var(--orange)}
+.sl-rows{padding:6px 0 8px}
+.sl-row{display:flex;align-items:center;gap:9px;padding:7px 18px;transition:background .12s;text-decoration:none;border-left:3px solid transparent}
+.sl-row:hover{background:rgba(0,82,135,.04)}
+.sl-row.sl-active{border-left-color:var(--green)}
+.sl-row.sl-overdue{border-left-color:var(--maroon)}
+.sl-row.sl-hold{border-left-color:var(--orange)}
+.sl-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.sld-active{background:var(--green)}
+.sld-overdue{background:var(--maroon)}
+.sld-hold{background:var(--orange)}
+.sl-name{font-size:12px;color:var(--ink);flex:1;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sl-badge{font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px;flex-shrink:0;white-space:nowrap}
+.slb-red{background:var(--maroon-08);color:var(--maroon)}
+.slb-yellow{background:var(--orange-08);color:var(--orange)}
 </style>
 </head>
 <body>
@@ -348,45 +375,100 @@ body{line-height:1.6}
     <div class="hero-bar"></div>
   </div>
 
-  <!-- PROYEK PERLU PERHATIAN — project-level risk, bukan task -->
-  <div class="sec-action-wrap">
-  <div class="sec-label"><span class="si">⚠</span> Proyek Perlu Perhatian</div>
-  <div class="spotlight" style="margin-bottom:0">
-  <!-- AUTO:START:spotlight -->
-    <a href="https://www.notion.so/fa945afb057842dea01a0b78ccd34583" target="_blank" class="sp-card sp-red">
-      <div class="sp-body">
-        <div class="sp-tag sp-tag-r">Overdue — IWDemy</div>
-        <div class="sp-name">IWDemy | AI First Public</div>
-        <div class="sp-next">Revised marketing plan dan follow up approach potential partisipan</div>
-        <div class="sp-foot"><span class="sp-deadline">End: 4 Apr 2026 — OVERDUE</span><span class="sp-link">Notion ↗</span></div>
+  <!-- PORTFOLIO PROYEK — swimlane per domain -->
+  <div class="sec-label"><span class="si">🗂</span> Portfolio Proyek</div>
+  <div class="swimlane-grid">
+
+    <!-- IWDemy -->
+    <div class="swimlane">
+      <div class="sl-head">
+        <span class="sl-org-badge sl-org-iw">IWDemy</span>
+        <span class="sl-count">10 proyek</span>
+        <div class="sl-alerts">
+          <span class="sl-alert sl-alert-red">1 Overdue</span>
+        </div>
       </div>
-    </a>
-    <a href="https://www.notion.so/356cabf8158845fc8a9ed52f1c0935ca" target="_blank" class="sp-card sp-red">
-      <div class="sp-body">
-        <div class="sp-tag sp-tag-r">Overdue — Tjitra</div>
-        <div class="sp-name">Tjitra | CIMB - APT workshop</div>
-        <div class="sp-next">Proposal AI First Program</div>
-        <div class="sp-foot"><span class="sp-deadline">End: 17 Apr 2026 — OVERDUE</span><span class="sp-link">Notion ↗</span></div>
+      <div class="sl-rows">
+        <!-- AUTO:START:iwdemy-projects -->
+        <a class="sl-row sl-overdue" href="https://www.notion.so/fa945afb057842dea01a0b78ccd34583" target="_blank" rel="noopener">
+          <span class="sl-dot sld-overdue"></span>
+          <span class="sl-name">AI First Public</span>
+          <span class="sl-badge slb-red">Overdue</span>
+        </a>
+        <a class="sl-row sl-active" href="#" target="_blank" rel="noopener">
+          <span class="sl-dot sld-active"></span>
+          <span class="sl-name">Agentic AI Workflow</span>
+        </a>
+        <a class="sl-row sl-active" href="#" target="_blank" rel="noopener">
+          <span class="sl-dot sld-active"></span>
+          <span class="sl-name">Principal Connect 2026</span>
+        </a>
+        <a class="sl-row sl-active" href="#" target="_blank" rel="noopener">
+          <span class="sl-dot sld-active"></span>
+          <span class="sl-name">SinaD Aloy</span>
+        </a>
+        <a class="sl-row sl-active" href="#" target="_blank" rel="noopener">
+          <span class="sl-dot sld-active"></span>
+          <span class="sl-name">AI First Aloy</span>
+        </a>
+        <a class="sl-row sl-active" href="#" target="_blank" rel="noopener">
+          <span class="sl-dot sld-active"></span>
+          <span class="sl-name">Team Learning &amp; Growth</span>
+        </a>
+        <a class="sl-row sl-active" href="#" target="_blank" rel="noopener">
+          <span class="sl-dot sld-active"></span>
+          <span class="sl-name">Social Media Engine</span>
+        </a>
+        <a class="sl-row sl-active" href="#" target="_blank" rel="noopener">
+          <span class="sl-dot sld-active"></span>
+          <span class="sl-name">Digital Lab</span>
+        </a>
+        <a class="sl-row sl-active" href="#" target="_blank" rel="noopener">
+          <span class="sl-dot sld-active"></span>
+          <span class="sl-name">Marketing System</span>
+        </a>
+        <a class="sl-row sl-active" href="#" target="_blank" rel="noopener">
+          <span class="sl-dot sld-active"></span>
+          <span class="sl-name">AI First Bootcamp</span>
+        </a>
+        <!-- AUTO:END:iwdemy-projects -->
       </div>
-    </a>
-    <a href="https://www.notion.so/db067adfcb5e4d74a4bef8fb00599cf4" target="_blank" class="sp-card sp-yellow">
-      <div class="sp-body">
-        <div class="sp-tag sp-tag-y">On hold — Tjitra</div>
-        <div class="sp-name">Tjitra | Recruitment</div>
-        <div class="sp-next">Tentukan trigger untuk re-activate (tanggal atau kebutuhan role atau event).</div>
-        <div class="sp-foot"><span class="sp-deadline">End: —</span><span class="sp-link">Notion ↗</span></div>
+    </div>
+
+    <!-- Tjitra -->
+    <div class="swimlane">
+      <div class="sl-head">
+        <span class="sl-org-badge sl-org-tj">Tjitra</span>
+        <span class="sl-count">4 proyek</span>
+        <div class="sl-alerts">
+          <span class="sl-alert sl-alert-red">1 Overdue</span>
+          <span class="sl-alert sl-alert-yellow">2 On Hold</span>
+        </div>
       </div>
-    </a>
-    <a href="https://www.notion.so/06c455bcb6d74264bda4107ae4f9b06d" target="_blank" class="sp-card sp-yellow">
-      <div class="sp-body">
-        <div class="sp-tag sp-tag-y">On hold — Tjitra</div>
-        <div class="sp-name">Tjitra | Telkom Metra - L&amp;D</div>
-        <div class="sp-next">—</div>
-        <div class="sp-foot"><span class="sp-deadline">End: —</span><span class="sp-link">Notion ↗</span></div>
+      <div class="sl-rows">
+        <!-- AUTO:START:tjitra-projects -->
+        <a class="sl-row sl-overdue" href="https://www.notion.so/356cabf8158845fc8a9ed52f1c0935ca" target="_blank" rel="noopener">
+          <span class="sl-dot sld-overdue"></span>
+          <span class="sl-name">CIMB - APT Workshop</span>
+          <span class="sl-badge slb-red">Overdue</span>
+        </a>
+        <a class="sl-row sl-active" href="#" target="_blank" rel="noopener">
+          <span class="sl-dot sld-active"></span>
+          <span class="sl-name">Business Development Pipeline</span>
+        </a>
+        <a class="sl-row sl-hold" href="https://www.notion.so/db067adfcb5e4d74a4bef8fb00599cf4" target="_blank" rel="noopener">
+          <span class="sl-dot sld-hold"></span>
+          <span class="sl-name">Recruitment</span>
+          <span class="sl-badge slb-yellow">On Hold</span>
+        </a>
+        <a class="sl-row sl-hold" href="https://www.notion.so/06c455bcb6d74264bda4107ae4f9b06d" target="_blank" rel="noopener">
+          <span class="sl-dot sld-hold"></span>
+          <span class="sl-name">Telkom Metra - L&amp;D</span>
+          <span class="sl-badge slb-yellow">On Hold</span>
+        </a>
+        <!-- AUTO:END:tjitra-projects -->
       </div>
-    </a>
-  <!-- AUTO:END:spotlight -->
-  </div>
+    </div>
 
   </div>
 
