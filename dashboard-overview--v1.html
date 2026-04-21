@@ -341,7 +341,9 @@ body{line-height:1.6}
 /* ── TEAM LOAD BAR (Overview) ── */
 .ov-tl-bar{background:rgba(255,255,255,.72);backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);border-radius:var(--rlg);border:1px solid rgba(255,255,255,.6);box-shadow:0 4px 24px rgba(0,0,0,.06);padding:14px 22px;margin-bottom:28px;display:flex;align-items:center;justify-content:space-between;gap:16px}
 .ov-tl-persons{display:flex;gap:6px;flex-wrap:wrap}
-.ov-tl-chip{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:6px;background:rgba(0,0,0,.04);color:var(--ink);border:1px solid rgba(0,0,0,.07)}
+.ov-tl-name{font-size:.75rem;font-weight:600;opacity:.85;}
+      .ov-tl-count{font-size:.8rem;font-weight:700;margin-left:2px;}
+      .ov-tl-chip{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:6px;background:rgba(0,0,0,.04);color:var(--ink);border:1px solid rgba(0,0,0,.07)}
 .ov-tl-chip.tl-high{background:var(--orange-08);color:var(--orange);border-color:rgba(208,106,0,.15)}
 .ov-tl-chip.tl-ok{background:var(--green-08);color:var(--green);border-color:rgba(27,128,64,.15)}
 .ov-tl-summary{font-size:11px;color:var(--grey);white-space:nowrap}
@@ -976,7 +978,7 @@ window.OV_SYNC = '2026-04-21T09:30:00';
     var chips=PERSONS.map(function(p){
       var n=active.filter(function(t){return t.assignee===p.key;}).length;
       var cls=n>=15?'tl-high':n>=3?'tl-ok':'';
-      return '<span class="ov-tl-chip '+cls+'" title="'+p.lbl+': '+n+' task aktif">'+p.emoji+' '+n+'</span>';
+      return '<span class="ov-tl-chip '+cls+'" title="'+p.lbl+': '+n+' task aktif">'+p.emoji+' <span class="ov-tl-name">'+p.lbl+'</span> <span class="ov-tl-count">'+n+'</span></span>';
     }).join('');
     var ovEl=document.getElementById('ovTeamLoad');if(!ovEl)return;
     var ovStr=overdue>0?'<strong style="color:var(--maroon)">'+overdue+' overdue</strong> &nbsp;·&nbsp; ':'';

@@ -244,8 +244,8 @@ body{font-family:'Carlito','Inter',sans-serif;background:var(--fog);color:var(--
 
   <!-- PERSON TABS + KANBAN — rendered by JS -->
   <div id="personTabsRoot"></div>
-  <div id="milestoneRoot"></div>
   <div id="kanbanRoot"></div>
+  <div id="milestoneRoot"></div>
 
   <div class="sync-bar" id="syncBar">Memuat data...</div>
 
@@ -614,14 +614,14 @@ function renderKanban() {
 function switchPerson(key) {
   activePerson = key;
   renderPersonTabs();
-  renderMilestones();
   renderKanban();
+  renderMilestones();
 }
 
 // ── INIT ─────────────────────────────────────
 renderPersonTabs();
-renderMilestones();
 renderKanban();
+renderMilestones();
 
 // ── DATE + GREETING ──────────────────────────
 (function(){
