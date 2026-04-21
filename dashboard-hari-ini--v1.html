@@ -135,6 +135,31 @@ body{font-family:'Carlito','Inter',sans-serif;background:var(--fog);color:var(--
 .tag-overdue{background:var(--red-08);color:var(--red)}
 .col-empty{text-align:center;padding:20px 10px;color:var(--grey);font-size:.78rem;font-style:italic;opacity:.7}
 
+/* MILESTONE STRIP */
+.milestone-strip{background:var(--white);border-radius:var(--rlg);box-shadow:var(--sm);padding:14px 18px;margin-bottom:18px;display:none}
+.milestone-strip.has-items{display:block}
+.ms-header{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.ms-label{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--grey)}
+.ms-count{font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:10px;background:var(--silver);color:var(--grey)}
+.ms-grid{display:flex;flex-wrap:wrap;gap:8px}
+.ms-chip{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px;background:var(--fog);border:1.5px solid var(--silver);text-decoration:none;transition:all .15s;min-width:0;flex:1;flex-basis:calc(25% - 8px)}
+@media(max-width:900px){.ms-chip{flex-basis:calc(50% - 8px)}}
+@media(max-width:540px){.ms-chip{flex-basis:100%}}
+.ms-chip:hover{border-color:var(--blue);background:var(--blue-08)}
+.ms-chip.urgent{border-color:var(--red);background:var(--red-08)}
+.ms-chip.soon{border-color:var(--mustard);background:var(--mustard-10)}
+.ms-countdown{font-family:'Montserrat',sans-serif;font-weight:800;font-size:1.3rem;line-height:1;flex-shrink:0;min-width:28px;text-align:center}
+.ms-countdown.urgent{color:var(--red)}
+.ms-countdown.soon{color:#B8850A}
+.ms-countdown.normal{color:var(--grey)}
+.ms-body{flex:1;min-width:0}
+.ms-name{font-size:.8rem;font-weight:600;color:var(--ink);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ms-meta{display:flex;gap:5px;margin-top:3px;flex-wrap:wrap;align-items:center}
+.ms-who{font-size:.67rem;color:var(--grey)}
+.ms-day-label{font-size:.67rem;font-weight:600;color:var(--grey)}
+.ms-chip.urgent .ms-day-label{color:var(--red)}
+.ms-chip.soon .ms-day-label{color:#B8850A}
+
 /* SYNC BAR */
 .sync-bar{text-align:center;font-size:.72rem;color:var(--grey);margin-bottom:16px}
 
@@ -219,6 +244,7 @@ body{font-family:'Carlito','Inter',sans-serif;background:var(--fog);color:var(--
 
   <!-- PERSON TABS + KANBAN — rendered by JS -->
   <div id="personTabsRoot"></div>
+  <div id="milestoneRoot"></div>
   <div id="kanbanRoot"></div>
 
   <div class="sync-bar" id="syncBar">Memuat data...</div>
@@ -401,6 +427,76 @@ function buildNarrative(tasks, person) {
   }
 }
 
+// ── MILESTONE HELPERS ───────────────────────
+function isMilestone(t) { return (t.name||'').includes('🏁'); }
+
+function msUrgency(t) {
+  if(!t.due) return {cls:'normal', days:'?', label:'Tidak ada tanggal'};
+  const d=new Date(t.due); d.setHours(0,0,0,0);
+  const diff=Math.round((d-TODAY)/(1000*60*60*24));
+  if(diff<0) return {cls:'urgent', days:Math.abs(diff)+'!', label:'Telat '+Math.abs(diff)+' hari'};
+  if(diff===0) return {cls:'urgent', days:'0', label:'Hari ini'};
+  if(diff<=3) return {cls:'urgent', days:diff, label:diff+' hari lagi'};
+  if(diff<=7) return {cls:'soon', days:diff, label:diff+' hari lagi'};
+  return {cls:'normal', days:diff, label:diff+' hari lagi'};
+}
+
+// ── RENDER MILESTONES ────────────────────────
+function renderMilestones() {
+  // For Saya (manager): show all milestones across everyone, sorted by due
+  // For others: show only their milestones
+  let milestones;
+  if(activePerson==='yanti') {
+    milestones = TASKS.filter(t=>isMilestone(t) && !(t.status||'').toLowerCase().includes('done'));
+  } else {
+    milestones = TASKS.filter(t=>isMilestone(t) && t.assignee===activePerson && !(t.status||'').toLowerCase().includes('done'));
+  }
+  milestones.sort((a,b)=>{
+    if(!a.due && !b.due) return 0;
+    if(!a.due) return 1; if(!b.due) return -1;
+    return new Date(a.due)-new Date(b.due);
+  });
+
+  if(milestones.length===0){
+    document.getElementById('milestoneRoot').innerHTML='';
+    return;
+  }
+
+  const personMap={};
+  PERSONS.forEach(p=>personMap[p.key]=p);
+
+  let chips = milestones.map(t=>{
+    const urg = msUrgency(t);
+    const pInfo = personMap[t.assignee];
+    const who = pInfo ? pInfo.emoji+' '+pInfo.label : t.assignee;
+    const name = (t.name||'').replace('🏁','').trim();
+    const dom = t.domain||'';
+    const iw = dom.toLowerCase().includes('iwdemy')||dom.toLowerCase().includes('iwd');
+    const link = t.url||'#';
+    return `<a class="ms-chip ${urg.cls}" href="${link}" target="_blank">
+      <div class="ms-countdown ${urg.cls}">${urg.days}</div>
+      <div class="ms-body">
+        <div class="ms-name">${name}</div>
+        <div class="ms-meta">
+          <span class="ms-who">${who}</span>
+          <span class="ms-day-label">· ${urg.label}</span>
+        </div>
+      </div>
+    </a>`;
+  }).join('');
+
+  const html = `<div class="milestone-strip has-items">
+    <div class="ms-header">
+      <span style="font-size:1rem">🏁</span>
+      <span class="ms-label">Milestones & Event</span>
+      <span class="ms-count">${milestones.length}</span>
+    </div>
+    <div class="ms-grid">${chips}</div>
+  </div>`;
+
+  document.getElementById('milestoneRoot').innerHTML = html;
+}
+
 // ── RENDER PERSON TABS ───────────────────────
 function renderPersonTabs() {
   let html = '<div class="person-tabs">';
@@ -423,7 +519,7 @@ function renderPersonTabs() {
 // ── RENDER KANBAN ────────────────────────────
 function renderKanban() {
   const pConfig = PERSONS.find(p=>p.key===activePerson);
-  const myTasks = TASKS.filter(t=>t.assignee===activePerson && !(t.status||'').toLowerCase().includes('done'));
+  const myTasks = TASKS.filter(t=>t.assignee===activePerson && !(t.status||'').toLowerCase().includes('done') && !isMilestone(t));
 
   const narrative = buildNarrative(myTasks, activePerson);
 
@@ -503,11 +599,13 @@ function renderKanban() {
 function switchPerson(key) {
   activePerson = key;
   renderPersonTabs();
+  renderMilestones();
   renderKanban();
 }
 
 // ── INIT ─────────────────────────────────────
 renderPersonTabs();
+renderMilestones();
 renderKanban();
 
 // ── DATE + GREETING ──────────────────────────
