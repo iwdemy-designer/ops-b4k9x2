@@ -286,7 +286,7 @@ body{line-height:1.6}
   <div class="hero">
     <div class="hero-eyebrow"><span class="eyebrow-dot"></span><span id="teamEyebrow">Tampilan Tim</span></div>
     <h1 class="hero-title" id="teamGreeting">Halo Yanti. Tim sebaik yang memimpinnya.</h1>
-    <p class="hero-sub">Satu kartu per orang — prioritas aktif, beban kerja, dan milestone yang dipegang. Data tim lain akan muncul otomatis begitu field <strong>Assignee</strong> diisi di Notion.</p>
+    <p class="hero-sub">Lima orang, satu dashboard. Task aktif, beban kerja, dan prioritas minggu ini — semuanya di satu tempat.</p>
     <div class="hero-bar"></div>
   </div>
 
@@ -619,13 +619,13 @@ body{line-height:1.6}
 
   // Sapaan harian — kepemimpinan, value-based
   const greetings=[
-    'Halo Yanti. Pemimpin baik juga tahu kapan recharge.',      // Min
-    'Halo Yanti. Mulai minggu dengan arah yang jelas.',          // Sen
-    'Halo Yanti. Tim sebaik yang memimpinnya.',                  // Sel
-    'Halo Yanti. Tengah minggu — cek arah, jaga tempo.',         // Rab
-    'Halo Yanti. Kepercayaan tim dibangun dari konsistensi.',    // Kam
-    'Halo Yanti. Tutup minggu dengan tim yang solid.',           // Jum
-    'Halo Yanti. Tim yang baik butuh pemimpin yang hadir.'       // Sab
+    'Halo Yanti. Lima orang, satu arah. Siapa yang perlu perhatian minggu ini?',      // Min
+    'Halo Yanti. Senin — pastikan semua tahu prioritasnya sebelum tengah hari.',       // Sen
+    'Halo Yanti. Tim sedang jalan. Tugasmu: pastikan tidak ada yang stuck diam.',      // Sel
+    'Halo Yanti. Tengah minggu. Cek progress, jangan tunggu masalah datang sendiri.',  // Rab
+    'Halo Yanti. Dua hari lagi. Siapa yang butuh bantuan untuk finish tepat waktu?',   // Kam
+    'Halo Yanti. Akhiri minggu dengan tim yang tahu apa yang sudah dicapai.',          // Jum
+    'Halo Yanti. Tim yang baik butuh pemimpin yang hadir, bukan hanya yang mengarahkan.'  // Sab
   ];
   document.getElementById('teamGreeting').textContent=greetings[d.getDay()];
 

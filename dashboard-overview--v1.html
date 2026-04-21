@@ -343,7 +343,7 @@ body{line-height:1.6}
   <!-- HERO -->
   <div class="hero">
     <div class="hero-eyebrow"><span class="eyebrow-dot"></span><span id="hero-eyebrow-text">Navigasi & Arah</span></div>
-    <h1 class="hero-title" id="hero-greeting">Project & Resource Overview</h1>
+    <h1 class="hero-title" id="hero-greeting">Halo Yanti.</h1>
     <p class="hero-sub" id="hero-sub"><strong>4 tugas P1 deadline hari ini (21 Apr)</strong> — 5 tugas sedang dikerjakan, 6 milestone ke depan.</p>
     <div class="hero-bar"></div>
   </div>
@@ -847,25 +847,25 @@ body{line-height:1.6}
 
     // Sapaan harian — org-strategic, value-based
     const greetings = [
-      'Halo Yanti. Lihat gambaran besar, lalu tentukan yang penting.',  // Min
-      'Halo Yanti. Minggu baru dimulai. Mana yang perlu digerakkan?',   // Sen
-      'Halo Yanti. Cek status, jaga momentum.',                          // Sel
-      'Halo Yanti. Tengah minggu — on track atau perlu koreksi?',        // Rab
-      'Halo Yanti. Dua hari lagi. Apa yang bisa ditutup?',               // Kam
-      'Halo Yanti. Sebelum weekend — tutup loop yang terbuka.',          // Jum
-      'Halo Yanti. Fondasi kuat dimulai dari gambaran yang jelas.'       // Sab
+      'Halo Yanti. Gambaran besar dulu — mana yang bergerak, mana yang butuh keputusan.',       // Min
+      'Halo Yanti. Minggu ini ada dua event besar dan lima deliverable P1. Mulai dari yang paling berdampak.',  // Sen
+      'Halo Yanti. Momentum sudah ada. Sekarang tentukan: mana yang bisa ditutup hari ini?',    // Sel
+      'Halo Yanti. Tengah minggu — waktu terbaik untuk koreksi sebelum terlambat.',             // Rab
+      'Halo Yanti. Dua hari lagi. Yang belum selesai hari ini akan terasa lebih berat besok.',  // Kam
+      'Halo Yanti. Tutup loop yang terbuka. Tim menunggu keputusan dari kamu.',                 // Jum
+      'Halo Yanti. Gambaran minggu depan dimulai dari refleksi yang jujur hari ini.'            // Sab
     ];
     document.getElementById('hero-greeting').textContent = greetings[dow];
 
     // Sub — day context
     const dayContext = [
-      'Minggu — kalau buka ini, berarti serius.',
-      'Senin: tentukan arah untuk minggu ini.',
-      'Selasa: momentum dari kemarin, jangan berhenti.',
-      'Rabu: tengah minggu — apakah sudah di jalur yang benar?',
-      'Kamis: dua hari lagi — finish strong.',
-      'Jumat: tutup semua yang terbuka sebelum akhir pekan.',
-      'Sabtu — istirahat juga bagian dari strategi.'
+      'Minggu: gambaran besar, bukan detail.',
+      'Senin: arah yang jelas mengalahkan semangat yang tidak terarah.',
+      'Selasa: momentum sudah ada — gunakan sekarang.',
+      'Rabu: koreksi kecil hari ini mencegah masalah besar akhir minggu.',
+      'Kamis: yang belum selesai hari ini akan berat besok.',
+      'Jumat: tutup yang terbuka, lepas yang sudah selesai.',
+      'Sabtu: istirahat yang baik juga bagian dari strategi.'
     ];
     const sub = document.getElementById('hero-sub');
     sub.innerHTML = '<strong>' + dayContext[dow] + '</strong> 4 tugas P1 deadline hari ini · 5 Doing · 19 tasks aktif · 6 milestone ke depan.';

@@ -442,9 +442,12 @@ function renderKanban() {
     // use 'minggu-ini' as key — reset
     cols = {'hari-ini':[],'besok':[],'minggu-ini':[],'nanti':[]};
     myTasks.forEach(t=>cols[tColOf(t)].push(t));
+    const MONTHS=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+    const todayLabel = TODAY.getDate()+' '+MONTHS[TODAY.getMonth()];
+    const besokLabel = TOMORROW.getDate()+' '+MONTHS[TOMORROW.getMonth()];
     colDef = [
-      {key:'hari-ini',  cls:'col-hari-ini',  icon:'🔥', title:'Hari Ini'},
-      {key:'besok',     cls:'col-besok',     icon:'⚡', title:'Besok'},
+      {key:'hari-ini',  cls:'col-hari-ini',  icon:'🔥', title:'Hari Ini · '+todayLabel},
+      {key:'besok',     cls:'col-besok',     icon:'⚡', title:'Besok · '+besokLabel},
       {key:'minggu-ini',cls:'col-minggu-ini',icon:'📅', title:'Minggu Ini'},
       {key:'nanti',     cls:'col-nanti',     icon:'🕐', title:'Menunggu / Nanti'},
     ];
