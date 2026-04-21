@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Tjitra & Associates">
+<meta name="description" content="Ruang Kerja Kristina — Dashboard operasional harian IWDemy & Tjitra">
+<title>Hari Ini · Ruang Kerja Kristina</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=Carlito:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --mustard:#FCB528; --mustard-10:rgba(252,181,40,.10); --mustard-20:rgba(252,181,40,.22);
+  --blue:#005287; --blue-08:rgba(0,82,135,.08); --blue-15:rgba(0,82,135,.15);
+  --green:#1B8040; --green-08:rgba(27,128,64,.08);
+  --maroon:#660000; --maroon-08:rgba(102,0,0,.08);
+  --orange:#D06A00; --orange-08:rgba(208,106,0,.08);
+  --red:#C0392B; --red-08:rgba(192,57,43,.08);
+  --ink:#111; --grey:#6A6A6A; --silver:#EFEFEF; --fog:#F7F7F5; --white:#FFF;
+  --xs:0 1px 3px rgba(0,0,0,.06); --sm:0 2px 8px rgba(0,0,0,.08); --md:0 6px 24px rgba(0,0,0,.10);
+  --rsm:8px; --rmd:12px; --rlg:16px; --rxl:24px;
+}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{font-family:'Carlito','Inter',sans-serif;background:var(--fog);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased;position:relative;line-height:1.6}
+
+/* BACKGROUND BLOBS */
+.bg-blobs{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.bg-blob{position:absolute;border-radius:50%;filter:blur(100px)}
+.bg-blob:nth-child(1){width:560px;height:560px;top:-180px;left:-120px;background:rgba(0,82,135,.05)}
+.bg-blob:nth-child(2){width:480px;height:480px;top:30%;right:-100px;background:rgba(252,181,40,.04)}
+.bg-blob:nth-child(3){width:420px;height:420px;bottom:-120px;left:50%;transform:translateX(-50%);background:rgba(100,100,100,.04)}
+
+/* VALUE BAR */
+.ticker-wrap{background:var(--blue);height:36px;display:flex;align-items:center;overflow:hidden}
+.ticker-label{flex-shrink:0;background:var(--mustard);color:var(--blue);font-family:'Montserrat',sans-serif;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:0 16px;height:100%;display:flex;align-items:center;white-space:nowrap}
+.ticker-msg{flex:1;padding:0 24px;position:relative;height:100%;overflow:hidden}
+.ticker-text{font-size:11px;font-weight:400;color:rgba(255,255,255,.82);position:absolute;top:50%;left:24px;right:24px;transform:translateY(-50%);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:opacity .7s ease,transform .7s ease}
+.ticker-text.visible{opacity:1;transform:translateY(-50%) translateX(0)}
+.ticker-text.exit{opacity:0;transform:translateY(-50%) translateX(-8px)}
+.ticker-text.enter{opacity:0;transform:translateY(-50%) translateX(8px)}
+.ticker-sub{color:rgba(252,181,40,.9);font-weight:600}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,.78);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid rgba(0,0,0,.07);height:58px;display:flex;align-items:center;padding:0 40px;justify-content:space-between}
+.nav-brand{display:flex;align-items:center;gap:14px}
+.nav-logos{display:flex;align-items:center;gap:10px}
+.nav-logo-img{height:32px;width:auto;object-fit:contain;display:block}
+.nav-logo-divider{width:1px;height:20px;background:rgba(0,0,0,.12);flex-shrink:0}
+.nav-sub{font-size:9px;color:var(--grey);letter-spacing:.07em;text-transform:uppercase;margin-top:0}
+.nav-tabs{display:flex;gap:2px}
+.nav-tab{font-family:'Montserrat',sans-serif;font-size:12px;font-weight:600;color:var(--grey);padding:6px 14px;border-radius:7px;text-decoration:none;transition:all .15s}
+.nav-tab:hover{color:var(--blue);background:var(--blue-08)}
+.nav-tab.active{color:var(--blue);background:var(--mustard);box-shadow:0 1px 4px rgba(252,181,40,.3)}
+.nav-right{display:flex;align-items:center;gap:8px}
+.nav-date{font-size:11px;color:var(--grey);padding:5px 12px;border-radius:7px;background:var(--silver);font-weight:600}
+.nav-cmd{font-size:11px;font-weight:700;color:var(--blue);background:var(--mustard-10);border:1.5px solid var(--mustard-20);padding:5px 12px;border-radius:7px;cursor:pointer;transition:all .15s}
+.nav-cmd:hover{background:var(--mustard-20)}
+
+/* LAYOUT */
+.wrap{max-width:1100px;margin:0 auto;padding:0 40px;position:relative;z-index:1}
+
+/* HERO */
+.hero{padding:36px 0 24px}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--mustard-10);border:1px solid var(--mustard-20);padding:4px 12px;border-radius:999px;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;color:var(--blue);letter-spacing:.07em;text-transform:uppercase;margin-bottom:10px}
+.eyebrow-dot{width:5px;height:5px;background:var(--mustard);border-radius:50%}
+.hero-title{font-family:'Montserrat',sans-serif;font-size:clamp(20px,2.2vw,28px);font-weight:800;color:var(--ink);letter-spacing:-.03em;margin-bottom:4px}
+.hero-title em{color:var(--blue);font-style:normal}
+.hero-sub{font-size:13px;color:var(--grey);line-height:1.6}
+.hero-bar{width:36px;height:3px;background:var(--mustard);border-radius:2px;margin-top:14px;margin-bottom:28px}
+
+/* NARRATIVE CARD */
+.narrative-card{background:linear-gradient(135deg,var(--blue) 0%,#0077b6 60%,#0096c7 100%);border-radius:var(--rlg);padding:20px 24px;margin-bottom:24px;color:var(--white);box-shadow:0 8px 28px rgba(0,82,135,.22)}
+.narrative-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.narrative-icon{font-size:1.3rem}
+.narrative-title{font-family:'Montserrat',sans-serif;font-size:.95rem;font-weight:700;opacity:.9}
+.narrative-text{font-size:.92rem;line-height:1.7;opacity:.92}
+.narrative-stats{display:flex;gap:16px;margin-top:14px;flex-wrap:wrap}
+.stat-chip{background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:.78rem;font-weight:600;display:flex;align-items:center;gap:6px}
+.stat-num{font-family:'Montserrat',sans-serif;font-size:1.05rem;font-weight:800}
+
+/* KANBAN */
+.kanban-board{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:40px}
+@media(max-width:900px){.kanban-board{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:540px){.kanban-board{grid-template-columns:1fr}}
+
+.kanban-col{background:var(--white);border-radius:var(--rlg);box-shadow:var(--sm);overflow:hidden;display:flex;flex-direction:column}
+.col-header{padding:12px 14px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--silver)}
+.col-header-left{display:flex;align-items:center;gap:7px}
+.col-icon{font-size:1rem}
+.col-title{font-family:'Montserrat',sans-serif;font-size:.8rem;font-weight:700;color:var(--ink)}
+.col-badge{font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:10px;background:var(--silver);color:var(--grey)}
+
+.col-kerjakan .col-header{border-bottom-color:var(--red);background:linear-gradient(135deg,var(--red-08),var(--white))}
+.col-kerjakan .col-badge{background:var(--red-08);color:var(--red)}
+.col-antrian .col-header{border-bottom-color:var(--mustard);background:linear-gradient(135deg,var(--mustard-10),var(--white))}
+.col-antrian .col-badge{background:var(--mustard-10);color:var(--mustard-dark,#B8850A)}
+.col-menunggu .col-header{border-bottom-color:var(--orange);background:linear-gradient(135deg,var(--orange-08),var(--white))}
+.col-menunggu .col-badge{background:var(--orange-08);color:var(--orange)}
+.col-besok .col-header{border-bottom-color:var(--blue);background:linear-gradient(135deg,var(--blue-08),var(--white))}
+.col-besok .col-badge{background:var(--blue-15);color:var(--blue)}
+
+.col-cards{padding:10px;display:flex;flex-direction:column;gap:8px;flex:1;min-height:60px}
+.kanban-card{background:var(--fog);border-radius:var(--rsm);padding:10px 12px;border-left:3px solid transparent;transition:transform .15s,box-shadow .15s}
+.kanban-card:hover{transform:translateY(-1px);box-shadow:var(--sm)}
+.col-kerjakan .kanban-card{border-left-color:var(--red)}
+.col-antrian .kanban-card{border-left-color:var(--mustard)}
+.col-menunggu .kanban-card{border-left-color:var(--orange)}
+.col-besok .kanban-card{border-left-color:var(--blue)}
+
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:6px;margin-bottom:7px}
+.card-name{font-size:.82rem;font-weight:600;color:var(--ink);line-height:1.4;flex:1}
+.card-notion-link{flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:6px;background:var(--silver);color:var(--grey);text-decoration:none;font-size:.72rem;transition:background .15s,color .15s;margin-top:1px}
+.card-notion-link:hover{background:var(--blue-15);color:var(--blue)}
+.card-tags{display:flex;flex-wrap:wrap;gap:4px}
+.tag{font-size:.67rem;font-weight:600;padding:2px 7px;border-radius:7px;white-space:nowrap}
+.tag-p1{background:var(--red-08);color:var(--red)}
+.tag-p2{background:var(--orange-08);color:var(--orange)}
+.tag-p3{background:var(--green-08);color:var(--green)}
+.tag-doing{background:var(--mustard-10);color:#B8850A}
+.tag-next{background:var(--blue-08);color:var(--blue)}
+.tag-wait{background:var(--silver);color:var(--grey)}
+.tag-done{background:var(--green-08);color:var(--green)}
+.tag-proj{background:var(--maroon-08);color:var(--maroon)}
+.tag-proj-iw{background:var(--blue-08);color:var(--blue)}
+.tag-due{background:var(--blue-08);color:var(--blue)}
+.tag-overdue{background:var(--red-08);color:var(--red)}
+.col-empty{text-align:center;padding:20px 10px;color:var(--grey);font-size:.78rem;font-style:italic;opacity:.7}
+
+/* SYNC BAR */
+.sync-bar{text-align:center;font-size:.72rem;color:var(--grey);margin-bottom:16px}
+
+/* FOOTER */
+.footer{background:var(--blue);padding:20px 40px;margin-top:8px;position:relative;z-index:1}
+.footer-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.footer-brand{font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;color:rgba(255,255,255,.9)}
+.footer-attr{font-size:11px;color:rgba(252,181,40,.85);font-style:italic}
+.footer-note{font-size:10px;color:rgba(255,255,255,.45)}
+
+/* COMMAND PALETTE */
+.cmd-overlay{position:fixed;inset:0;background:rgba(0,0,0,.3);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:900;opacity:0;pointer-events:none;transition:opacity .2s}
+.cmd-overlay.open{opacity:1;pointer-events:all}
+.cmd-palette{position:fixed;top:18%;left:50%;transform:translateX(-50%) scale(.97);width:min(560px,90vw);background:rgba(255,255,255,.92);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-radius:16px;border:1px solid rgba(255,255,255,.8);box-shadow:0 20px 60px rgba(0,0,0,.18);z-index:901;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
+.cmd-palette.open{opacity:1;pointer-events:all;transform:translateX(-50%) scale(1)}
+.cmd-search-wrap{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid rgba(0,0,0,.07)}
+.cmd-icon{font-size:16px;color:var(--grey);flex-shrink:0}
+.cmd-input{flex:1;border:none;outline:none;font-size:15px;font-family:'Inter',sans-serif;color:var(--ink);background:transparent}
+.cmd-input::placeholder{color:rgba(0,0,0,.3)}
+.cmd-esc{font-size:10px;font-weight:700;color:var(--grey);background:rgba(0,0,0,.06);padding:3px 7px;border-radius:5px;cursor:pointer}
+.cmd-results{max-height:320px;overflow-y:auto;padding:8px}
+.cmd-item{display:flex;align-items:center;gap:12px;padding:9px 12px;border-radius:9px;cursor:pointer;transition:background .12s;text-decoration:none;color:inherit}
+.cmd-item:hover,.cmd-item.selected{background:rgba(0,82,135,.07)}
+.cmd-item-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;background:rgba(0,0,0,.05)}
+.cmd-item-icon.ci-iw{background:var(--blue-08)}.cmd-item-icon.ci-tj{background:var(--mustard-10)}.cmd-item-icon.ci-nav{background:rgba(0,0,0,.04)}
+.cmd-item-body{flex:1;min-width:0}
+.cmd-item-name{font-size:13px;font-weight:600;color:var(--ink)}
+.cmd-item-sub{font-size:11px;color:var(--grey);margin-top:1px}
+.cmd-section{font-size:9px;font-weight:700;color:var(--grey);text-transform:uppercase;letter-spacing:.1em;padding:8px 12px 4px;margin-top:4px}
+.cmd-footer{padding:10px 18px;border-top:1px solid rgba(0,0,0,.06);font-size:10px;color:rgba(0,0,0,.35);text-align:center}
+
+:focus-visible{outline:2px solid var(--mustard);outline-offset:3px;border-radius:4px}
+</style>
+</head>
+<body>
+
+<div class="bg-blobs">
+  <div class="bg-blob"></div>
+  <div class="bg-blob"></div>
+  <div class="bg-blob"></div>
+</div>
+
+<!-- VALUE BAR -->
+<div class="ticker-wrap">
+  <div class="ticker-label" id="ticker-label">Values</div>
+  <div class="ticker-msg">
+    <div class="ticker-text visible" id="ticker-text"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-brand">
+    <div class="nav-logos">
+      <img src="./logo-iwdemy.jpg" class="nav-logo-img" alt="IWDemy">
+      <div class="nav-logo-divider"></div>
+      <img src="./logo-tjitra.jpg" class="nav-logo-img" alt="Tjitra">
+    </div>
+    <div class="nav-sub">Ruang Kerja Kristina</div>
+  </div>
+  <div class="nav-tabs">
+    <a href="dashboard-overview--v1.html" class="nav-tab">Overview</a>
+    <a href="dashboard-hari-ini--v1.html" class="nav-tab active">Hari Ini</a>
+    <a href="dashboard-tim--v1.html" class="nav-tab">Tim</a>
+    <a href="dashboard-personal--v1.html" class="nav-tab">Personal</a>
+  </div>
+  <div class="nav-right">
+    <div class="nav-date" id="navDate">—</div>
+    <div class="nav-cmd" onclick="openCmd()">⌘K</div>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow"><span class="eyebrow-dot"></span><span id="myDayEyebrow">Fokus Hari Ini</span></div>
+    <h1 class="hero-title" id="myDayGreeting">Halo <em>Kristina</em>.</h1>
+    <p class="hero-sub">Ruang kendali harianmu — task aktif, antrian, dan yang perlu perhatian.</p>
+    <div class="hero-bar"></div>
+  </div>
+
+  <!-- NARRATIVE + KANBAN — rendered by JS -->
+  <div id="kanbanRoot"></div>
+
+  <div class="sync-bar" id="syncBar">Memuat data...</div>
+
+</div>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">IWDemy · Tjitra &amp; Associates</div>
+    <div class="footer-attr">Designed by Tjitra | Powered by IWDemy</div>
+    <div class="footer-note">© 2026 Tjitra &amp; Associates · Data: Notion · Aspiring Growth, Experiencing Technology</div>
+  </div>
+</footer>
+
+<!-- COMMAND PALETTE -->
+<div class="cmd-overlay" id="cmdOverlay" onclick="closeCmd()"></div>
+<div class="cmd-palette" id="cmdPalette">
+  <div class="cmd-search-wrap">
+    <span class="cmd-icon">⌘</span>
+    <input class="cmd-input" id="cmdInput" placeholder="Cari project, halaman, atau aksi..." autocomplete="off">
+    <span class="cmd-esc" onclick="closeCmd()">ESC</span>
+  </div>
+  <div class="cmd-results" id="cmdResults"></div>
+  <div class="cmd-footer">⌘K untuk buka · ESC untuk tutup · Enter untuk buka</div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────
+// AUTO:START — NOTION SYNC DATA
+const TASKS = [
+  { name: 'Kirim AIF Program Concept CIMB', priority: 'P1', status: 'In Progress', project: 'Tjitra', due: '2026-04-20', url: 'https://www.notion.so/3428ff32f8cf80f5b207db8aa78a4324' },
+  { name: 'Kirim AIF Program Concept Pertamina', priority: 'P1', status: 'In Progress', project: 'Tjitra', due: '2026-04-20', url: 'https://www.notion.so/6398a42afed046a79f5ace17ae522e42' },
+  { name: 'Kirim Activity Report CIMB Workshop', priority: 'P1', status: 'Next', project: 'Tjitra', due: '2026-04-20', url: 'https://www.notion.so/2faa6e7f7bbe4807a848a3b5978e9666' },
+  { name: 'Follow up IFP Metra, Temasek, Ciputra', priority: 'P2', status: 'In Progress', project: 'Tjitra', due: '2026-04-22', url: 'https://www.notion.so/734a70bb0086468e8bff99a17f9679b1' },
+  { name: 'Final website aifirst26.iwdemy.com', priority: 'P2', status: 'Next', project: 'IWDemy', due: '2026-04-22', url: 'https://www.notion.so/3488ff32f8cf80b19a05ca8482e9d070' },
+];
+const SYNC_TIME = '2026-04-21T04:06:00';
+// AUTO:END — NOTION SYNC DATA
+// ─────────────────────────────────────────────
+
+// ── HELPERS ─────────────────────────────────
+const TODAY = new Date(); TODAY.setHours(0,0,0,0);
+const TOMORROW = new Date(TODAY); TOMORROW.setDate(TODAY.getDate()+1);
+
+function colOf(t) {
+  const s = (t.status||'').toLowerCase();
+  if (s.includes('hold')||s.includes('wait')||s.includes('blocked')||s.includes('menunggu')) return 'menunggu';
+  if (s.includes('progress')||s.includes('doing')) return 'kerjakan';
+  // Next / Todo — check due
+  if (t.due) {
+    const d = new Date(t.due); d.setHours(0,0,0,0);
+    if (d <= TODAY) return 'antrian'; // today or overdue
+  }
+  return 'besok';
+}
+
+function priorityTag(p) {
+  const lp=(p||'').toLowerCase();
+  if(lp.includes('p1')||lp.includes('high')) return ['P1','tag-p1'];
+  if(lp.includes('p2')||lp.includes('med')) return ['P2','tag-p2'];
+  return ['P3','tag-p3'];
+}
+
+function statusTag(s) {
+  const ls=(s||'').toLowerCase();
+  if(ls.includes('progress')||ls.includes('doing')) return ['● Doing','tag-doing'];
+  if(ls.includes('next')||ls.includes('todo')) return ['○ Next','tag-next'];
+  if(ls.includes('done')||ls.includes('selesai')) return ['✓ Done','tag-done'];
+  return ['◌ Waiting','tag-wait'];
+}
+
+function fmtDue(t) {
+  if(!t.due) return null;
+  const d=new Date(t.due); d.setHours(0,0,0,0);
+  const diff=Math.round((d-TODAY)/(1000*60*60*24));
+  if(diff<0) return [`Telat ${Math.abs(diff)}h`,'tag-overdue'];
+  if(diff===0) return ['Hari ini','tag-due'];
+  if(diff===1) return ['Besok','tag-due'];
+  return [`+${diff} hari`,'tag-due'];
+}
+
+function projTag(proj) {
+  if(!proj) return '';
+  const iw = proj.toLowerCase().includes('iwdemy')||proj.toLowerCase().includes('iwd');
+  return `<span class="tag ${iw?'tag-proj-iw':'tag-proj'}">${proj}</span>`;
+}
+
+// ── NARRATIVE ───────────────────────────────
+function buildNarrative(tasks) {
+  const total = tasks.length;
+  if(total===0) return 'Tidak ada task aktif saat ini. Gunakan waktu ini untuk merencanakan langkah berikutnya.';
+  const doing = tasks.filter(t=>colOf(t)==='kerjakan');
+  const p1 = tasks.filter(t=>(t.priority||'').toLowerCase().includes('p1'));
+  const overdue = tasks.filter(t=>{if(!t.due)return false;const d=new Date(t.due);d.setHours(0,0,0,0);return d<TODAY;});
+  let s = `Hari ini ada ${total} task aktif. `;
+  if(doing.length>0) s+=`Sedang dikerjakan: ${doing.slice(0,2).map(t=>'"'+t.name+'"').join(' dan ')}${doing.length>2?' (dan lainnya)':''}. `;
+  if(overdue.length>0) s+=`⚠ ${overdue.length} task sudah lewat deadline — perlu dikebut segera.`;
+  else if(p1.length>0) s+=`${p1.length} task P1 perlu perhatian utama hari ini.`;
+  return s.trim();
+}
+
+// ── CARD HTML ───────────────────────────────
+function cardHTML(t) {
+  const [pL,pC]=priorityTag(t.priority);
+  const [sL,sC]=statusTag(t.status);
+  const due=fmtDue(t);
+  const link=t.url?`<a class="card-notion-link" href="${t.url}" target="_blank" title="Buka di Notion">↗</a>`:'';
+  return `<div class="kanban-card">
+    <div class="card-top"><div class="card-name">${t.name}</div>${link}</div>
+    <div class="card-tags">
+      <span class="tag ${pC}">${pL}</span>
+      <span class="tag ${sC}">${sL}</span>
+      ${projTag(t.project)}
+      ${due?`<span class="tag ${due[1]}">${due[0]}`+'</span>':''}
+    </div>
+  </div>`;
+}
+
+// ── RENDER ───────────────────────────────────
+function render() {
+  const active = TASKS.filter(t=>!(t.status||'').toLowerCase().includes('done'));
+  const cols = {kerjakan:[],antrian:[],menunggu:[],besok:[]};
+  active.forEach(t=>cols[colOf(t)].push(t));
+
+  const narrative = buildNarrative(active);
+  const stats = {
+    total: active.length,
+    doing: cols.kerjakan.length,
+    dueToday: active.filter(t=>{if(!t.due)return false;const d=new Date(t.due);d.setHours(0,0,0,0);return d<=TODAY;}).length,
+  };
+
+  const colDef = [
+    {key:'kerjakan', cls:'col-kerjakan', icon:'🔥', title:'Kerjakan'},
+    {key:'antrian',  cls:'col-antrian',  icon:'⚡', title:'Antrian Hari Ini'},
+    {key:'menunggu', cls:'col-menunggu', icon:'🕐', title:'Menunggu'},
+    {key:'besok',    cls:'col-besok',    icon:'📅', title:'Besok +'},
+  ];
+
+  let html = `
+    <div class="narrative-card">
+      <div class="narrative-header">
+        <span class="narrative-icon">🎯</span>
+        <span class="narrative-title">Fokus Hari Ini</span>
+      </div>
+      <div class="narrative-text">${narrative}</div>
+      <div class="narrative-stats">
+        <div class="stat-chip"><span class="stat-num">${stats.total}</span> Task Aktif</div>
+        <div class="stat-chip"><span class="stat-num">${stats.doing}</span> Sedang Dikerjakan</div>
+        <div class="stat-chip"><span class="stat-num">${stats.dueToday}</span> Due Hari Ini</div>
+      </div>
+    </div>
+    <div class="kanban-board">`;
+
+  colDef.forEach(c=>{
+    const items=cols[c.key];
+    html+=`<div class="kanban-col ${c.cls}">
+      <div class="col-header">
+        <div class="col-header-left">
+          <span class="col-icon">${c.icon}</span>
+          <span class="col-title">${c.title}</span>
+        </div>
+        <span class="col-badge">${items.length}</span>
+      </div>
+      <div class="col-cards">
+        ${items.length===0?'<div class="col-empty">Kosong ✓</div>':items.map(cardHTML).join('')}
+      </div>
+    </div>`;
+  });
+
+  html+=`</div>`;
+  document.getElementById('kanbanRoot').innerHTML=html;
+
+  // Sync bar
+  const st=new Date(SYNC_TIME);
+  document.getElementById('syncBar').textContent=
+    `Sync: ${st.toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'})} pukul ${st.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'})} WIB`;
+}
+
+render();
+
+// ── DATE + GREETING ─────────────────────────
+(function(){
+  const d=new Date();
+  const days=['Min','Sen','Sel','Rab','Kam','Jum','Sab'];
+  const months=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+  document.getElementById('navDate').textContent=days[d.getDay()]+', '+d.getDate()+' '+months[d.getMonth()]+' '+d.getFullYear();
+
+  const greetings=[
+    'Halo Kristina. Kepercayaan dimulai dari konsistensi.',
+    'Halo Kristina. Kerja baik, dampak nyata.',
+    'Halo Kristina. Konsisten hari ini, dipercaya esok.',
+    'Halo Kristina. Satu hari, satu dampak.',
+    'Halo Kristina. Hadirkan yang terbaik darimu.',
+    'Halo Kristina. Standar tinggi dimulai dari diri sendiri.',
+    'Halo Kristina. Peduli dalam, kerja lebih kuat.'
+  ];
+  document.getElementById('myDayGreeting').innerHTML=greetings[d.getDay()].replace('Halo Kristina','Halo <em>Kristina</em>');
+
+  const wk=Math.ceil(d.getDate()/7);
+  document.getElementById('myDayEyebrow').textContent='Fokus Hari Ini · Minggu '+wk;
+})();
+
+// ── VALUE BAR ────────────────────────────────
+(function(){
+  const d=new Date();
+  const valueMap={1:'excellence',2:'trust',3:'impact',4:'care',5:'excellence',6:'care',0:'trust'};
+  const values={
+    excellence:{label:'✦ Excellence',items:[['Subject Mastery','Kamu tahu topik ini cukup, atau kamu benar-benar paham? Bedanya terlihat saat orang bertanya.'],['Personal Growth','Apa yang bisa kamu kerjakan hari ini yang bulan lalu belum bisa?'],['Drive to Learn','Ada yang tidak kamu mengerti hari ini? Bagus. Ikuti sampai kamu paham.']]},
+    trust:{label:'✦ Trust',items:[['Respect','Balas pesan tepat waktu. Hadir penuh saat berbicara. Dua hal kecil itu sudah lebih dari cukup.'],['Responsibility','Kamu yang pegang, kamu yang selesaikan. Kalau tidak bisa, bilang sebelum deadline.'],['Integrity','Lakukan hal yang benar meski tidak ada yang melihat.']]},
+    impact:{label:'✦ Impact',items:[['Excellent Service','Sebelum kirim, tanya: ini menjawab masalah klien, atau sekadar selesai?'],['Entrepreneurship','Jangan tunggu semua siap. Ambil satu langkah, lihat hasilnya.'],['Customer Relationship','Kapan terakhir kamu menghubungi klien tanpa ada keperluan tertentu?']]},
+    care:{label:'✦ Care',items:[['Sharing','Ada yang kamu tahu dan belum dibagikan? Satu hal kecil hari ini bisa membantu orang lain.'],['Kedekatan','Sapa seseorang hari ini bukan karena ada perlu, tapi karena kamu memang peduli.'],['Togetherness','Ada anggota tim yang sedang berat hari ini? Tanya duluan, jangan tunggu mereka minta.']]}
+  };
+  const v=values[valueMap[d.getDay()]];
+  document.getElementById('ticker-label').textContent=v.label;
+  const el=document.getElementById('ticker-text');
+  let idx=0;
+  el.innerHTML='<span class="ticker-sub">'+v.items[0][0]+'</span> &nbsp;'+v.items[0][1];
+  el.classList.add('visible');
+  setInterval(function(){
+    idx=(idx+1)%v.items.length;
+    el.classList.remove('visible');el.classList.add('exit');
+    setTimeout(function(){
+      el.innerHTML='<span class="ticker-sub">'+v.items[idx][0]+'</span> &nbsp;'+v.items[idx][1];
+      el.classList.remove('exit');el.classList.add('enter');
+      requestAnimationFrame(function(){requestAnimationFrame(function(){el.classList.remove('enter');el.classList.add('visible');});});
+    },700);
+  },9000);
+})();
+
+// ── COMMAND PALETTE ──────────────────────────
+(function(){
+  const cmdData=[
+    {section:'Navigasi',items:[
+      {name:'Overview',sub:'Kontrol & Arah',icon:'📊',href:'dashboard-overview--v1.html'},
+      {name:'Hari Ini',sub:'Fokus harian',icon:'🎯',href:'dashboard-hari-ini--v1.html'},
+      {name:'Tim',sub:'Status Tim',icon:'👥',href:'dashboard-tim--v1.html'},
+      {name:'Personal',sub:'Kanban Per Orang',icon:'🪪',href:'dashboard-personal--v1.html'},
+    ]},
+    {section:'Projects — IWDemy',items:[
+      {name:'AI First Public',sub:'db4b06bdf6da...',icon:'🚀',href:'https://www.notion.so/db4b06bdf6da422c96953c0f991e56cc'},
+      {name:'AI First Bootcamp',sub:'a9beb927457b...',icon:'🎓',href:'https://www.notion.so/a9beb927457b4759ae33aeb42c77cb58'},
+      {name:'IWDemy Digital Lab',sub:'b6fd3d52dcf9...',icon:'🧪',href:'https://www.notion.so/b6fd3d52dcf942c288fd11ba444e9476'},
+      {name:'K12',sub:'a4b8cff191c7...',icon:'🎒',href:'https://www.notion.so/a4b8cff191c742028d045e3e089cef41'},
+      {name:'IWDemy Social Media',sub:'bae23f0489d5...',icon:'📱',href:'https://www.notion.so/bae23f0489d5493da1c550b095726478'},
+      {name:'IWDemy Marketing',sub:'1ce5ce1de5ce...',icon:'📈',href:'https://www.notion.so/1ce5ce1de5ce431cbc91ce6b8338e5a0'},
+    ]},
+    {section:'Projects — Tjitra',items:[
+      {name:'CIMB L&D',sub:'207c060c7dff...',icon:'👔',href:'https://www.notion.so/207c060c7dff4d5c95d2053e1af17fad'},
+      {name:'Demo PCU',sub:'5dec3189786...',icon:'💻',href:'https://www.notion.so/5dec318978664ca1a9aa3c1e29abb1fd'},
+      {name:'Agentic AI',sub:'b56348019c59...',icon:'🤖',href:'https://www.notion.so/b56348019c594a05b294d8a9e028893e'},
+      {name:'Recruitment',sub:'e35da5e622f8...',icon:'👫',href:'https://www.notion.so/e35da5e622f848918ea7686dd61fc82a'},
+    ]},
+    {section:'SOP',items:[
+      {name:'Aturan Task',sub:'Panduan task management',icon:'📋',href:'https://www.notion.so/iwdemy/IWD-SOP-Guidelines-2d58ff32f8cf80969200ff8b9ef3209f'},
+      {name:'Aturan Komunikasi',sub:'Protokol komunikasi tim',icon:'💬',href:'https://www.notion.so/iwdemy/IWD-SOP-Guidelines-2d58ff32f8cf80969200ff8b9ef3209f'},
+    ]},
+  ];
+
+  let selectedIdx=-1;
+  const cmdOverlay=document.getElementById('cmdOverlay');
+  const cmdPalette=document.getElementById('cmdPalette');
+  const cmdInput=document.getElementById('cmdInput');
+  const cmdResults=document.getElementById('cmdResults');
+
+  function closeCmd(){cmdOverlay.classList.remove('open');cmdPalette.classList.remove('open');cmdInput.value='';selectedIdx=-1;renderResults('');}
+  function openCmd(){cmdOverlay.classList.add('open');cmdPalette.classList.add('open');cmdInput.focus();}
+
+  function renderResults(query){
+    const q=query.toLowerCase();
+    cmdResults.innerHTML='';
+    let found=false;
+    cmdData.forEach(function(sec){
+      const matches=sec.items.filter(function(item){return item.name.toLowerCase().includes(q)||item.sub.toLowerCase().includes(q)||q==='';});
+      if(matches.length>0){
+        found=true;
+        const sh=document.createElement('div');sh.className='cmd-section';sh.textContent=sec.section;cmdResults.appendChild(sh);
+        matches.forEach(function(item){
+          const el=document.createElement('a');el.className='cmd-item';el.href='#';
+          el.onclick=function(e){e.preventDefault();if(item.href.startsWith('http'))window.open(item.href,'_blank');else window.location.href=item.href;closeCmd();};
+          const cls=sec.section.includes('IWDemy')?'ci-iw':sec.section.includes('Tjitra')?'ci-tj':'ci-nav';
+          el.innerHTML='<div class="cmd-item-icon '+cls+'">'+item.icon+'</div><div class="cmd-item-body"><div class="cmd-item-name">'+item.name+'</div><div class="cmd-item-sub">'+item.sub+'</div></div>';
+          cmdResults.appendChild(el);
+        });
+      }
+    });
+    if(!found&&q!==''){const e=document.createElement('div');e.style.cssText='padding:16px;text-align:center;color:var(--grey);font-size:12px;';e.textContent='Tidak ada hasil untuk "'+query+'"';cmdResults.appendChild(e);}
+    selectedIdx=-1;
+  }
+
+  cmdInput.addEventListener('input',function(){renderResults(this.value);});
+  cmdInput.addEventListener('keydown',function(e){
+    if(e.key==='Escape')closeCmd();
+    else if(e.key==='ArrowDown'){const items=cmdResults.querySelectorAll('.cmd-item');selectedIdx=Math.min(selectedIdx+1,items.length-1);items.forEach((el,i)=>el.classList.toggle('selected',i===selectedIdx));}
+    else if(e.key==='ArrowUp'){const items=cmdResults.querySelectorAll('.cmd-item');selectedIdx=Math.max(selectedIdx-1,-1);items.forEach((el,i)=>el.classList.toggle('selected',i===selectedIdx));}
+    else if(e.key==='Enter'&&selectedIdx>=0)cmdResults.querySelectorAll('.cmd-item')[selectedIdx].click();
+  });
+  document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();openCmd();}});
+  renderResults('');
+})();
+</script>
+</body>
+</html>

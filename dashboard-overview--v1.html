@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Tjitra & Associates">
+<meta name="description" content="Ruang Kerja Kristina — Dashboard operasional harian IWDemy & Tjitra">
+<title>Overview · Ruang Kerja Kristina</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=Carlito:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --mustard:#FCB528; --mustard-10:rgba(252,181,40,.10); --mustard-20:rgba(252,181,40,.26);
+  --mustard-dark:#B8850A;
+  --blue:#005287; --blue-08:rgba(0,82,135,.08); --blue-15:rgba(0,82,135,.15);
+  --green:#1B8040; --green-08:rgba(27,128,64,.08);
+  --maroon:#660000; --maroon-08:rgba(102,0,0,.08);
+  --orange:#D06A00; --orange-08:rgba(208,106,0,.08);
+  --ink:#111; --grey:#6A6A6A; --silver:#EFEFEF; --fog:#F7F7F5; --white:#FFF;
+  --xs:0 1px 3px rgba(0,0,0,.06); --sm:0 2px 8px rgba(0,0,0,.08); --md:0 6px 24px rgba(0,0,0,.10);
+  --rsm:8px; --rmd:12px; --rlg:16px; --rxl:24px;
+}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{font-family:'Carlito','Inter',sans-serif;background:var(--fog);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased;position:relative}
+
+/* BACKGROUND BLOBS */
+.bg-blobs{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.bg-blob{position:absolute;border-radius:50%;filter:blur(100px);opacity:0.05}
+.bg-blob:nth-child(1){width:560px;height:560px;top:-180px;left:-120px;background:var(--blue)}
+.bg-blob:nth-child(2){width:480px;height:480px;top:30%;right:-100px;background:var(--mustard);opacity:0.04}
+.bg-blob:nth-child(3){width:420px;height:420px;bottom:-120px;left:50%;transform:translateX(-50%);background:rgba(100,100,100,.08);opacity:0.05}
+
+/* VALUE BAR */
+.ticker-wrap{background:var(--blue);height:36px;display:flex;align-items:center;overflow:hidden}
+.ticker-label{flex-shrink:0;background:var(--mustard);color:var(--blue);font-family:'Montserrat',sans-serif;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:0 16px;height:100%;display:flex;align-items:center;white-space:nowrap}
+/* message area — static, crossfades between sentences */
+.ticker-msg{flex:1;padding:0 24px;position:relative;height:100%;overflow:hidden}
+.ticker-text{
+  font-size:11px;font-weight:400;color:rgba(255,255,255,.82);
+  position:absolute;top:50%;left:24px;right:24px;
+  transform:translateY(-50%);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  transition:opacity .7s ease, transform .7s ease;
+}
+.ticker-text.visible{opacity:1;transform:translateY(-50%) translateX(0)}
+.ticker-text.exit{opacity:0;transform:translateY(-50%) translateX(-8px)}
+.ticker-text.enter{opacity:0;transform:translateY(-50%) translateX(8px)}
+/* sub-value highlight */
+.ticker-sub{color:rgba(252,181,40,.9);font-weight:600}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,.78);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid rgba(0,0,0,.07);height:58px;display:flex;align-items:center;padding:0 40px;justify-content:space-between}
+.nav-brand{display:flex;align-items:center;gap:14px}
+.nav-logos{display:flex;align-items:center;gap:10px}
+.nav-logo-img{height:32px;width:auto;object-fit:contain;display:block}
+.nav-logo-divider{width:1px;height:20px;background:rgba(0,0,0,.12);flex-shrink:0}
+.nav-sub{font-size:9px;color:var(--grey);letter-spacing:.07em;text-transform:uppercase}
+.nav-tabs{display:flex;gap:2px}
+.nav-tab{font-family:'Montserrat',sans-serif;font-size:12px;font-weight:600;color:var(--grey);padding:6px 14px;border-radius:7px;text-decoration:none;transition:all .15s}
+.nav-tab:hover{color:var(--blue);background:var(--mustard-10)}
+.nav-tab.active{color:var(--blue);background:var(--mustard);box-shadow:0 1px 4px rgba(252,181,40,.35)}
+.nav-right{display:flex;align-items:center;gap:8px}
+.nav-date{font-size:11px;color:var(--grey);padding:5px 12px;border-radius:7px;background:var(--silver);font-weight:600}
+.nav-ai{font-size:11px;font-weight:700;color:white;background:var(--blue);border:1.5px solid var(--blue);padding:5px 12px;border-radius:7px}
+
+/* LAYOUT */
+.wrap{max-width:1120px;margin:0 auto;padding:0 52px;position:relative;z-index:1}
+
+/* HERO */
+.hero{padding:44px 0 28px}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--mustard-10);border:1px solid var(--mustard-20);padding:4px 12px;border-radius:999px;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;color:var(--blue);letter-spacing:.07em;text-transform:uppercase;margin-bottom:12px}
+.eyebrow-dot{width:5px;height:5px;background:var(--mustard);border-radius:50%}
+.hero-title{font-family:'Montserrat',sans-serif;font-size:clamp(22px,2.4vw,32px);font-weight:800;color:var(--ink);letter-spacing:-.03em;margin-bottom:6px}
+.hero-sub{font-size:13px;color:var(--grey);line-height:1.6;max-width:560px}
+.hero-sub strong{display:block;color:var(--ink);font-weight:700;font-size:14px;margin-bottom:3px}
+.hero-bar{width:36px;height:3px;background:var(--mustard);border-radius:2px;margin-top:16px}
+
+/* SECTION LABEL */
+.sec-label{font-size:9px;font-weight:700;color:var(--grey);text-transform:uppercase;letter-spacing:.12em;margin-bottom:18px;margin-top:8px;display:flex;align-items:center;gap:10px}
+.sec-label::after{content:'';flex:1;height:1px;background:rgba(0,0,0,.07)}
+.sec-label .si{font-size:16px;line-height:1;letter-spacing:0;text-transform:none;flex-shrink:0}
+/* action-required section highlight */
+.sec-action-wrap{background:rgba(139,0,0,.03);border-radius:var(--rlg);padding:20px 24px 24px;margin-bottom:40px;border:1px solid rgba(139,0,0,.08)}
+.sec-action-wrap .sec-label{color:var(--maroon)}
+
+/* STATS — org health, secondary to milestones */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0 40px}
+.sc{background:transparent;border-radius:var(--rsm);padding:12px 14px;border:1px solid rgba(0,0,0,.07);position:relative;transition:background .15s;text-align:center}
+.sc:hover{background:rgba(0,0,0,.02)}
+.sc::after{display:none}
+.sc-ring{width:64px;height:64px;border-radius:50%;background:conic-gradient(var(--ring-color) var(--pct),rgba(0,0,0,.06) 0deg);display:flex;align-items:center;justify-content:center;margin:0 auto 8px}
+.sc-ring-inner{width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.85);display:flex;align-items:center;justify-content:center}
+.sc-num{font-family:'Montserrat',sans-serif;font-size:18px;font-weight:800;letter-spacing:-.03em;line-height:1}
+.c-orange{color:var(--orange)}.c-red{color:var(--maroon)}
+.sc-lbl{font-size:11px;color:var(--grey);line-height:1.4}
+
+
+/* ── MILESTONE COUNTDOWN — prominent ────── */
+.milestone-wrap{background:rgba(255,255,255,.72);backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);border-radius:var(--rlg);border:1px solid rgba(255,255,255,.6);box-shadow:0 4px 24px rgba(0,0,0,.06),0 1px 2px rgba(255,255,255,.8) inset;padding:24px 28px 28px;margin-bottom:40px}
+.milestone-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.milestone-title{font-size:9px;font-weight:700;color:var(--grey);text-transform:uppercase;letter-spacing:.12em}
+.milestone-sub{font-size:10px;color:var(--grey);opacity:.6}
+.countdown{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.cd-card{border-radius:var(--rmd);border:1px solid rgba(0,0,0,.07);border-top:2px solid;padding:14px 16px;display:flex;align-items:center;gap:14px;background:var(--white);transition:box-shadow .15s,transform .15s}
+.cd-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.08);transform:translateY(-2px)}
+.cd-card.cd-card-urgent{border-top-color:var(--maroon)}
+.cd-card.cd-card-soon{border-top-color:var(--orange)}
+.cd-card.cd-card-ok,.cd-card.cd-card-far{border-top-color:rgba(0,0,0,.08)}
+.cd-days{font-family:'Montserrat',sans-serif;font-size:36px;font-weight:800;letter-spacing:-.06em;line-height:1;flex-shrink:0;min-width:46px;text-align:center}
+.cd-urgent{color:var(--maroon)}.cd-soon{color:var(--orange)}.cd-ok{color:#bbb}.cd-far{color:#ccc}
+.cd-right{min-width:0}
+.cd-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px;opacity:0;transition:opacity .15s;height:0;overflow:hidden}
+.cd-card:hover .cd-label{opacity:1;height:auto}
+.cd-lbl-urgent{color:var(--maroon)}.cd-lbl-soon{color:var(--orange)}.cd-lbl-ok{color:var(--grey)}.cd-lbl-far{color:var(--grey)}
+.cd-name{font-size:12px;font-weight:700;color:var(--ink);line-height:1.3}
+.cd-date{font-size:10px;color:var(--grey);margin-top:2px;opacity:0;transition:opacity .15s}
+.cd-card:hover .cd-date{opacity:1}
+
+/* ── SPOTLIGHT ─────────────────────────── */
+.spotlight{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:36px}
+.sp-card{border-radius:var(--rmd);padding:22px 24px 22px 22px;border:1px solid rgba(0,0,0,.07);border-left:3px solid;display:flex;gap:0;align-items:flex-start;text-decoration:none;color:inherit;transition:box-shadow .18s;background:var(--white)}
+.sp-card:hover{box-shadow:var(--sm)}
+.sp-red{border-left-color:var(--maroon)}
+.sp-orange{border-left-color:var(--orange)}
+.sp-yellow{border-left-color:var(--mustard)}
+
+.sp-body{flex:1;min-width:0}
+.sp-tag{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px}
+.sp-tag-r{color:var(--maroon)}.sp-tag-o{color:var(--orange)}.sp-tag-y{color:var(--mustard-dark)}
+.sp-name{font-family:'Montserrat',sans-serif;font-size:15px;font-weight:800;color:var(--ink);margin-bottom:5px;letter-spacing:-.02em}
+.sp-next{font-size:12px;color:var(--ink-2,#3a3a3a);line-height:1.5}
+.sp-foot{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:8px;border-top:1px solid rgba(0,0,0,.05)}
+.sp-deadline{font-size:10px;font-weight:600;color:var(--maroon)}
+.sp-link{font-size:10px;font-weight:600;color:var(--blue);opacity:.5;transition:opacity .15s}
+.sp-card:hover .sp-link{opacity:1}
+
+/* ── COMPACT PROJECT LIST ────────────────── */
+.proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:4px}
+.proj-panel{background:rgba(255,255,255,.72);backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);border-radius:var(--rlg);border:1px solid rgba(255,255,255,.6);box-shadow:0 4px 24px rgba(0,0,0,.06),0 1px 2px rgba(255,255,255,.8) inset;overflow:hidden;margin-bottom:0}
+.domain-strip{display:flex;align-items:center;gap:10px;padding:10px 18px 9px;border-bottom:1px solid rgba(0,0,0,.05);background:rgba(0,0,0,.015)}
+.d-mark{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;flex-shrink:0}
+.d-mark::after{content:'';position:absolute;bottom:-3px;right:-3px;width:9px;height:9px;border-radius:50%}
+.dm-iw{background:var(--blue)}.dm-iw::after{background:var(--mustard)}
+.dm-tj{background:var(--mustard)}.dm-tj::after{background:var(--blue)}
+.d-mark span{position:relative;z-index:1;font-family:'Montserrat',sans-serif;font-weight:800;font-size:8px}
+.dm-iw span{color:white}.dm-tj span{color:var(--blue)}
+.d-name{font-family:'Montserrat',sans-serif;font-size:12px;font-weight:800;color:var(--ink)}
+.d-count{font-size:11px;color:var(--grey);margin-left:2px;font-weight:400}
+
+.pr-row{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:10px;padding:9px 14px;border-bottom:1px solid rgba(0,0,0,.04);text-decoration:none;color:inherit;transition:background .15s}
+.pr-row:last-child{border-bottom:none}
+.pr-row:hover{background:rgba(0,0,0,.02)}
+.pr-left{display:flex;align-items:center;gap:9px;min-width:0}
+.pr-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.dot-green{background:var(--green)}.dot-orange{background:var(--orange)}.dot-red{background:var(--maroon)}.dot-grey{background:#ccc}
+.pr-name{font-size:12px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pr-badges{display:flex;gap:4px;flex-wrap:nowrap;align-items:center}
+.badge{font-size:9px;font-weight:600;padding:2px 7px;border-radius:3px;letter-spacing:.01em;white-space:nowrap}
+/* only 3 states signal anything — everything else is neutral grey */
+.b-overdue{background:var(--maroon-08);color:var(--maroon)}
+.b-hold{background:var(--orange-08);color:var(--orange)}
+.b-active{background:rgba(0,0,0,.05);color:var(--grey);opacity:0;transition:opacity .15s}
+.pr-row:hover .b-active{opacity:1}
+.b-cust{background:rgba(0,0,0,.05);color:var(--grey)}
+.b-fin{background:rgba(0,0,0,.05);color:var(--grey)}
+.b-proc{background:rgba(0,0,0,.04);color:var(--grey)}
+/* next action — tooltip on hover (not in grid flow) */
+.pr-next{display:none}
+.pr-link{font-size:10px;font-weight:600;color:var(--blue);opacity:0;white-space:nowrap;transition:opacity .15s;flex-shrink:0}
+.pr-row:hover .pr-link{opacity:.7}
+/* tooltip next step */
+.pr-row{position:relative}
+.pr-tooltip{display:none;position:absolute;left:14px;right:14px;top:100%;background:rgba(17,17,17,.88);color:rgba(255,255,255,.9);font-size:10px;padding:6px 10px;border-radius:6px;z-index:50;line-height:1.5;pointer-events:none;white-space:normal}
+.pr-tooltip em{color:var(--mustard);font-style:normal;font-weight:700;margin-right:3px}
+.pr-row:hover .pr-tooltip{display:block}
+
+
+/* ── TEAM CAPACITY ───────────────────────── */
+.capacity-wrap{background:rgba(255,255,255,.72);backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);border-radius:var(--rxl);border:1px solid rgba(255,255,255,.6);box-shadow:0 4px 24px rgba(0,0,0,.06),0 1px 2px rgba(255,255,255,.8) inset;padding:28px 32px;margin-bottom:40px}
+.cap-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px}
+.cap-title{font-family:'Montserrat',sans-serif;font-size:16px;font-weight:800;color:var(--ink)}
+.cap-sub{font-size:12px;color:var(--grey);margin-top:3px}
+.cap-legend{display:flex;align-items:center;gap:14px}
+.leg-item{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:600;color:var(--grey)}
+.leg-dot{width:8px;height:8px;border-radius:50%}
+.ld-iw{background:var(--blue)}.ld-tj{background:var(--mustard)}.ld-pe{background:var(--green)}
+
+.cap-rows{display:flex;flex-direction:column;gap:14px}
+.cap-row{display:grid;grid-template-columns:200px 1fr 80px;align-items:center;gap:18px}
+.cap-person{display:flex;align-items:center;gap:10px}
+.cap-avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;flex-shrink:0}
+.av-k{background:var(--blue);color:white}
+.av-1{background:var(--mustard-20);color:var(--mustard-dark)}
+.av-2{background:var(--green-08);color:var(--green)}
+.av-3{background:var(--blue-08);color:var(--blue)}
+.av-4{background:var(--silver);color:var(--grey)}
+.cap-pname{font-size:12px;font-weight:700;color:var(--ink)}
+.cap-role{font-size:10px;color:var(--grey);margin-top:1px}
+.cap-bar-row{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.cap-bar-row:last-child{margin-bottom:0}
+.cap-bar-bg{flex:1;height:5px;background:var(--silver);border-radius:999px;overflow:hidden}
+.cap-bar-fill{height:100%;border-radius:999px;transition:width .8s ease}
+.bf-iw{background:var(--blue)}.bf-tj{background:var(--mustard)}.bf-pe{background:var(--green)}
+.cap-bar-pct{font-size:10px;font-weight:600;color:var(--grey);min-width:28px;text-align:right}
+.cap-load{text-align:center}
+.cap-load-num{font-family:'Montserrat',sans-serif;font-size:18px;font-weight:800;color:var(--ink)}
+.cap-load-lbl{font-size:9px;color:var(--grey);text-transform:uppercase;letter-spacing:.06em}
+.cap-load-pill{display:inline-block;margin-top:4px;font-size:9px;font-weight:700;padding:2px 7px;border-radius:999px}
+.lp-high{background:var(--orange-08);color:var(--orange)}
+.lp-tba{background:rgba(0,0,0,.04);color:var(--grey)}
+
+.cap-divider{height:1px;background:rgba(0,0,0,.05);margin:4px 0}
+.cap-dummy{opacity:.45}
+.cap-note{margin-top:16px;padding:10px 14px;background:var(--mustard-10);border-radius:var(--rmd);border-left:3px solid var(--mustard);font-size:11px;color:var(--grey);line-height:1.5}
+.cap-note strong{color:var(--blue);font-weight:600}
+
+/* BD PIPELINE */
+.bd-wrap{background:rgba(255,255,255,.72);backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);border-radius:var(--rlg);border:1px solid rgba(255,255,255,.6);box-shadow:0 4px 24px rgba(0,0,0,.06),0 1px 2px rgba(255,255,255,.8) inset;padding:26px 30px;margin-bottom:48px}
+.bd-head{display:flex;align-items:baseline;gap:10px;margin-bottom:18px}
+
+.bd-title{font-family:'Montserrat',sans-serif;font-size:15px;font-weight:800;color:var(--ink)}
+.bd-sub{font-size:11px;color:var(--grey)}
+.bd-stages{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.bd-stage{border-radius:var(--rsm);background:var(--fog);padding:11px 12px 8px;border:1px solid rgba(0,0,0,.05)}
+.bd-sh{font-size:9px;font-weight:700;color:var(--grey);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid rgba(0,0,0,.07);display:flex;align-items:center;justify-content:space-between}
+.bd-sh span{color:var(--grey);font-size:9px;font-weight:600}
+.bd-item{border-radius:6px;padding:7px 9px;margin-bottom:5px;border-left:2px solid rgba(0,0,0,.08);background:var(--white)}
+.bd-item:last-child{margin-bottom:0}
+.bd-iname{font-weight:600;font-size:11px;color:var(--ink);margin-bottom:2px}
+.bd-imeta{font-size:10px;color:var(--grey);display:flex;align-items:center;gap:5px}
+.bd-idot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.dot-iw{background:var(--blue)}.dot-tj{background:var(--mustard-dark)}
+.bd-urgent{font-size:9px;font-weight:700;color:var(--maroon);margin-top:3px}
+.bd-ilink{font-size:9px;font-weight:600;color:var(--blue);text-decoration:none;opacity:0;transition:opacity .15s;display:block;margin-top:3px}
+.bd-item:hover .bd-ilink{opacity:.7}
+.bd-empty{font-size:10px;color:rgba(0,0,0,.18);padding:4px 0}
+
+/* FOOTER */
+.footer{background:var(--blue);padding:20px 52px;margin-top:48px;position:relative;z-index:1}
+.footer-inner{max-width:1120px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.footer-brand{font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;color:rgba(255,255,255,.9)}
+.footer-attr{font-size:11px;color:rgba(252,181,40,.85);font-style:italic;letter-spacing:.03em}
+.footer-note{font-size:10px;color:rgba(255,255,255,.45);letter-spacing:.03em}
+
+/* COMMAND PALETTE */
+.cmd-overlay{position:fixed;inset:0;background:rgba(0,0,0,.3);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:900;opacity:0;pointer-events:none;transition:opacity .2s}
+.cmd-overlay.open{opacity:1;pointer-events:all}
+.cmd-palette{position:fixed;top:18%;left:50%;transform:translateX(-50%) scale(.97);width:min(560px,90vw);background:rgba(255,255,255,.92);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-radius:16px;border:1px solid rgba(255,255,255,.8);box-shadow:0 20px 60px rgba(0,0,0,.18),0 4px 12px rgba(0,0,0,.1);z-index:901;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
+.cmd-palette.open{opacity:1;pointer-events:all;transform:translateX(-50%) scale(1)}
+.cmd-search-wrap{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid rgba(0,0,0,.07)}
+.cmd-icon{font-size:16px;color:var(--grey);flex-shrink:0}
+.cmd-input{flex:1;border:none;outline:none;font-size:15px;font-family:'Inter',sans-serif;color:var(--ink);background:transparent}
+.cmd-input::placeholder{color:rgba(0,0,0,.3)}
+.cmd-esc{font-size:10px;font-weight:700;color:var(--grey);background:rgba(0,0,0,.06);padding:3px 7px;border-radius:5px;cursor:pointer;flex-shrink:0}
+.cmd-results{max-height:320px;overflow-y:auto;padding:8px}
+.cmd-item{display:flex;align-items:center;gap:12px;padding:9px 12px;border-radius:9px;cursor:pointer;transition:background .12s;text-decoration:none;color:inherit}
+.cmd-item:hover,.cmd-item.selected{background:rgba(0,82,135,.07)}
+.cmd-item-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;background:rgba(0,0,0,.05)}
+.cmd-item-icon.ci-iw{background:var(--blue-08)}
+.cmd-item-icon.ci-tj{background:var(--mustard-10)}
+.cmd-item-icon.ci-nav{background:rgba(0,0,0,.04)}
+.cmd-item-body{flex:1;min-width:0}
+.cmd-item-name{font-size:13px;font-weight:600;color:var(--ink)}
+.cmd-item-sub{font-size:11px;color:var(--grey);margin-top:1px}
+.cmd-section{font-size:9px;font-weight:700;color:var(--grey);text-transform:uppercase;letter-spacing:.1em;padding:8px 12px 4px;margin-top:4px}
+.cmd-footer{padding:10px 18px;border-top:1px solid rgba(0,0,0,.06);font-size:10px;color:rgba(0,0,0,.35);text-align:center}
+
+
+/* ── ACCESSIBILITY & INTERACTIONS ── */
+:focus-visible{outline:2px solid var(--mustard);outline-offset:3px;border-radius:4px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+*,*::before,*::after{transition-property:color,background-color,border-color,transform,opacity,box-shadow;transition-duration:150ms;transition-timing-function:ease}
+
+
+/* ── IMPROVED HOVER & CARD INTERACTIONS (spec compliant) ── */
+.sp-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.10);transform:translateY(-2px)}
+.pr-row{transition:background .15s,transform .15s,box-shadow .15s}
+.pr-row:hover{background:rgba(0,82,135,.04);transform:translateX(2px)}
+.cd-card{transition:box-shadow .2s,transform .2s}
+.cd-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.09);transform:translateY(-2px)}
+.sc{transition:background .15s,box-shadow .15s,transform .15s}
+.sc:hover{background:rgba(0,82,135,.04);transform:translateY(-1px);box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.milestone-wrap,.top3,.pending-wrap,.bd-wrap,.load-summary,.myproj-wrap{transition:box-shadow .2s}
+.milestone-wrap:hover,.top3:hover,.bd-wrap:hover,.load-summary:hover{box-shadow:0 8px 32px rgba(0,0,0,.09)}
+/* nav tab improved */
+.nav-tab{transition:color .15s,background .15s,box-shadow .15s}
+.nav-tab:hover{box-shadow:0 1px 4px rgba(0,0,0,.08)}
+/* section breathing */
+.sec-label{margin-top:16px;margin-bottom:20px}
+/* body line-height */
+body{line-height:1.6}
+/* cap-row hover */
+.cap-row{transition:background .15s}
+.cap-row:hover{background:rgba(0,82,135,.03);border-radius:8px}
+/* task hover */
+.task{transition:box-shadow .15s,transform .15s}
+.task:hover{box-shadow:0 2px 12px rgba(0,0,0,.08);transform:translateX(2px)}
+/* member card hover */
+.member-card{transition:box-shadow .2s,transform .2s}
+.member-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.09);transform:translateY(-2px)}
+
+</style>
+</head>
+<body>
+
+<!-- BACKGROUND BLOBS -->
+<div class="bg-blobs">
+  <div class="bg-blob"></div>
+  <div class="bg-blob"></div>
+  <div class="bg-blob"></div>
+</div>
+
+<!-- VALUE BAR -->
+<div class="ticker-wrap">
+  <div class="ticker-label" id="ticker-label">Values</div>
+  <div class="ticker-msg" id="ticker-msg">
+    <div class="ticker-text visible" id="ticker-text"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-brand">
+    <div class="nav-logos">
+      <img src="./logo-iwdemy.jpg" alt="IWDemy" class="nav-logo-img" onerror="this.style.display='none'">
+      <div class="nav-logo-divider"></div>
+      <img src="./logo-tjitra.jpg" alt="Tjitra & associates" class="nav-logo-img" style="height:26px" onerror="this.style.display='none'">
+    </div>
+    <div class="nav-sub">Ruang Kerja Kristina</div>
+  </div>
+  <div class="nav-tabs">
+    <a href="dashboard-overview--v1.html" class="nav-tab active">Overview</a>
+    <a href="dashboard-hari-ini--v1.html" class="nav-tab">Hari Ini</a>
+    <a href="dashboard-tim--v1.html" class="nav-tab">Tim</a>
+  </div>
+  <div class="nav-right">
+    <div class="nav-date" id="navDate"></div>
+    <div class="nav-ai">⚡ Cowork AI</div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow"><span class="eyebrow-dot"></span><span id="hero-eyebrow-text">Navigasi & Arah</span></div>
+    <h1 class="hero-title" id="hero-greeting">Project & Resource Overview</h1>
+    <p class="hero-sub" id="hero-sub"><strong>4 tugas P1 deadline hari ini (21 Apr)</strong> — 5 tugas sedang dikerjakan, 6 milestone ke depan.</p>
+    <div class="hero-bar"></div>
+  </div>
+
+  <!-- PROYEK PERLU PERHATIAN — project-level risk, bukan task -->
+  <div class="sec-action-wrap">
+  <div class="sec-label"><span class="si">⚠</span> Proyek Perlu Perhatian</div>
+  <div class="spotlight" style="margin-bottom:0">
+  <!-- AUTO:START:spotlight -->
+    <a href="https://www.notion.so/fa945afb057842dea01a0b78ccd34583" target="_blank" class="sp-card sp-red">
+      <div class="sp-body">
+        <div class="sp-tag sp-tag-r">Overdue — IWDemy</div>
+        <div class="sp-name">IWDemy | AI First Public</div>
+        <div class="sp-next">Revised marketing plan dan follow up approach potential partisipan</div>
+        <div class="sp-foot"><span class="sp-deadline">End: 4 Apr 2026 — OVERDUE</span><span class="sp-link">Notion ↗</span></div>
+      </div>
+    </a>
+    <a href="https://www.notion.so/356cabf8158845fc8a9ed52f1c0935ca" target="_blank" class="sp-card sp-red">
+      <div class="sp-body">
+        <div class="sp-tag sp-tag-r">Overdue — Tjitra</div>
+        <div class="sp-name">Tjitra | CIMB - APT workshop</div>
+        <div class="sp-next">Proposal AI First Program</div>
+        <div class="sp-foot"><span class="sp-deadline">End: 17 Apr 2026 — OVERDUE</span><span class="sp-link">Notion ↗</span></div>
+      </div>
+    </a>
+    <a href="https://www.notion.so/db067adfcb5e4d74a4bef8fb00599cf4" target="_blank" class="sp-card sp-yellow">
+      <div class="sp-body">
+        <div class="sp-tag sp-tag-y">On hold — Tjitra</div>
+        <div class="sp-name">Tjitra | Recruitment</div>
+        <div class="sp-next">Tentukan trigger untuk re-activate (tanggal atau kebutuhan role atau event).</div>
+        <div class="sp-foot"><span class="sp-deadline">End: —</span><span class="sp-link">Notion ↗</span></div>
+      </div>
+    </a>
+    <a href="https://www.notion.so/06c455bcb6d74264bda4107ae4f9b06d" target="_blank" class="sp-card sp-yellow">
+      <div class="sp-body">
+        <div class="sp-tag sp-tag-y">On hold — Tjitra</div>
+        <div class="sp-name">Tjitra | Telkom Metra - L&amp;D</div>
+        <div class="sp-next">—</div>
+        <div class="sp-foot"><span class="sp-deadline">End: —</span><span class="sp-link">Notion ↗</span></div>
+      </div>
+    </a>
+  <!-- AUTO:END:spotlight -->
+  </div>
+
+  <!-- MILESTONE COUNTDOWN -->
+  <div class="sec-label"><span class="si">🏁</span> Milestones & Tenggat</div>
+  <div class="milestone-wrap">
+    <div class="milestone-header">
+      <div class="milestone-title">Hitung mundur dari hari ini</div>
+      <div class="milestone-sub"></div>
+    </div>
+    <div class="countdown" id="countdownGrid"></div>
+  </div>
+  </div>
+
+  <!-- STATS — konfirmasi pulse, bukan pembuka -->
+  <div class="sec-label"><span class="si">📊</span> Kesehatan Organisasi</div>
+  <div>
+  <div class="stats">
+    <div class="sc">
+      <div class="sc-ring" style="--pct: 324deg; --ring-color: var(--ink);">
+        <div class="sc-ring-inner">
+          <div class="sc-num">18</div>
+        </div>
+      </div>
+      <div class="sc-lbl">Tugas Aktif<br><span style="color:var(--grey);font-size:10px">2 domains</span></div>
+    </div>
+    <div class="sc">
+      <div class="sc-ring" style="--pct: 144deg; --ring-color: var(--green);">
+        <div class="sc-ring-inner">
+          <div class="sc-num">4</div>
+        </div>
+      </div>
+      <div class="sc-lbl">Sedang Dikerjakan<br><span style="color:var(--grey);font-size:10px">Status: Doing</span></div>
+    </div>
+    <div class="sc">
+      <div class="sc-ring" style="--pct: 108deg; --ring-color: var(--orange);">
+        <div class="sc-ring-inner">
+          <div class="sc-num c-orange">4</div>
+        </div>
+      </div>
+      <div class="sc-lbl">Deadline Hari Ini<br><span style="color:var(--orange);font-size:10px">20 Apr · 3 tugas P1</span></div>
+    </div>
+    <div class="sc">
+      <div class="sc-ring" style="--pct: 324deg; --ring-color: var(--blue);">
+        <div class="sc-ring-inner">
+          <div class="sc-num">9</div>
+        </div>
+      </div>
+      <div class="sc-lbl">Milestones<br><span style="color:var(--grey);font-size:10px">Apr–Mei 2026</span></div>
+    </div>
+  </div>
+  </div><!-- /sec-health -->
+
+  <!-- ALL PROJECTS — COMPACT LIST -->
+  <div class="sec-label"><span class="si">📁</span> Semua Proyek</div>
+  <div>
+  <!-- AUTO:START:projects -->
+  <!-- IWDemy -->
+  <div class="proj-panel">
+    <div class="domain-strip">
+      <div class="d-mark dm-iw"><span>IW</span></div>
+      <div class="d-name">IWDemy <span class="d-count">10 projects</span></div>
+    </div>
+    <a href="https://www.notion.so/fa945afb057842dea01a0b78ccd34583" target="_blank" class="pr-row">
+      <div class="pr-left"><span class="pr-dot dot-red"></span><span class="pr-name">IWDemy | AI First Public</span></div>
+      <div class="pr-badges"><span class="badge b-overdue">Overdue</span></div>
+      <div class="pr-next"><em>→</em>Revised marketing plan dan follow up approach potential partisipan</div>
+      <span class="pr-link">Notion ↗</span>
+    </a>
+    <a href="https://www.notion.so/f4731395c70f41b38f40bc781c102093" target="_blank" class="pr-row">
+      <div class="pr-left"><span class="pr-dot dot-green"></span><span class="pr-name">IWDemy | Agentic AI Workflow (Internal)</span></div>
+      <div class="pr-badges"><span class="badge b-active">Active</span></div>
+      <div class="pr-next"><em>→</em>Definisikan 1 workflow prioritas + draft flow end-to-end v1.</div>
+      <span class="pr-link">Notion ↗</span>
+    </a>
+    <a href="https://www.notion.so/0446967d95624794a138e4b3c30891c2" target="_blank" class="pr-row">
+      <div class="pr-left"><span class="pr-dot dot-green"></span><span class="pr-name">IWDemy | Principal Connect 2026</span></div>
+      <div class="pr-badges"><span class="badge b-active">Active</span></div>
+      <div class="pr-next"><em>→</em>Follow up list sekolah yang sudah diberikan penawaran</div>
+      <span class="pr-link">Notion ↗</span>
+    </a>
+    <a href="https://www.notion.so/3428ff32f8cf8080b7e6f4d3d19bffb1" target="_blank" class="pr-row">
+      <div class="pr-left"><span class="pr-dot dot-green"></span><span class="pr-name">IWDemy | SinaD Aloy</span></div>
+      <div class="pr-badges"><span class="badge b-active">Active</span></div>
+      <div class="pr-next"><em>→</em>—</div>
+      <span class="pr-link">Notion ↗</span>
+    </a>
+    <a href="https://www.notion.so/3428ff32f8cf8001a2a6d7dc214862e7" target="_blank" class="pr-row">
+      <div class="pr-left"><span class="pr-dot dot-green"></span><span class="pr-name">IWDemy | AI First Aloy</span></div>
+      <div class="pr-badges"><span class="badge b-active">Active</span></div>
+      <div class="pr-next"><em>→</em>—</div>
+      <span class="pr-link">Notion ↗</span>
+    </a>
+    <a href="https://www.notion.so/bfaede5197fa4d2a8bbb099ee8ed540c" target="_blank" class="pr-row">
+      <div class="pr-left"><span class="pr-dot dot-green"></span><span class="pr-name">IWDemy | Team Learning &amp; Growth</span></div>
+      <div class="pr-badges"><span class="badge b-active">Active</span></div>
+      <div class="pr-next"><em>→</em>Tentukan 1 fokus skill 4 minggu, jadwalkan weekly learning 45 menit.</div>
+      <span class="pr-link">Notion ↗</span>
+    </a>
+    <a href="https://www.notion.so/c2633c3d5cab4ccab5f3a668bd99792c" target="_blank" class="pr-row">
+      <div class="pr-left"><span class="pr-dot dot-green"></span><span class="pr-name">IWDemy | Social Media Engine</span></div>
+      <div class="pr-badges"><span class="badge b-active">Active</span></div>
+      <div class="pr-next"><em>→</em>—</div>
+      <span class="pr-link">Notion ↗</span>
+    </a>
+    <a href="https://www.notion.so/3dc8efdaaa904c84b33b17a3d9cda91e" target="_blank" class="pr-row">
+      <div class="pr-left"><span class="pr-dot dot-green"></span><span class="pr-name">IWDemy | Digital Lab</span></div>
+      <div class="pr-badges"><span class="badge b-active">Active</span></div>
+      <div class="pr-next"><em>→</em>Finalisasi Personalized AI (micro apps), jalankan eval + guardrails.</div>
+      <span class="pr-link">Notion ↗</span>
+    </a>
+    <a href="https://www.notion.so/7264b935995c4e9d8efccd02b108630a" target="_blank" class="pr-row">
+      <div class="pr-left"><span class="pr-dot dot-green"></span><span class="pr-name">IWDemy | Marketing System</span></div>
+      <div class="pr-badges"><span class="badge b-active">Active</span></div>
+      <div class="pr-next"><em>→</em>—</div>
+      <span class="pr-link">Notion ↗</span>
+    </a>
+    <a href="https://www.notion.so/d2e921178d894b9cb7e408951f960b55" target="_blank" class="pr-row">
+      <div class="pr-left"><span class="pr-dot dot-green"></span><span class="pr-name">IWDemy | AI First Bootcamp</span></div>
+      <div class="pr-badges"><span class="badge b-active">Active</span></div>
+      <div class="pr-next"><em>→</em>Tentukan tanggal, format, target peserta, dan deliverables.</div>
+      <span class="pr-link">Notion ↗</span>
+    </a>
+  </div>
+  <!-- Tjitra -->
+  <div class="proj-panel" style="margin-bottom:10px">
+    <div class="domain-strip">
+      <div class="d-mark dm-tj"><span>Tj</span></div>
+      <div class="d-name">Tjitra <span class="d-count">4 projects</span></div>
+    </div>
+    <a href="https://www.notion.so/356cabf8158845fc8a9ed52f1c0935ca" target="_blank" class="pr-row">
+      <div class="pr-left"><span class="pr-dot dot-red"></span><span class="pr-name">Tjitra | CIMB - APT workshop</span></div>
+      <div class="pr-badges"><span class="badge b-overdue">Overdue</span></div>
+      <div class="pr-next"><em>→</em>Proposal AI First Program</div>
+      <span class="pr-link">Notion ↗</span>
+    </a>
+    <a href="https://www.notion.so/3239a13449044e0babd346e82c5183d7" target="_blank" class="pr-row">
+      <div class="pr-left"><span class="pr-dot dot-green"></span><span class="pr-name">Business Development Pipeline</span></div>
+      <div class="pr-badges"><span class="badge b-active">Active</span></div>
+      <div class="pr-next"><em>→</em>—</div>
+      <span class="pr-link">Notion ↗</span>
+    </a>
+    <a href="https://www.notion.so/db067adfcb5e4d74a4bef8fb00599cf4" target="_blank" class="pr-row">
+      <div class="pr-left"><span class="pr-dot dot-orange"></span><span class="pr-name">Tjitra | Recruitment</span></div>
+      <div class="pr-badges"><span class="badge b-hold">🔒 On Hold</span></div>
+      <div class="pr-next"><em>→</em>Tentukan trigger untuk re-activate (tanggal atau kebutuhan role atau event).</div>
+      <span class="pr-link">Notion ↗</span>
+    </a>
+    <a href="https://www.notion.so/06c455bcb6d74264bda4107ae4f9b06d" target="_blank" class="pr-row">
+      <div class="pr-left"><span class="pr-dot dot-orange"></span><span class="pr-name">Tjitra | Telkom Metra - L&amp;D</span></div>
+      <div class="pr-badges"><span class="badge b-hold">🔒 On Hold</span></div>
+      <div class="pr-next"><em>→</em>—</div>
+      <span class="pr-link">Notion ↗</span>
+    </a>
+  </div>
+  <!-- AUTO:END:projects -->
+  </div><!-- /sec-projects -->
+
+  <!-- BD PIPELINE -->
+  <div class="sec-label"><span class="si">🤝</span> Pengembangan Bisnis</div>
+  <div class="bd-wrap">
+    <div class="bd-head">
+      <div class="bd-title">Pipeline · AI First Program</div>
+      <div class="bd-sub">5 prospek aktif · Dikelola oleh Tjitra</div>
+    </div>
+    <div class="bd-stages">
+      <div class="bd-stage">
+        <div class="bd-sh">Acquisition <span>4</span></div>
+        <div class="bd-item">
+          <div class="bd-iname">AIF CIMB</div>
+          <div class="bd-imeta"><span class="bd-idot dot-tj"></span>CIMB Niaga · Tjitra</div>
+        </div>
+        <div class="bd-item">
+          <div class="bd-iname">AIF PCU</div>
+          <div class="bd-imeta"><span class="bd-idot dot-tj"></span>Pertamina Corporate University · Tjitra</div>
+        </div>
+        <div class="bd-item">
+          <div class="bd-iname">AIF IKT</div>
+          <div class="bd-imeta"><span class="bd-idot dot-tj"></span>Tjitra</div>
+        </div>
+        <div class="bd-item">
+          <div class="bd-iname">AIF Ciputra</div>
+          <div class="bd-imeta"><span class="bd-idot dot-tj"></span>Tjitra</div>
+        </div>
+      </div>
+      <div class="bd-stage">
+        <div class="bd-sh">Proposal <span>0</span></div>
+        <div class="bd-empty">—</div>
+      </div>
+      <div class="bd-stage">
+        <div class="bd-sh">Negotiation <span>1</span></div>
+        <div class="bd-item">
+          <div class="bd-iname">AIF Telkom Metra</div>
+          <div class="bd-imeta"><span class="bd-idot dot-tj"></span>Telkom Metra · Tjitra</div>
+        </div>
+      </div>
+      <div class="bd-stage">
+        <div class="bd-sh">Closed / Won <span>0</span></div>
+        <div class="bd-empty">—</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /wrap -->
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">IWDemy · Tjitra &amp; Associates</div>
+    <div class="footer-attr">Designed by Tjitra | Powered by IWDemy</div>
+    <div class="footer-note">© 2026 Tjitra &amp; Associates · Data: Notion · Aspiring Growth, Experiencing Technology</div>
+  </div>
+</footer>
+
+<!-- COMMAND PALETTE -->
+<div class="cmd-overlay" id="cmdOverlay" onclick="closeCmd()"></div>
+<div class="cmd-palette" id="cmdPalette">
+  <div class="cmd-search-wrap">
+    <span class="cmd-icon">⌘</span>
+    <input class="cmd-input" id="cmdInput" placeholder="Cari project, halaman, atau aksi..." autocomplete="off">
+    <span class="cmd-esc" onclick="closeCmd()">ESC</span>
+  </div>
+  <div class="cmd-results" id="cmdResults"></div>
+  <div class="cmd-footer">⌘K untuk buka · ESC untuk tutup · Enter untuk buka</div>
+</div>
+
+
+<script>
+(function(){
+  // Nav date
+  const d = new Date();
+  const days = ['Min','Sen','Sel','Rab','Kam','Jum','Sab'];
+  const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+  document.getElementById('navDate').textContent = days[d.getDay()] + ', ' + d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+
+  // ── VALUE OF THE DAY — static crossfade ─────────────────────────
+  (function setValueBar(){
+    const valueMap = {
+      1: 'excellence', 2: 'trust', 3: 'impact',
+      4: 'care', 5: 'excellence', 6: 'care', 0: 'trust'
+    };
+    const values = {
+      excellence: {
+        label: '✦ Excellence',
+        items: [
+          ['Subject Mastery', 'Kamu tahu topik ini cukup, atau kamu benar-benar paham? Bedanya terlihat saat orang bertanya.'],
+          ['Personal Growth', 'Apa yang bisa kamu kerjakan hari ini yang bulan lalu belum bisa? Kalau tidak ada jawabannya, perlu dicek.'],
+          ['Drive to Learn', 'Ada yang tidak kamu mengerti hari ini? Bagus. Ikuti sampai kamu paham, bukan sekadar tahu.']
+        ]
+      },
+      trust: {
+        label: '✦ Trust',
+        items: [
+          ['Respect', 'Balas pesan tepat waktu. Hadir penuh saat berbicara. Dua hal kecil itu sudah lebih dari cukup.'],
+          ['Responsibility', 'Kamu yang pegang, kamu yang selesaikan. Kalau tidak bisa, bilang sebelum deadline, bukan sesudah.'],
+          ['Integrity', 'Lakukan hal yang benar meski tidak ada yang melihat. Itu saja definisinya.']
+        ]
+      },
+      impact: {
+        label: '✦ Impact',
+        items: [
+          ['Excellent Service', 'Sebelum kirim, tanya satu hal: ini menjawab masalah klien, atau sekadar selesai?'],
+          ['Entrepreneurship', 'Jangan tunggu semua siap. Ambil satu langkah, lihat hasilnya, pertanggungjawabkan.'],
+          ['Customer Relationship', 'Kapan terakhir kamu menghubungi klien tanpa ada keperluan tertentu?']
+        ]
+      },
+      care: {
+        label: '✦ Care',
+        items: [
+          ['Sharing', 'Ada yang kamu tahu dan belum dibagikan? Satu hal kecil hari ini bisa membantu orang lain.'],
+          ['Kedekatan', 'Sapa seseorang hari ini bukan karena ada perlu, tapi karena kamu memang peduli.'],
+          ['Togetherness', 'Ada anggota tim yang sedang berat hari ini? Tanya duluan, jangan tunggu mereka minta.']
+        ]
+      }
+    };
+
+    const v = values[valueMap[d.getDay()]];
+    document.getElementById('ticker-label').textContent = v.label;
+
+    // Build HTML for one message: sub-value highlighted + sentence
+    function buildHTML(item) {
+      return '<span class="ticker-sub">' + item[0] + '</span> &nbsp;' + item[1];
+    }
+
+    const el = document.getElementById('ticker-text');
+    let idx = 0;
+    el.innerHTML = buildHTML(v.items[0]);
+
+    // Crossfade to next sentence every 9 seconds
+    setInterval(function(){
+      idx = (idx + 1) % v.items.length;
+
+      // Exit current
+      el.classList.remove('visible');
+      el.classList.add('exit');
+
+      setTimeout(function(){
+        // Swap content, set enter state
+        el.innerHTML = buildHTML(v.items[idx]);
+        el.classList.remove('exit');
+        el.classList.add('enter');
+
+        // Small pause then enter
+        requestAnimationFrame(function(){
+          requestAnimationFrame(function(){
+            el.classList.remove('enter');
+            el.classList.add('visible');
+          });
+        });
+      }, 700); // matches transition duration
+    }, 9000);
+  })();
+
+  // ── COMMAND PALETTE ───────────────────────────────────────────────
+  (function initCommandPalette(){
+    const cmdData = [
+      { section: 'Navigasi', items: [
+        { name: 'Overview', sub: 'Navigasi & Arah', icon: '📊', href: 'dashboard-overview--v1.html' },
+        { name: 'Hari Ini', sub: 'Fokus harian', icon: '🎯', href: 'dashboard-hari-ini--v1.html' },
+        { name: 'Tim', sub: 'Status Tim', icon: '👥', href: 'dashboard-tim--v1.html' }
+      ]},
+      { section: 'Projects — IWDemy', items: [
+        { name: 'AI First Public', sub: 'db4b06bdf6da...', icon: '🚀', href: 'https://www.notion.so/db4b06bdf6da422c96953c0f991e56cc' },
+        { name: 'AI First Bootcamp', sub: 'a9beb927457b...', icon: '🎓', href: 'https://www.notion.so/a9beb927457b4759ae33aeb42c77cb58' },
+        { name: 'IWDemy Digital Lab', sub: 'b6fd3d52dcf9...', icon: '🧪', href: 'https://www.notion.so/b6fd3d52dcf942c288fd11ba444e9476' },
+        { name: 'K12', sub: 'a4b8cff191c7...', icon: '🎒', href: 'https://www.notion.so/a4b8cff191c742028d045e3e089cef41' },
+        { name: 'IWDemy Social Media', sub: 'bae23f0489d5...', icon: '📱', href: 'https://www.notion.so/bae23f0489d5493da1c550b095726478' },
+        { name: 'IWDemy Marketing', sub: '1ce5ce1de5ce...', icon: '📈', href: 'https://www.notion.so/1ce5ce1de5ce431cbc91ce6b8338e5a0' }
+      ]},
+      { section: 'Projects — Tjitra', items: [
+        { name: 'CIMB L&D', sub: '207c060c7dff...', icon: '👔', href: 'https://www.notion.so/207c060c7dff4d5c95d2053e1af17fad' },
+        { name: 'Demo PCU', sub: '5dec318978664...', icon: '💻', href: 'https://www.notion.so/5dec318978664ca1a9aa3c1e29abb1fd' },
+        { name: 'Agentic AI', sub: 'b56348019c59...', icon: '🤖', href: 'https://www.notion.so/b56348019c594a05b294d8a9e028893e' },
+        { name: 'Recruitment', sub: 'e35da5e622f8...', icon: '👫', href: 'https://www.notion.so/e35da5e622f848918ea7686dd61fc82a' }
+      ]},
+      { section: 'SOP', items: [
+        { name: 'Aturan Task', sub: 'Panduan task management', icon: '📋', href: 'https://www.notion.so/iwdemy/IWD-SOP-Guidelines-2d58ff32f8cf80969200ff8b9ef3209f' },
+        { name: 'Aturan Komunikasi', sub: 'Protokol komunikasi tim', icon: '💬', href: 'https://www.notion.so/iwdemy/IWD-SOP-Guidelines-2d58ff32f8cf80969200ff8b9ef3209f' },
+        { name: 'Aturan Meeting', sub: 'Panduan meeting', icon: '📞', href: 'https://www.notion.so/iwdemy/IWD-SOP-Guidelines-2d58ff32f8cf80969200ff8b9ef3209f' },
+        { name: 'Aturan Update & Reporting', sub: 'Update dan reporting', icon: '📊', href: 'https://www.notion.so/iwdemy/IWD-SOP-Guidelines-2d58ff32f8cf80969200ff8b9ef3209f' }
+      ]}
+    ];
+
+    let selectedIdx = -1;
+    const cmdOverlay = document.getElementById('cmdOverlay');
+    const cmdPalette = document.getElementById('cmdPalette');
+    const cmdInput = document.getElementById('cmdInput');
+    const cmdResults = document.getElementById('cmdResults');
+
+    function closeCmd() {
+      cmdOverlay.classList.remove('open');
+      cmdPalette.classList.remove('open');
+      cmdInput.value = '';
+      selectedIdx = -1;
+      renderResults('');
+    }
+
+    function openCmd() {
+      cmdOverlay.classList.add('open');
+      cmdPalette.classList.add('open');
+      cmdInput.focus();
+    }
+
+    function renderResults(query) {
+      const q = query.toLowerCase();
+      cmdResults.innerHTML = '';
+      let foundAny = false;
+
+      cmdData.forEach(function(section) {
+        const matches = section.items.filter(function(item) {
+          return item.name.toLowerCase().includes(q) || item.sub.toLowerCase().includes(q) || q === '';
+        });
+
+        if (matches.length > 0) {
+          foundAny = true;
+          const sectionEl = document.createElement('div');
+          sectionEl.className = 'cmd-section';
+          sectionEl.textContent = section.section;
+          cmdResults.appendChild(sectionEl);
+
+          matches.forEach(function(item, idx) {
+            const itemEl = document.createElement('a');
+            itemEl.className = 'cmd-item' + (selectedIdx === idx ? ' selected' : '');
+            itemEl.href = '#';
+            itemEl.onclick = function(e) { e.preventDefault(); selectItem(item); };
+            itemEl.innerHTML =
+              '<div class="cmd-item-icon' + (section.section.includes('IWDemy') ? ' ci-iw' : section.section.includes('Tjitra') ? ' ci-tj' : ' ci-nav') + '">' + item.icon + '</div>' +
+              '<div class="cmd-item-body">' +
+                '<div class="cmd-item-name">' + item.name + '</div>' +
+                '<div class="cmd-item-sub">' + item.sub + '</div>' +
+              '</div>';
+            cmdResults.appendChild(itemEl);
+          });
+        }
+      });
+
+      if (!foundAny && q !== '') {
+        const emptyEl = document.createElement('div');
+        emptyEl.style.cssText = 'padding:16px;text-align:center;color:var(--grey);font-size:12px;';
+        emptyEl.textContent = 'Tidak ada hasil untuk "' + query + '"';
+        cmdResults.appendChild(emptyEl);
+      }
+
+      selectedIdx = -1;
+    }
+
+    function selectItem(item) {
+      if (item.href.startsWith('http')) {
+        window.open(item.href, '_blank');
+      } else {
+        window.location.href = item.href;
+      }
+      closeCmd();
+    }
+
+    cmdInput.addEventListener('input', function() {
+      renderResults(this.value);
+    });
+
+    cmdInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeCmd();
+      } else if (e.key === 'ArrowDown') {
+        const items = cmdResults.querySelectorAll('.cmd-item');
+        selectedIdx = Math.min(selectedIdx + 1, items.length - 1);
+        items.forEach((el, i) => el.classList.toggle('selected', i === selectedIdx));
+      } else if (e.key === 'ArrowUp') {
+        const items = cmdResults.querySelectorAll('.cmd-item');
+        selectedIdx = Math.max(selectedIdx - 1, -1);
+        items.forEach((el, i) => el.classList.toggle('selected', i === selectedIdx));
+      } else if (e.key === 'Enter' && selectedIdx >= 0) {
+        cmdResults.querySelectorAll('.cmd-item')[selectedIdx].click();
+      }
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        openCmd();
+      }
+    });
+
+    renderResults('');
+  })();
+
+  // ── DYNAMIC GREETING — value-based, harian ───────────────────────
+  (function setGreeting(){
+    const dow = d.getDay();
+
+    // Week number
+    const startOfYear = new Date(d.getFullYear(), 0, 1);
+    const weekNum = Math.ceil(((d - startOfYear) / 86400000 + startOfYear.getDay() + 1) / 7);
+
+    // Eyebrow — week range
+    const dayOfWeek = dow === 0 ? 6 : dow - 1;
+    const monday = new Date(d); monday.setDate(d.getDate() - dayOfWeek);
+    const sunday = new Date(monday); sunday.setDate(monday.getDate() + 6);
+    const fmt = function(dt){ return dt.getDate() + ' ' + months[dt.getMonth()]; };
+    document.getElementById('hero-eyebrow-text').textContent =
+      'Navigasi & Arah · Minggu ' + weekNum;
+
+    // Sapaan harian — org-strategic, value-based
+    const greetings = [
+      'Halo Kristina. Lihat gambaran besar, lalu tentukan yang penting.',  // Min
+      'Halo Kristina. Minggu baru dimulai. Mana yang perlu digerakkan?',   // Sen
+      'Halo Kristina. Cek status, jaga momentum.',                          // Sel
+      'Halo Kristina. Tengah minggu — on track atau perlu koreksi?',        // Rab
+      'Halo Kristina. Dua hari lagi. Apa yang bisa ditutup?',               // Kam
+      'Halo Kristina. Sebelum weekend — tutup loop yang terbuka.',          // Jum
+      'Halo Kristina. Fondasi kuat dimulai dari gambaran yang jelas.'       // Sab
+    ];
+    document.getElementById('hero-greeting').textContent = greetings[dow];
+
+    // Sub — day context
+    const dayContext = [
+      'Minggu — kalau buka ini, berarti serius.',
+      'Senin: tentukan arah untuk minggu ini.',
+      'Selasa: momentum dari kemarin, jangan berhenti.',
+      'Rabu: tengah minggu — apakah sudah di jalur yang benar?',
+      'Kamis: dua hari lagi — finish strong.',
+      'Jumat: tutup semua yang terbuka sebelum akhir pekan.',
+      'Sabtu — istirahat juga bagian dari strategi.'
+    ];
+    const sub = document.getElementById('hero-sub');
+    sub.innerHTML = '<strong>' + dayContext[dow] + '</strong> 4 tugas P1 deadline hari ini · 5 Doing · 19 tasks aktif · 6 milestone ke depan.';
+  })();
+
+  // Milestone countdown
+  // AUTO:START:milestones
+  const milestones = [
+    { date: '2026-04-22', label: 'Event AIF Program Professional Level 1', sub: 'Tjitra · P1' },
+    { date: '2026-04-22', label: 'Event Bootcamp', sub: 'IWDemy · P2' },
+    { date: '2026-04-22', label: 'Event Level 1 LSL 1', sub: 'IWDemy · P2' },
+    { date: '2026-04-25', label: 'Event AIF Program Leaders Level 2 Day 2', sub: 'Tjitra · P2' },
+    { date: '2026-04-29', label: 'Event AIF Program Professional Level 1', sub: 'Tjitra · P1' },
+    { date: '2026-04-29', label: 'Event Level 1 LSL 2', sub: 'IWDemy · P2' },
+  ];
+  // AUTO:END:milestones
+
+  const today = new Date(); today.setHours(0,0,0,0);
+  const grid = document.getElementById('countdownGrid');
+
+  milestones.forEach(function(m) {
+    const target = new Date(m.date); target.setHours(0,0,0,0);
+    const diff = Math.round((target - today) / (1000 * 60 * 60 * 24));
+
+    const urgency = diff <= 3 ? 'urgent' : diff <= 14 ? 'soon' : diff <= 45 ? 'ok' : 'far';
+    const dayNum   = diff < 0 ? '!' : diff;
+    const dayClass = 'cd-' + urgency;
+    const lblClass = 'cd-lbl-' + urgency;
+    const lblText = diff < 0 ? 'Lewat ' + Math.abs(diff) + ' hari' : diff === 0 ? 'Hari ini!' : diff <= 3 ? 'Mendesak' : diff <= 14 ? 'Segera' : diff + ' hari lagi';
+
+    const card = document.createElement('div');
+    card.className = 'cd-card cd-card-' + urgency;
+    card.innerHTML =
+      '<div class="cd-days ' + dayClass + '">' + dayNum + '</div>' +
+      '<div class="cd-right">' +
+        '<div class="cd-label ' + lblClass + '">' + lblText + '</div>' +
+        '<div class="cd-name">' + m.label + '</div>' +
+        '<div class="cd-date">' + m.sub + '</div>' +
+      '</div>';
+    grid.appendChild(card);
+  });
+})();
+
+</script>
+</body>
+</html>
