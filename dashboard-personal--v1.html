@@ -174,8 +174,33 @@ const USERS = {
   anita:    '4b515780-3208-493a-a95e-1584c9f376ec',
   stephen:  'bbfcd9ba-60c0-43bf-8f95-3dcae01b571e',
 };
-const TASKS = [];
-const SYNC_TIME = '2026-04-21T04:00:00';
+const TASKS = [
+  { name: 'Kirim AIF Program Concept CIMB', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P1', status: 'Doing', domain: 'Tjitra', due: '2026-04-20', url: 'https://www.notion.so/Kirim-AIF-Program-Concept-CIMB-3428ff32f8cf80f5b207db8aa78a4324' },
+  { name: 'Kirim AIF Program Concept Pertamina', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P1', status: 'Doing', domain: 'Tjitra', due: '2026-04-20', url: 'https://www.notion.so/Kirim-AIF-Program-Concept-Pertamina-6398a42afed046a79f5ace17ae522e42' },
+  { name: 'Kirim activity report CIMB Workshop', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P1', status: 'Next', domain: 'Tjitra', due: '2026-04-20', url: 'https://www.notion.so/Kirim-activity-report-CIMB-Workshop-2faa6e7f7bbe4807a848a3b5978e9666' },
+  { name: 'FU IFP Metra, Temasek, Ciputra', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P2', status: 'Doing', domain: 'IWDemy', due: '2026-04-21', url: 'https://www.notion.so/FU-IFP-Metra-Temasek-Ciputra-734a70bb0086468e8bff99a17f9679b1' },
+  { name: 'Final website aifirst26.iwdemy.com', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P1', status: 'Next', domain: 'IWDemy', due: '2026-04-21', url: 'https://www.notion.so/Final-website-aifirst26-iwdemy-com-3488ff32f8cf80b19a05ca8482e9d070' },
+  { name: 'Final Offer AIF Professional Level 2', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P1', status: 'Next', domain: 'IWDemy', due: '2026-04-21', url: 'https://www.notion.so/Final-Offer-AIF-Professional-Level-2-3498ff32f8cf8018b5dcda08735a645f' },
+  { name: 'Final Local AI AIF Professional', assignee: 'd9f6882d-73e7-4749-85cd-56b0f90f7cf1', priority: 'P1', status: 'Next', domain: 'Local AI', due: '2026-04-21', url: 'https://www.notion.so/Final-Local-AI-AIF-Professional-3488ff32f8cf803fb7edfca94bfd6e0f' },
+  { name: 'Final IDL AIF Professional', assignee: '01ee5cb8-5b07-4ffa-821d-deed6134e5b9', priority: 'P1', status: 'Next', domain: 'IDL', due: '2026-04-21', url: 'https://www.notion.so/Final-IDL-AIF-Professional-3488ff32f8cf80a58358dd4fa2361b5a' },
+  { name: 'Final Multimodal AIF Professional', assignee: 'bbfcd9ba-60c0-43bf-8f95-3dcae01b571e', priority: 'P1', status: 'Next', domain: 'Multimodal', due: '2026-04-21', url: 'https://www.notion.so/Final-Multimodal-AIF-Professional-3488ff32f8cf809ab7fbd825574a1600' },
+  { name: 'Event AIF Program Professional Level 1', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P1', status: 'Next', domain: 'Tjitra', due: '2026-04-22', url: 'https://www.notion.so/Event-AIF-Program-Professional-Level-1-3428ff32f8cf80a78026c5109221d6ca' },
+  { name: 'Event Bootcamp', assignee: '4b515780-3208-493a-a95e-1584c9f376ec', priority: 'P2', status: 'Next', domain: 'Event', due: '2026-04-22', url: 'https://www.notion.so/Event-Bootcamp-3478ff32f8cf80f0ab7aeb0840019f95' },
+  { name: 'Event Level 1 LSL 1', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P1', status: 'Next', domain: 'IWDemy', due: '2026-04-22', url: 'https://www.notion.so/Event-Level-1-LSL-1-3478ff32f8cf8086a9efe6e1fd32507c' },
+  { name: 'Event AIF Program Leaders Level 2 Day 2', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P2', status: 'Doing', domain: 'Tjitra', due: '2026-04-25', url: 'https://www.notion.so/Event-AIF-Program-Leaders-Level-2-Day-2-3478ff32f8cf808fbd01e3ab166e9a99' },
+  { name: 'Final persona dan intent Open Claw - Agentic AI Workflow', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P2', status: 'Next', domain: 'IWDemy', due: '2026-04-26', url: 'https://www.notion.so/Final-persona-dan-intent-Open-Claw-Agentic-AI-Workflow-3378ff32f8cf80df897af5051ce9aa2c' },
+  { name: 'Final MD files 4 Gallery Walk', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P1', status: 'Next', domain: 'IWDemy', due: '2026-04-26', url: 'https://www.notion.so/Final-MD-files-4-Gallery-Walk-6aafcae85fdf4422baef58c2f22c7b8d' },
+  { name: 'Finish AHDO Registration', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P3', status: 'Next', domain: 'Tjitra', due: '2026-04-26', url: 'https://www.notion.so/Finish-AHDO-Registration-0531adac70344e16ae8b0c717897a479' },
+  { name: 'Final Website IWDemy', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P2', status: 'Next', domain: 'IWDemy', due: '2026-04-26', url: 'https://www.notion.so/Final-Website-IWDemy-aa0306da677b4c87b0748afa7ffade09' },
+  { name: 'Final Proposal Leadership Development MRA', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P1', status: 'Next', domain: 'IWDemy', due: '2026-04-26', url: 'https://www.notion.so/Final-Proposal-Leadership-Development-MRA-3438ff32f8cf803dbec0c03388ff911f' },
+  { name: 'Event AIF Program Professional Level 1', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P1', status: 'Next', domain: 'Tjitra', due: '2026-04-29', url: 'https://www.notion.so/Event-AIF-Program-Professional-Level-1-3438ff32f8cf809ca2afe2696be1b719' },
+  { name: 'Event Level 1 LSL 2', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P2', status: 'Next', domain: 'IWDemy', due: '2026-04-29', url: 'https://www.notion.so/Event-Level-1-LSL-2-3478ff32f8cf805f9dedc11b76e1c2ca' },
+  { name: 'Training Aloy AI Workshop AIF', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P2', status: 'Next', domain: 'IWDemy', due: '2026-05-04', url: 'https://www.notion.so/Training-Aloy-AI-Workshop-AIF-3428ff32f8cf80c28752d59b037242a9' },
+  { name: 'Training Aloy SinaD', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P2', status: 'Next', domain: 'IWDemy', due: '2026-05-04', url: 'https://www.notion.so/Training-Aloy-SinaD-33d8ff32f8cf80e3b3d7c1fba49892c5' },
+  { name: 'Event AIF Program Professional Level 2', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P2', status: 'Next', domain: 'IWDemy', due: '2026-05-06', url: 'https://www.notion.so/Event-AIF-Program-Professional-Level-2-3488ff32f8cf8099bb24fc04eecab444' },
+  { name: 'Closing Delto OKR', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P1', status: 'Next', domain: 'Tjitra', due: null, url: 'https://www.notion.so/Closing-Delto-OKR-32b8ff32f8cf80949512dc580ac8036f' },
+];
+const SYNC_TIME = '2026-04-21T02:29:53';
 // AUTO:END — NOTION SYNC DATA
 // ─────────────────────────────────────────────
 
