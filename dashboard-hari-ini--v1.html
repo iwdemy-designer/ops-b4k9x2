@@ -99,22 +99,22 @@ body{font-family:'Carlito','Inter',sans-serif;background:var(--fog);color:var(--
 .col-title{font-family:'Montserrat',sans-serif;font-size:.8rem;font-weight:700;color:var(--ink)}
 .col-badge{font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:10px;background:var(--silver);color:var(--grey)}
 
-.col-kerjakan .col-header,.col-hari-ini .col-header{border-bottom-color:var(--red);background:linear-gradient(135deg,var(--red-08),var(--white))}
-.col-kerjakan .col-badge,.col-hari-ini .col-badge{background:var(--red-08);color:var(--red)}
-.col-antrian .col-header,.col-besok .col-header{border-bottom-color:var(--mustard);background:linear-gradient(135deg,var(--mustard-10),var(--white))}
-.col-antrian .col-badge,.col-besok .col-badge{background:var(--mustard-10);color:#B8850A}
+.col-kerjakan .col-header,.col-hari-ini .col-header,.col-doing .col-header{border-bottom-color:var(--red);background:linear-gradient(135deg,var(--red-08),var(--white))}
+.col-kerjakan .col-badge,.col-hari-ini .col-badge,.col-doing .col-badge{background:var(--red-08);color:var(--red)}
+.col-antrian .col-header,.col-besok .col-header,.col-next-p1 .col-header{border-bottom-color:var(--mustard);background:linear-gradient(135deg,var(--mustard-10),var(--white))}
+.col-antrian .col-badge,.col-besok .col-badge,.col-next-p1 .col-badge{background:var(--mustard-10);color:#B8850A}
 .col-menunggu .col-header,.col-minggu-ini .col-header{border-bottom-color:var(--orange);background:linear-gradient(135deg,var(--orange-08),var(--white))}
 .col-menunggu .col-badge,.col-minggu-ini .col-badge{background:var(--orange-08);color:var(--orange)}
-.col-besok-plus .col-header,.col-nanti .col-header{border-bottom-color:var(--blue);background:linear-gradient(135deg,var(--blue-08),var(--white))}
-.col-besok-plus .col-badge,.col-nanti .col-badge{background:var(--blue-15);color:var(--blue)}
+.col-besok-plus .col-header,.col-nanti .col-header,.col-next-p2 .col-header{border-bottom-color:var(--blue);background:linear-gradient(135deg,var(--blue-08),var(--white))}
+.col-besok-plus .col-badge,.col-nanti .col-badge,.col-next-p2 .col-badge{background:var(--blue-15);color:var(--blue)}
 
 .col-cards{padding:10px;display:flex;flex-direction:column;gap:8px;flex:1;min-height:60px}
 .kanban-card{background:var(--fog);border-radius:var(--rsm);padding:10px 12px;border-left:3px solid transparent;transition:transform .15s,box-shadow .15s}
 .kanban-card:hover{transform:translateY(-1px);box-shadow:var(--sm)}
-.col-kerjakan .kanban-card,.col-hari-ini .kanban-card{border-left-color:var(--red)}
-.col-antrian .kanban-card,.col-besok .kanban-card{border-left-color:var(--mustard)}
+.col-kerjakan .kanban-card,.col-hari-ini .kanban-card,.col-doing .kanban-card{border-left-color:var(--red)}
+.col-antrian .kanban-card,.col-besok .kanban-card,.col-next-p1 .kanban-card{border-left-color:var(--mustard)}
 .col-menunggu .kanban-card,.col-minggu-ini .kanban-card{border-left-color:var(--orange)}
-.col-besok-plus .kanban-card,.col-nanti .kanban-card{border-left-color:var(--blue)}
+.col-besok-plus .kanban-card,.col-nanti .kanban-card,.col-next-p2 .kanban-card{border-left-color:var(--blue)}
 
 .card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:6px;margin-bottom:7px}
 .card-name{font-size:.82rem;font-weight:600;color:var(--ink);line-height:1.4;flex:1}
@@ -311,10 +311,11 @@ const EOW = new Date(TODAY);
 
 function yColOf(t) {
   const s = (t.status||'').toLowerCase();
+  const p = (t.priority||'').toLowerCase();
   if (s.includes('hold')||s.includes('wait')||s.includes('blocked')||s.includes('menunggu')) return 'menunggu';
-  if (s.includes('progress')||s.includes('doing')) return 'kerjakan';
-  if (t.due) { const d=new Date(t.due); d.setHours(0,0,0,0); if (d<=TODAY) return 'antrian'; }
-  return 'besok-plus';
+  if (s.includes('progress')||s.includes('doing')) return 'doing';
+  if (p.includes('p1')) return 'next-p1';
+  return 'next-p2';
 }
 
 function tColOf(t) {
@@ -382,7 +383,7 @@ function buildNarrative(tasks, person) {
   const label = pConfig ? pConfig.label : person;
   if(total===0) return `Tidak ada task aktif untuk ${label} saat ini.`;
   if(pConfig && pConfig.mode==='exec') {
-    const doing = tasks.filter(t=>yColOf(t)==='kerjakan');
+    const doing = tasks.filter(t=>yColOf(t)==='doing');
     const p1 = tasks.filter(t=>(t.priority||'').toLowerCase().includes('p1'));
     const overdue = tasks.filter(t=>{if(!t.due)return false;const d=new Date(t.due);d.setHours(0,0,0,0);return d<TODAY;});
     let s = `${label} punya ${total} task aktif. `;
@@ -429,13 +430,13 @@ function renderKanban() {
   let cols, colDef;
 
   if(pConfig && pConfig.mode==='exec') {
-    cols = {kerjakan:[],antrian:[],menunggu:[],'besok-plus':[]};
+    cols = {doing:[],'next-p1':[],'next-p2':[],menunggu:[]};
     myTasks.forEach(t=>cols[yColOf(t)].push(t));
     colDef = [
-      {key:'kerjakan',  cls:'col-kerjakan',  icon:'🔥', title:'Kerjakan'},
-      {key:'antrian',   cls:'col-antrian',   icon:'⚡', title:'Antrian Hari Ini'},
-      {key:'menunggu',  cls:'col-menunggu',  icon:'🕐', title:'Menunggu'},
-      {key:'besok-plus',cls:'col-besok-plus',icon:'📅', title:'Besok +'},
+      {key:'doing',   cls:'col-doing',   icon:'🔥', title:'Doing'},
+      {key:'next-p1', cls:'col-next-p1', icon:'⚡', title:'Next · P1'},
+      {key:'next-p2', cls:'col-next-p2', icon:'📅', title:'Next · P2–P3'},
+      {key:'menunggu',cls:'col-menunggu',icon:'🕐', title:'Menunggu'},
     ];
   } else {
     cols = {'hari-ini':[],besok:[],'':[],nanti:[]};
@@ -455,7 +456,7 @@ function renderKanban() {
 
   const total = myTasks.length;
   const doing = pConfig && pConfig.mode==='exec'
-    ? cols['kerjakan'].length
+    ? cols['doing'].length
     : cols['hari-ini'].length;
   const p1count = myTasks.filter(t=>(t.priority||'').toLowerCase().includes('p1')).length;
 
@@ -468,7 +469,7 @@ function renderKanban() {
       <div class="narrative-text">${narrative}</div>
       <div class="narrative-stats">
         <div class="stat-chip"><span class="stat-num">${total}</span> Task Aktif</div>
-        <div class="stat-chip"><span class="stat-num">${doing}</span> ${pConfig && pConfig.mode==='exec' ? 'Sedang Dikerjakan' : 'Due Hari Ini'}</div>
+        <div class="stat-chip"><span class="stat-num">${doing}</span> ${pConfig && pConfig.mode==='exec' ? 'Doing' : 'Due Hari Ini'}</div>
         <div class="stat-chip"><span class="stat-num">${p1count}</span> P1 Prioritas</div>
       </div>
     </div>
