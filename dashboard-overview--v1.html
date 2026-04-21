@@ -344,7 +344,7 @@ body{line-height:1.6}
   <div class="hero">
     <div class="hero-eyebrow"><span class="eyebrow-dot"></span><span id="hero-eyebrow-text">Navigasi & Arah</span></div>
     <h1 class="hero-title" id="hero-greeting">Halo Yanti.</h1>
-    <p class="hero-sub" id="hero-sub"><strong>4 tugas P1 deadline hari ini (21 Apr)</strong> — 5 tugas sedang dikerjakan, 6 milestone ke depan.</p>
+    <p class="hero-sub" id="hero-sub"><strong>4 tugas P1 deadline hari ini (21 Apr)</strong> — 5 tugas sedang dikerjakan, progress solid minggu ini.</p>
     <div class="hero-bar"></div>
   </div>
 
@@ -388,15 +388,6 @@ body{line-height:1.6}
   <!-- AUTO:END:spotlight -->
   </div>
 
-  <!-- MILESTONE COUNTDOWN -->
-  <div class="sec-label"><span class="si">🏁</span> Milestones & Tenggat</div>
-  <div class="milestone-wrap">
-    <div class="milestone-header">
-      <div class="milestone-title">Hitung mundur dari hari ini</div>
-      <div class="milestone-sub"></div>
-    </div>
-    <div class="countdown" id="countdownGrid"></div>
-  </div>
   </div>
 
   <!-- STATS — konfirmasi pulse, bukan pembuka -->
@@ -433,7 +424,7 @@ body{line-height:1.6}
           <div class="sc-num">9</div>
         </div>
       </div>
-      <div class="sc-lbl">Milestones<br><span style="color:var(--grey);font-size:10px">Apr–Mei 2026</span></div>
+      <div class="sc-lbl">Menunggu<br><span style="color:var(--grey);font-size:10px">Waiting / Blocked</span></div>
     </div>
   </div>
   </div><!-- /sec-health -->
@@ -868,48 +859,10 @@ body{line-height:1.6}
       'Sabtu: istirahat yang baik juga bagian dari strategi.'
     ];
     const sub = document.getElementById('hero-sub');
-    sub.innerHTML = '<strong>' + dayContext[dow] + '</strong> 4 tugas P1 deadline hari ini · 5 Doing · 19 tasks aktif · 6 milestone ke depan.';
+    sub.innerHTML = '<strong>' + dayContext[dow] + '</strong> 4 tugas P1 deadline hari ini · 5 Doing · 26 tasks aktif.';
   })();
 
-  // Milestone countdown
-  // AUTO:START:milestones
-  const milestones = [
-    { date: '2026-04-22', label: 'Event AIF Program Professional Level 1', sub: 'Tjitra · P1' },
-    { date: '2026-04-22', label: 'Event Bootcamp', sub: 'IWDemy · P2' },
-    { date: '2026-04-22', label: 'Event Level 1 LSL 1', sub: 'IWDemy · P1' },
-    { date: '2026-04-25', label: 'Event AIF Program Leaders Level 2 Day 2', sub: 'Tjitra · P2' },
-    { date: '2026-04-29', label: 'Event AIF Program Professional Level 1', sub: 'Tjitra · P1' },
-    { date: '2026-04-29', label: 'Event Level 1 LSL 2', sub: 'IWDemy · P2' },
-    { date: '2026-05-04', label: 'Training Aloy AI Workshop AIF', sub: 'IWDemy · P2' },
-    { date: '2026-05-04', label: 'Training Aloy SinaD', sub: 'IWDemy · P2' },
-    { date: '2026-05-06', label: 'Event AIF Program Professional Level 2', sub: 'IWDemy · P2' },
-  ];
-  // AUTO:END:milestones
 
-  const today = new Date(); today.setHours(0,0,0,0);
-  const grid = document.getElementById('countdownGrid');
-
-  milestones.forEach(function(m) {
-    const target = new Date(m.date); target.setHours(0,0,0,0);
-    const diff = Math.round((target - today) / (1000 * 60 * 60 * 24));
-
-    const urgency = diff <= 3 ? 'urgent' : diff <= 14 ? 'soon' : diff <= 45 ? 'ok' : 'far';
-    const dayNum   = diff < 0 ? '!' : diff;
-    const dayClass = 'cd-' + urgency;
-    const lblClass = 'cd-lbl-' + urgency;
-    const lblText = diff < 0 ? 'Lewat ' + Math.abs(diff) + ' hari' : diff === 0 ? 'Hari ini!' : diff <= 3 ? 'Mendesak' : diff <= 14 ? 'Segera' : diff + ' hari lagi';
-
-    const card = document.createElement('div');
-    card.className = 'cd-card cd-card-' + urgency;
-    card.innerHTML =
-      '<div class="cd-days ' + dayClass + '">' + dayNum + '</div>' +
-      '<div class="cd-right">' +
-        '<div class="cd-label ' + lblClass + '">' + lblText + '</div>' +
-        '<div class="cd-name">' + m.label + '</div>' +
-        '<div class="cd-date">' + m.sub + '</div>' +
-      '</div>';
-    grid.appendChild(card);
-  });
 })();
 
 </script>

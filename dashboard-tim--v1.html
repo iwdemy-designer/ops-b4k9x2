@@ -19,7 +19,7 @@
   --rsm:8px; --rmd:12px; --rlg:16px; --rxl:24px;
 }
 *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
-body{font-family:'Carlito','Inter',sans-serif;background:var(--fog);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased;position:relative}
+body{font-family:'Carlito','Inter',sans-serif;background:var(--fog);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased;position:relative;line-height:1.6}
 
 /* BACKGROUND BLOBS */
 .bg-blobs{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
@@ -47,7 +47,7 @@ body{font-family:'Carlito','Inter',sans-serif;background:var(--fog);color:var(--
 .nav-sub{font-size:9px;color:var(--grey);letter-spacing:.07em;text-transform:uppercase;margin-top:0}
 .nav-tabs{display:flex;gap:2px}
 .nav-tab{font-family:'Montserrat',sans-serif;font-size:12px;font-weight:600;color:var(--grey);padding:6px 14px;border-radius:7px;text-decoration:none;transition:all .15s}
-.nav-tab:hover{color:var(--blue);background:var(--blue-08)}
+.nav-tab:hover{color:var(--blue);background:var(--blue-08);box-shadow:0 1px 4px rgba(0,0,0,.08)}
 .nav-tab.active{color:var(--blue);background:var(--mustard);box-shadow:0 1px 4px rgba(252,181,40,.3)}
 .nav-right{display:flex;align-items:center;gap:8px}
 .nav-date{font-size:11px;color:var(--grey);padding:5px 12px;border-radius:7px;background:var(--silver);font-weight:600}
@@ -64,72 +64,84 @@ body{font-family:'Carlito','Inter',sans-serif;background:var(--fog);color:var(--
 .hero-sub strong{display:block;color:var(--ink);font-weight:700;font-size:14px;margin-bottom:3px}
 .hero-bar{width:36px;height:3px;background:var(--mustard);border-radius:2px;margin-top:16px}
 
+/* SECTION LABEL */
 .sec-label{font-size:9px;font-weight:700;color:var(--grey);text-transform:uppercase;letter-spacing:.12em;margin-bottom:18px;margin-top:8px;display:flex;align-items:center;gap:10px}
 .sec-label::after{content:'';flex:1;height:1px;background:rgba(0,0,0,.07)}
 .sec-label .si{font-size:16px;line-height:1;letter-spacing:0;text-transform:none;flex-shrink:0}
 
-/* ── TEAM LOAD SUMMARY ───────────────────── */
-.load-summary{background:rgba(255,255,255,.72);backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);border-radius:var(--rlg);border:1px solid rgba(255,255,255,.6);box-shadow:0 4px 24px rgba(0,0,0,.06),0 1px 2px rgba(255,255,255,.8) inset;padding:22px 28px;margin-bottom:32px}
-.load-rows{display:flex;flex-direction:column;gap:12px}
-.load-row{display:grid;grid-template-columns:28px 160px 1fr 60px 52px;align-items:center;gap:12px}
-.load-av{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;font-weight:800;font-size:10px;flex-shrink:0}
-.lav-ka{background:var(--blue);color:white}
-.lav-ph{background:rgba(0,0,0,.06);color:var(--grey)}
-.load-name{font-size:12px;font-weight:600;color:var(--ink)}
-.load-role{font-size:10px;color:var(--grey);margin-top:1px}
-.load-bar-wrap{height:5px;background:rgba(0,0,0,.06);border-radius:999px;overflow:hidden}
-.load-bar-fill{height:100%;border-radius:999px;transition:width .6s ease}
-.lbf-active{background:var(--orange)}   /* high load — orange signal */
-.lbf-tba{background:rgba(0,0,0,.1)}
-.load-tasks{font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;color:var(--ink);text-align:right}
-.load-tasks.lt-tba{color:var(--grey);font-weight:400}
-.load-pill{font-size:9px;font-weight:700;padding:2px 7px;border-radius:3px;text-align:center}
-.lp-high{background:var(--orange-08);color:var(--orange)}
-.lp-tba{background:rgba(0,0,0,.04);color:var(--grey)}
+/* QUICK STATS */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:0 0 36px}
+.stat-chip{background:rgba(255,255,255,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-radius:var(--rmd);border:1px solid rgba(255,255,255,.7);box-shadow:var(--xs);padding:16px 18px;text-align:center}
+.stat-num{font-family:'Montserrat',sans-serif;font-size:28px;font-weight:800;color:var(--ink);letter-spacing:-.03em;line-height:1}
+.stat-lbl{font-size:11px;color:var(--grey);margin-top:4px}
+.stat-chip.s-doing .stat-num{color:var(--orange)}
+.stat-chip.s-milestone .stat-num{color:var(--blue)}
+.stat-chip.s-done .stat-num{color:var(--green)}
 
-/* ── MEMBER CARDS ────────────────────────── */
-.member-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-bottom:40px}
-.member-card{background:rgba(255,255,255,.72);backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);border-radius:var(--rlg);border:1px solid rgba(255,255,255,.6);box-shadow:0 4px 24px rgba(0,0,0,.06),0 1px 2px rgba(255,255,255,.8) inset;padding:20px 22px}
-/* card header: avatar + name + load badge in one line */
-.mc-top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
-.mc-avatar{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;font-weight:800;font-size:13px;flex-shrink:0}
-.av-ka{background:var(--blue);color:white}
-.av-ph{background:rgba(0,0,0,.06);color:var(--grey)}
-.mc-info{flex:1;min-width:0}
-.mc-name{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:800;color:var(--ink)}
-.mc-role{font-size:10px;color:var(--grey);margin-top:1px}
-/* load badge — top right of card header */
-.mc-load-badge{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0}
-.mc-load-num{font-family:'Montserrat',sans-serif;font-size:20px;font-weight:800;color:var(--orange);line-height:1}
-.mc-load-num.lt-tba{color:var(--grey);font-size:14px;font-weight:400}
-.mc-load-sub{font-size:9px;color:var(--grey);text-align:right}
+/* MILESTONE STRIP */
+.ms-strip{background:rgba(255,255,255,.72);backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);border-radius:var(--rlg);border:1px solid rgba(255,255,255,.6);box-shadow:0 4px 24px rgba(0,0,0,.06),0 1px 2px rgba(255,255,255,.8) inset;padding:18px 24px;margin-bottom:28px}
+.ms-strip-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.ms-strip-title{font-size:9px;font-weight:700;color:var(--grey);text-transform:uppercase;letter-spacing:.12em}
+.ms-strip-count{font-size:10px;color:var(--grey)}
+.ms-chips{display:flex;flex-wrap:wrap;gap:8px}
+.ms-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;font-size:11px;font-weight:600;cursor:default;transition:transform .15s}
+.ms-chip:hover{transform:translateY(-1px)}
+.ms-chip.ms-urgent{background:rgba(102,0,0,.08);color:var(--maroon);border:1px solid rgba(102,0,0,.15)}
+.ms-chip.ms-soon{background:var(--orange-08);color:var(--orange);border:1px solid rgba(208,106,0,.15)}
+.ms-chip.ms-ok{background:var(--blue-08);color:var(--blue);border:1px solid rgba(0,82,135,.12)}
+.ms-chip.ms-none{background:rgba(0,0,0,.04);color:var(--grey);border:1px solid rgba(0,0,0,.08)}
+.ms-chip a{color:inherit;text-decoration:none}
+.ms-chip a:hover{text-decoration:underline}
+.ms-badge{font-size:9px;font-weight:700;padding:1px 6px;border-radius:3px;background:rgba(0,0,0,.06);color:var(--grey)}
+.ms-empty{font-size:12px;color:var(--grey);font-style:italic}
 
-/* tasks inside card */
-.mc-today-label{font-size:9px;font-weight:700;color:var(--grey);text-transform:uppercase;letter-spacing:.08em;margin-bottom:7px;margin-top:14px;padding-top:12px;border-top:1px solid rgba(0,0,0,.06)}
-.mc-task{display:flex;align-items:center;gap:7px;padding:4px 0;border-bottom:1px solid rgba(0,0,0,.04)}
-.mc-task:last-child{border-bottom:none}
-.mct-pri{font-size:9px;font-weight:600;padding:1px 5px;border-radius:3px;flex-shrink:0}
-.mct-p1{background:var(--maroon-08);color:var(--maroon)}
-.mct-p2{background:var(--orange-08);color:var(--orange)}
-.mct-name{font-size:11px;color:var(--ink);flex:1;line-height:1.3}
+/* PERSON ROWS */
+.person-list{display:flex;flex-direction:column;gap:10px;margin-bottom:48px}
+.person-row{background:rgba(255,255,255,.72);backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);border-radius:var(--rlg);border:1px solid rgba(255,255,255,.7);box-shadow:0 3px 12px rgba(0,0,0,.05),0 1px 2px rgba(255,255,255,.8) inset;overflow:hidden;transition:box-shadow .2s}
+.person-row:hover{box-shadow:0 6px 24px rgba(0,0,0,.09)}
+.pr-header{display:grid;grid-template-columns:36px 170px 1fr 130px 80px 32px;align-items:center;gap:14px;padding:16px 22px;cursor:pointer;user-select:none}
+.pr-emoji{font-size:20px;line-height:1;text-align:center}
+.pr-identity{min-width:0}
+.pr-name{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:800;color:var(--ink)}
+.pr-domain{font-size:10px;color:var(--grey);margin-top:1px}
+.pr-load-wrap{display:flex;flex-direction:column;gap:4px}
+.pr-load-label{display:flex;justify-content:space-between;align-items:center}
+.pr-load-txt{font-size:10px;color:var(--grey)}
+.pr-bar-bg{height:5px;background:rgba(0,0,0,.07);border-radius:999px;overflow:hidden}
+.pr-bar-fill{height:100%;border-radius:999px;background:var(--blue);transition:width .8s ease}
+.pr-bar-fill.pb-high{background:var(--orange)}
+.pr-bar-fill.pb-ok{background:var(--green)}
+.pr-stats{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.pr-stat-item{font-size:10px;color:var(--grey);white-space:nowrap}
+.pr-stat-item strong{color:var(--ink);font-weight:700}
+.pr-badge{font-size:9px;font-weight:700;padding:3px 8px;border-radius:4px;white-space:nowrap}
+.pr-badge.pb-high{background:var(--orange-08);color:var(--orange)}
+.pr-badge.pb-ok{background:var(--green-08);color:var(--green)}
+.pr-badge.pb-low{background:rgba(0,0,0,.04);color:var(--grey)}
+.pr-chevron{font-size:13px;color:var(--grey);transition:transform .25s;text-align:center;flex-shrink:0}
+.pr-chevron.open{transform:rotate(180deg)}
 
-.mct-link{font-size:9px;font-weight:600;color:var(--blue);text-decoration:none;opacity:0;flex-shrink:0;transition:opacity .15s}
-.mc-task:hover .mct-link{opacity:.6}
-
-/* PLACEHOLDER CARD — same shell as member-card, faded */
-.ph-card{background:rgba(255,255,255,.72);backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);border-radius:var(--rlg);border:1px solid rgba(255,255,255,.6);box-shadow:0 4px 24px rgba(0,0,0,.06),0 1px 2px rgba(255,255,255,.8) inset;padding:20px 22px;opacity:.5}
-
-/* SETUP NOTICE */
-.setup-notice{background:rgba(255,255,255,.72);backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);border-radius:var(--rxl);border:1px solid rgba(255,255,255,.6);box-shadow:0 4px 24px rgba(0,0,0,.06),0 1px 2px rgba(255,255,255,.8) inset;padding:28px 32px;margin-bottom:40px;display:flex;gap:20px;align-items:flex-start}
-.setup-icon{font-size:22px;flex-shrink:0;margin-top:2px}
-.setup-title{font-family:'Montserrat',sans-serif;font-size:15px;font-weight:800;color:var(--ink);margin-bottom:6px}
-.setup-body{font-size:13px;color:var(--grey);line-height:1.6}
-.setup-steps{margin-top:10px;display:flex;flex-direction:column;gap:6px}
-.setup-step{display:flex;align-items:flex-start;gap:10px;font-size:12px;color:var(--ink)}
-.step-num{flex-shrink:0;width:20px;height:20px;border-radius:50%;background:var(--blue);color:white;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:1px}
-.step-done{background:var(--green)}
-.step-text strong{color:var(--blue);font-weight:700}
-.step-text em{color:var(--grey);font-style:normal;font-size:11px}
+/* EXPANDED TASK LIST */
+.pr-tasks{display:none;border-top:1px solid rgba(0,0,0,.06);padding:4px 0 12px}
+.pr-tasks.open{display:block}
+.pt-item{display:flex;align-items:center;gap:10px;padding:9px 22px;border-bottom:1px solid rgba(0,0,0,.04);transition:background .12s}
+.pt-item:last-child{border-bottom:none}
+.pt-item:hover{background:rgba(0,82,135,.03)}
+.pt-pri{font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px;flex-shrink:0}
+.pt-p1{background:var(--maroon-08);color:var(--maroon)}
+.pt-p2{background:var(--orange-08);color:var(--orange)}
+.pt-p3{background:rgba(0,0,0,.05);color:var(--grey)}
+.pt-status{font-size:9px;font-weight:600;padding:2px 6px;border-radius:3px;flex-shrink:0}
+.pt-doing{background:rgba(27,128,64,.1);color:var(--green)}
+.pt-next{background:var(--blue-08);color:var(--blue)}
+.pt-wait{background:rgba(0,0,0,.05);color:var(--grey)}
+.pt-name{flex:1;font-size:12px;color:var(--ink);line-height:1.3;min-width:0}
+.pt-due{font-size:10px;color:var(--grey);flex-shrink:0;white-space:nowrap}
+.pt-due.due-overdue{color:var(--maroon);font-weight:700}
+.pt-due.due-today{color:var(--orange);font-weight:700}
+.pt-link{font-size:10px;color:var(--blue);text-decoration:none;flex-shrink:0;opacity:0;transition:opacity .15s;padding:2px 6px;border-radius:4px;background:var(--blue-08)}
+.pt-item:hover .pt-link{opacity:1}
+.pt-more{padding:8px 22px;font-size:11px;color:var(--grey);font-style:italic}
 
 /* FOOTER */
 .footer{background:var(--blue);padding:20px 52px;margin-top:48px;position:relative;z-index:1}
@@ -152,95 +164,13 @@ body{font-family:'Carlito','Inter',sans-serif;background:var(--fog);color:var(--
 .cmd-item{display:flex;align-items:center;gap:12px;padding:9px 12px;border-radius:9px;cursor:pointer;transition:background .12s;text-decoration:none;color:inherit}
 .cmd-item:hover,.cmd-item.selected{background:rgba(0,82,135,.07)}
 .cmd-item-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;background:rgba(0,0,0,.05)}
-.cmd-item-icon.ci-iw{background:var(--blue-08)}
-.cmd-item-icon.ci-tj{background:var(--mustard-10)}
-.cmd-item-icon.ci-nav{background:rgba(0,0,0,.04)}
 .cmd-item-body{flex:1;min-width:0}
 .cmd-item-name{font-size:13px;font-weight:600;color:var(--ink)}
 .cmd-item-sub{font-size:11px;color:var(--grey);margin-top:1px}
 .cmd-section{font-size:9px;font-weight:700;color:var(--grey);text-transform:uppercase;letter-spacing:.1em;padding:8px 12px 4px;margin-top:4px}
 .cmd-footer{padding:10px 18px;border-top:1px solid rgba(0,0,0,.06);font-size:10px;color:rgba(0,0,0,.35);text-align:center}
 
-
-/* ── ACCESSIBILITY & INTERACTIONS ── */
 :focus-visible{outline:2px solid var(--mustard);outline-offset:3px;border-radius:4px}
-a:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
-*,*::before,*::after{transition-property:color,background-color,border-color,transform,opacity,box-shadow;transition-duration:150ms;transition-timing-function:ease}
-
-
-/* ── STATS RINGS (reused from overview) ── */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0 40px}
-.sc{background:transparent;border-radius:var(--rsm);padding:12px 14px;border:1px solid rgba(0,0,0,.07);position:relative;transition:background .15s;text-align:center}
-.sc:hover{background:rgba(0,0,0,.02)}
-.sc-ring{width:64px;height:64px;border-radius:50%;background:conic-gradient(var(--ring-color) var(--pct),rgba(0,0,0,.06) 0deg);display:flex;align-items:center;justify-content:center;margin:0 auto 8px}
-.sc-ring-inner{width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.85);display:flex;align-items:center;justify-content:center}
-.sc-num{font-family:'Montserrat',sans-serif;font-size:18px;font-weight:800;letter-spacing:-.03em;line-height:1}
-.sc-lbl{font-size:11px;color:var(--grey);line-height:1.4}
-
-/* ── CAPACITY WRAP (new Tim version) ── */
-.capacity-wrap{background:rgba(255,255,255,.72);backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);border-radius:var(--rxl);border:1px solid rgba(255,255,255,.6);box-shadow:0 4px 24px rgba(0,0,0,.06),0 1px 2px rgba(255,255,255,.8) inset;padding:28px 32px;margin-bottom:40px}
-.cap-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px}
-.cap-title{font-family:'Montserrat',sans-serif;font-size:16px;font-weight:800;color:var(--ink)}
-.cap-sub{font-size:12px;color:var(--grey);margin-top:3px}
-.cap-legend{display:flex;align-items:center;gap:14px}
-.leg-item{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:600;color:var(--grey)}
-.leg-dot{width:8px;height:8px;border-radius:50%}
-.ld-iw{background:var(--blue)}.ld-tj{background:var(--mustard)}
-.cap-rows{display:flex;flex-direction:column;gap:14px}
-.cap-row{display:grid;grid-template-columns:200px 1fr 80px;align-items:center;gap:18px}
-.cap-person{display:flex;align-items:center;gap:10px}
-.cap-avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;flex-shrink:0}
-.av-k{background:var(--blue);color:white}
-.cap-pname{font-size:12px;font-weight:700;color:var(--ink)}
-.cap-role{font-size:10px;color:var(--grey);margin-top:1px}
-.cap-bars{display:flex;flex-direction:column;gap:4px}
-.cap-bar-row{display:flex;align-items:center;gap:6px;margin-bottom:4px}
-.cap-bar-row:last-child{margin-bottom:0}
-.cap-bar-bg{flex:1;height:5px;background:var(--silver);border-radius:999px;overflow:hidden}
-.cap-bar-fill{height:100%;border-radius:999px;transition:width .8s ease}
-.bf-iw{background:var(--blue)}.bf-tj{background:var(--mustard)}
-.cap-bar-pct{font-size:10px;font-weight:600;color:var(--grey);min-width:28px;text-align:right}
-.cap-load{text-align:center}
-.cap-load-num{font-family:'Montserrat',sans-serif;font-size:18px;font-weight:800;color:var(--ink)}
-.cap-load-lbl{font-size:9px;color:var(--grey);text-transform:uppercase;letter-spacing:.06em}
-.cap-load-pill{display:inline-block;margin-top:4px;font-size:9px;font-weight:700;padding:2px 7px;border-radius:999px}
-.lp-high{background:var(--orange-08);color:var(--orange)}
-.lp-tba{background:rgba(0,0,0,.04);color:var(--grey)}
-.cap-divider{height:1px;background:rgba(0,0,0,.05);margin:4px 0}
-
-/* ── MILESTONE WRAP ── */
-.milestone-wrap{background:rgba(255,255,255,.72);backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);border-radius:var(--rlg);border:1px solid rgba(255,255,255,.6);box-shadow:0 4px 24px rgba(0,0,0,.06),0 1px 2px rgba(255,255,255,.8) inset;padding:24px 28px 28px;margin-bottom:40px}
-.milestone-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.milestone-title{font-size:9px;font-weight:700;color:var(--grey);text-transform:uppercase;letter-spacing:.12em}
-.milestone-sub{font-size:10px;color:var(--grey);opacity:.6}
-
-/* ── IMPROVED HOVER & CARD INTERACTIONS (spec compliant) ── */
-.sp-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.10);transform:translateY(-2px)}
-.pr-row{transition:background .15s,transform .15s,box-shadow .15s}
-.pr-row:hover{background:rgba(0,82,135,.04);transform:translateX(2px)}
-.cd-card{transition:box-shadow .2s,transform .2s}
-.cd-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.09);transform:translateY(-2px)}
-.sc{transition:background .15s,box-shadow .15s,transform .15s}
-.sc:hover{background:rgba(0,82,135,.04);transform:translateY(-1px);box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.milestone-wrap,.top3,.pending-wrap,.bd-wrap,.load-summary,.myproj-wrap{transition:box-shadow .2s}
-.milestone-wrap:hover,.top3:hover,.bd-wrap:hover,.load-summary:hover{box-shadow:0 8px 32px rgba(0,0,0,.09)}
-/* nav tab improved */
-.nav-tab{transition:color .15s,background .15s,box-shadow .15s}
-.nav-tab:hover{box-shadow:0 1px 4px rgba(0,0,0,.08)}
-/* section breathing */
-.sec-label{margin-top:16px;margin-bottom:20px}
-/* body line-height */
-body{line-height:1.6}
-/* cap-row hover */
-.cap-row{transition:background .15s}
-.cap-row:hover{background:rgba(0,82,135,.03);border-radius:8px}
-/* task hover */
-.task{transition:box-shadow .15s,transform .15s}
-.task:hover{box-shadow:0 2px 12px rgba(0,0,0,.08);transform:translateX(2px)}
-/* member card hover */
-.member-card{transition:box-shadow .2s,transform .2s}
-.member-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.09);transform:translateY(-2px)}
-
 </style>
 </head>
 <body>
@@ -281,57 +211,62 @@ body{line-height:1.6}
   </div>
 </nav>
 
-<div class="wrap">
+<!-- MAIN -->
+<main class="wrap">
 
-  <div class="hero">
-    <div class="hero-eyebrow"><span class="eyebrow-dot"></span><span id="teamEyebrow">Tampilan Tim</span></div>
-    <h1 class="hero-title" id="teamGreeting">Halo Yanti. Tim sebaik yang memimpinnya.</h1>
-    <p class="hero-sub">Lima orang, satu dashboard. Task aktif, beban kerja, dan prioritas minggu ini — semuanya di satu tempat.</p>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-eyebrow"><div class="eyebrow-dot"></div><span>Tim · IWDemy & Tjitra</span></div>
+    <h1 class="hero-title" id="heroTitle">Tim sedang jalan.</h1>
+    <p class="hero-sub">
+      <strong>Tugasmu: pastikan tidak ada yang stuck diam.</strong>
+      Lima orang, satu dashboard. Task aktif, beban kerja, dan prioritas minggu ini — semua dalam satu pandangan.
+    </p>
     <div class="hero-bar"></div>
+  </section>
+
+  <!-- STATS ROW -->
+  <div class="stats-row" id="statsRoot"></div>
+
+  <!-- MILESTONE STRIP -->
+  <div class="sec-label"><span class="si">🏁</span> Milestone Tim</div>
+  <div class="ms-strip" id="msRoot">
+    <div class="ms-strip-head">
+      <div class="ms-strip-title">Milestone Aktif</div>
+      <div class="ms-strip-count" id="msCount"></div>
+    </div>
+    <div class="ms-chips" id="msChips"></div>
   </div>
 
-  <!-- SINYAL TIM -->
-  <div class="sec-label"><span class="si">📡</span> Sinyal Tim Minggu Ini</div>
-  <div id="timStats" style="margin-bottom:40px"></div>
+  <!-- PERSON ROWS -->
+  <div class="sec-label"><span class="si">👥</span> Beban Kerja Tim</div>
+  <div class="person-list" id="personRoot"></div>
 
-  <!-- WORKLOAD -->
-  <div class="sec-label"><span class="si">⚡</span> Kapasitas Tim · Minggu Ini</div>
-  <div id="timCapacity"></div>
+</main>
 
-  <!-- MILESTONE OWNERSHIP -->
-  <div class="sec-label"><span class="si">🏁</span> Milestone · Siapa Membawa Apa</div>
-  <div id="timMilestones" style="margin-bottom:40px"></div>
-
-  <!-- MEMBER CARDS -->
-  <div class="sec-label"><span class="si">👥</span> Tim · Status Anggota</div>
-  <div id="timCards"></div>
-
-</div>
-
+<!-- FOOTER -->
 <footer class="footer">
   <div class="footer-inner">
     <div class="footer-brand">IWDemy · Tjitra &amp; Associates</div>
     <div class="footer-attr">Designed by Tjitra | Powered by IWDemy</div>
-    <div class="footer-note">© 2026 Tjitra &amp; Associates · Data: Notion · Aspiring Growth, Experiencing Technology</div>
+    <div class="footer-note" id="footerSync">© 2026 Tjitra &amp; Associates · Data: Notion · Aspiring Growth, Experiencing Technology</div>
   </div>
 </footer>
 
 <!-- COMMAND PALETTE -->
 <div class="cmd-overlay" id="cmdOverlay" onclick="closeCmd()"></div>
-<div class="cmd-palette" id="cmdPalette">
+<div class="cmd-palette" id="cmdPalette" role="dialog" aria-modal="true" aria-label="Command Palette">
   <div class="cmd-search-wrap">
-    <span class="cmd-icon">⌘</span>
-    <input class="cmd-input" id="cmdInput" placeholder="Cari project, halaman, atau aksi..." autocomplete="off">
-    <span class="cmd-esc" onclick="closeCmd()">ESC</span>
+    <div class="cmd-icon">⌘</div>
+    <input class="cmd-input" id="cmdInput" placeholder="Cari halaman, task, atau anggota tim…" autocomplete="off">
+    <div class="cmd-esc" onclick="closeCmd()">ESC</div>
   </div>
   <div class="cmd-results" id="cmdResults"></div>
-  <div class="cmd-footer">⌘K untuk buka · ESC untuk tutup · Enter untuk buka</div>
+  <div class="cmd-footer">↑↓ navigasi · Enter buka · Esc tutup</div>
 </div>
 
-
 <script>
-// ─────────────────────────────────────────────
-// AUTO:START — NOTION SYNC DATA
+// ── AUTO:START — NOTION SYNC DATA ──────────────────────────────────────────
 const USERS = {
   yanti:   '4ee75f0d-4dc7-483f-8b3b-a0965365c77a',
   juli:    'd9f6882d-73e7-4749-85cd-56b0f90f7cf1',
@@ -370,404 +305,271 @@ const TASKS = [
   { assignee:'meliana', name:'Final IDL AIF Professional', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-04-21', url:'https://www.notion.so/3488ff32f8cf80a58358dd4fa2361b5a' },
   { assignee:'anita', name:'Event Bootcamp 🏁', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-04-22', url:'https://www.notion.so/3478ff32f8cf80f0ab7aeb0840019f95' },
   { assignee:'stephen', name:'Final Multimodal AIF Professional', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-04-21', url:'https://www.notion.so/3488ff32f8cf809ab7fbd825574a1600' },
-];
+];;
 const SYNC_TIME = '2026-04-21T09:30:00';
-// AUTO:END — NOTION SYNC DATA
-// ─────────────────────────────────────────────
+// ── AUTO:END — NOTION SYNC DATA ────────────────────────────────────────────
 
 const PERSONS = [
-  { key:'yanti',   label:'Yanti',   emoji:'🏠', role:'Lead · IWDemy + Tjitra', avatarCls:'av-ka' },
-  { key:'juli',    label:'Juli',    emoji:'🤖', role:'Local AI Specialist',    avatarCls:'av-ju' },
-  { key:'meliana', label:'Meliana', emoji:'📚', role:'IDL Specialist',         avatarCls:'av-me' },
-  { key:'anita',   label:'Anita',   emoji:'🎉', role:'Event Specialist',       avatarCls:'av-an' },
-  { key:'stephen', label:'Stephen', emoji:'🎬', role:'Multimodal Specialist',  avatarCls:'av-st' },
+  { key:'yanti',   label:'Saya (Yanti)', emoji:'🏠', domain:'Manager · IWDemy & Tjitra' },
+  { key:'juli',    label:'Juli',         emoji:'🤖', domain:'Local AI' },
+  { key:'meliana', label:'Meliana',      emoji:'📚', domain:'IDL' },
+  { key:'anita',   label:'Anita',        emoji:'🎉', domain:'Event' },
+  { key:'stephen', label:'Stephen',      emoji:'🎬', domain:'Multimodal' },
 ];
 
-const TODAY_TIM = new Date(); TODAY_TIM.setHours(0,0,0,0);
+const MONTHS = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+const DAYS   = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
 
-function isMsTask(t){ return (t.name||'').includes('🏁'); }
+const TODAY = new Date(); TODAY.setHours(0,0,0,0);
+const TOMORROW = new Date(TODAY); TOMORROW.setDate(TODAY.getDate()+1);
 
-function activeTasks(key){
-  return TASKS.filter(t=>t.assignee===key && !(t.status||'').toLowerCase().includes('done'));
+function isMilestone(t){ return (t.name||'').includes('🏁'); }
+function isDone(t){ return (t.status||'').toLowerCase().includes('done'); }
+function isActive(t){ return !isDone(t); }
+
+function daysFrom(due){
+  if(!due) return null;
+  const d=new Date(due); d.setHours(0,0,0,0);
+  return Math.round((d-TODAY)/(1000*60*60*24));
 }
 
-function loadLevel(n){
-  if(n>=10) return {label:'High',cls:'lp-high'};
-  if(n>=5)  return {label:'Med', cls:'lp-med'};
-  return {label:'OK',  cls:'lp-ok'};
-}
-
-function fmtDueTim(due){
+function fmtDue(due){
   if(!due) return '';
   const d=new Date(due); d.setHours(0,0,0,0);
-  const diff=Math.round((d-TODAY_TIM)/(1000*60*60*24));
-  if(diff<0) return ' · <span style="color:var(--red);font-weight:700">telat '+Math.abs(diff)+'h</span>';
-  if(diff===0) return ' · <span style="color:var(--red);font-weight:600">hari ini</span>';
-  if(diff===1) return ' · besok';
-  return ' · +'+diff+'h';
+  const diff=Math.round((d-TODAY)/(1000*60*60*24));
+  if(diff<0) return 'overdue';
+  if(diff===0) return 'Hari ini';
+  if(diff===1) return 'Besok';
+  return d.getDate()+' '+MONTHS[d.getMonth()];
 }
 
-// ── RENDER STATS RINGS ───────────────────────────────────────────────────────
+// ── NAV DATE ──
+function renderNavDate(){
+  const d=new Date();
+  document.getElementById('navDate').textContent=
+    DAYS[d.getDay()]+', '+d.getDate()+' '+MONTHS[d.getMonth()]+' '+d.getFullYear();
+}
+
+// ── QUICK STATS ──
 function renderStats(){
-  const allActive = TASKS.filter(t=>!(t.status||'').toLowerCase().includes('done'));
-  const doing = allActive.filter(t=>{const s=(t.status||'').toLowerCase();return s.includes('doing')||s.includes('progress');});
-  const milestones = allActive.filter(isMsTask);
-  const p1 = allActive.filter(t=>(t.priority||'').toLowerCase().includes('p1'));
-  const maxT = Math.max(allActive.length,1);
-
-  function ring(num,total,color,label,sub){
-    const pct = Math.round((num/total)*360);
-    return `<div class="sc">
-      <div class="sc-ring" style="--pct:${pct}deg;--ring-color:${color}">
-        <div class="sc-ring-inner"><div class="sc-num">${num}</div></div>
-      </div>
-      <div class="sc-lbl">${label}<br><span style="color:var(--grey);font-size:10px">${sub}</span></div>
-    </div>`;
-  }
-
-  document.getElementById('timStats').innerHTML =
-    '<div class="stats">' +
-    ring(doing.length, maxT, 'var(--green)', 'Sedang Dikerjakan', 'Status: Doing · semua orang') +
-    ring(allActive.length, allActive.length, 'var(--mustard)', 'Task Aktif', 'Next + Doing + Waiting') +
-    ring(milestones.length, Math.max(milestones.length,1), 'var(--blue)', 'Milestones', 'Events & deliverables 🏁') +
-    ring(p1.length, maxT, 'var(--red)', 'Task P1', 'Prioritas tinggi · semua orang') +
-    '</div>';
+  const active = TASKS.filter(isActive);
+  const doing  = active.filter(t=>{const s=(t.status||'').toLowerCase();return s.includes('progress')||s.includes('doing');});
+  const ms     = active.filter(isMilestone);
+  const overdue= active.filter(t=>{const df=daysFrom(t.due);return df!==null&&df<0;});
+  document.getElementById('statsRoot').innerHTML=`
+    <div class="stat-chip"><div class="stat-num">${active.length}</div><div class="stat-lbl">Task Aktif</div></div>
+    <div class="stat-chip s-doing"><div class="stat-num">${doing.length}</div><div class="stat-lbl">Sedang Dikerjakan</div></div>
+    <div class="stat-chip s-milestone"><div class="stat-num">${ms.length}</div><div class="stat-lbl">Milestone Aktif</div></div>
+    <div class="stat-chip s-done"><div class="stat-num">${overdue.length}</div><div class="stat-lbl">Overdue</div></div>
+  `;
 }
 
-// ── RENDER CAPACITY ──────────────────────────────────────────────────────────
-function renderCapacity(){
-  let rows = PERSONS.map(p=>{
-    const tasks = activeTasks(p.key);
-    const iw = tasks.filter(t=>(t.domain||'').toLowerCase().includes('iwdemy')||((t.domain||'').toLowerCase().includes('iwd'))).length;
-    const tj = tasks.length - iw;
-    const iwPct = tasks.length>0 ? Math.round((iw/tasks.length)*100) : 0;
-    const tjPct = 100-iwPct;
-    const load = loadLevel(tasks.length);
-    const p1count = tasks.filter(t=>(t.priority||'').toLowerCase().includes('p1')).length;
-    return `<div class="cap-row">
-      <div class="cap-person">
-        <div class="cap-avatar ${p.avatarCls}" style="font-size:1.1rem">${p.emoji}</div>
-        <div>
-          <div class="cap-pname">${p.label}</div>
-          <div class="cap-role">${p.role}</div>
-        </div>
-      </div>
-      <div class="cap-bars">
-        <div class="cap-bar-row">
-          <div class="cap-bar-bg"><div class="cap-bar-fill bf-iw" style="width:${iwPct}%"></div></div>
-          <span class="cap-bar-pct">${iwPct}% IWD</span>
-        </div>
-        <div class="cap-bar-row">
-          <div class="cap-bar-bg"><div class="cap-bar-fill bf-tj" style="width:${tjPct}%"></div></div>
-          <span class="cap-bar-pct">${tjPct}% Tjitra</span>
-        </div>
-      </div>
-      <div class="cap-load">
-        <div class="cap-load-num">${tasks.length}</div>
-        <div class="cap-load-lbl">tasks${p1count>0?' · <span style="color:var(--red);font-weight:700">'+p1count+' P1</span>':''}</div>
-        <div class="cap-load-pill ${load.cls}">${load.label}</div>
-      </div>
-    </div>`;
-  }).join('<div class="cap-divider"></div>');
-
-  document.getElementById('timCapacity').innerHTML = `<div class="capacity-wrap">
-    <div class="cap-head">
-      <div>
-        <div class="cap-title">Distribusi Beban Kerja · ${PERSONS.length} Orang</div>
-        <div class="cap-sub">Data real-time dari Notion · Sync ${new Date(SYNC_TIME).toLocaleDateString('id-ID',{day:'numeric',month:'long'})}</div>
-      </div>
-      <div class="cap-legend">
-        <div class="leg-item"><span class="leg-dot ld-iw"></span>IWDemy</div>
-        <div class="leg-item"><span class="leg-dot ld-tj"></span>Tjitra</div>
-      </div>
-    </div>
-    <div class="cap-rows">${rows}</div>
-  </div>`;
-}
-
-// ── RENDER MILESTONES ────────────────────────────────────────────────────────
-function renderMilestonesSection(){
-  const allMs = TASKS.filter(isMsTask).filter(t=>!(t.status||'').toLowerCase().includes('done'));
-  allMs.sort((a,b)=>{
-    if(!a.due&&!b.due)return 0; if(!a.due)return 1; if(!b.due)return -1;
-    return new Date(a.due)-new Date(b.due);
-  });
-
-  let blocks = PERSONS.map(p=>{
-    const ms = allMs.filter(t=>t.assignee===p.key);
-    if(ms.length===0) return '';
-    const items = ms.map(t=>{
-      const name=(t.name||'').replace('🏁','').trim();
-      const d=t.due?new Date(t.due):null;
-      const dateStr=d?d.toLocaleDateString('id-ID',{day:'numeric',month:'short'}):'TBD';
-      const diff=d?Math.round((d-TODAY_TIM)/(1000*60*60*24)):999;
-      const color=diff<=3?'var(--red)':diff<=7?'var(--orange)':'var(--grey)';
-      return `<span style="color:${color};font-weight:${diff<=7?'600':'400'}">🏁 ${name} (${dateStr})</span>`;
-    }).join(' &nbsp;·&nbsp; ');
-    return `<div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--blue-08);border-radius:8px">
-      <div class="cap-avatar ${p.avatarCls}" style="width:32px;height:32px;font-size:1rem;flex-shrink:0">${p.emoji}</div>
-      <div style="flex:1">
-        <div style="font-size:12px;font-weight:700;color:var(--ink);margin-bottom:4px">${p.label} · ${ms.length} milestone</div>
-        <div style="font-size:11px;color:var(--grey);line-height:1.8">${items}</div>
-      </div>
-    </div>`;
-  }).filter(Boolean).join('');
-
-  if(!blocks) blocks='<div style="padding:16px;color:var(--grey);font-size:12px;text-align:center">Tidak ada milestone aktif.</div>';
-
-  document.getElementById('timMilestones').innerHTML=`<div class="milestone-wrap">
-    <div class="milestone-header">
-      <div class="milestone-title">Milestone aktif per orang</div>
-      <div class="milestone-sub">${allMs.length} total · merah ≤3h · oranye ≤7h</div>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:10px;padding-top:12px">${blocks}</div>
-  </div>`;
-}
-
-// ── RENDER MEMBER CARDS ──────────────────────────────────────────────────────
-function renderMemberCards(){
-  const MONTHS=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
-  let cards = PERSONS.map(p=>{
-    const tasks = activeTasks(p.key).filter(t=>!isMsTask(t));
-    const load = loadLevel(tasks.length);
-    const p1tasks = tasks.filter(t=>(t.priority||'').toLowerCase().includes('p1'));
-    // Top tasks: P1 first sorted by due, then P2 sorted by due
-    const sorted = [...tasks].sort((a,b)=>{
-      const pa=(a.priority||'').toLowerCase().includes('p1')?0:1;
-      const pb=(b.priority||'').toLowerCase().includes('p1')?0:1;
-      if(pa!==pb) return pa-pb;
-      if(!a.due&&!b.due)return 0; if(!a.due)return 1; if(!b.due)return -1;
+// ── MILESTONE STRIP ──
+function renderMilestones(){
+  const ms = TASKS.filter(t=>isActive(t)&&isMilestone(t))
+    .sort((a,b)=>{
+      if(!a.due&&!b.due) return 0;
+      if(!a.due) return 1;
+      if(!b.due) return -1;
       return new Date(a.due)-new Date(b.due);
     });
-    const top3 = sorted.slice(0,3);
-    const taskRows = top3.map(t=>{
-      const lp=(t.priority||'').toLowerCase();
-      const priCls=lp.includes('p1')?'mct-p1':lp.includes('p2')?'mct-p2':'mct-p3';
-      const priLbl=lp.includes('p1')?'P1':lp.includes('p2')?'P2':'P3';
-      const link=t.url?`<a href="${t.url}" target="_blank" class="mct-link">↗</a>`:'';
-      const dueStr=fmtDueTim(t.due);
-      return `<div class="mc-task">
-        <span class="mct-pri ${priCls}">${priLbl}</span>
-        <span class="mct-name">${t.name}${dueStr}</span>
-        ${link}
+  document.getElementById('msCount').textContent=ms.length+' milestone';
+  if(ms.length===0){
+    document.getElementById('msChips').innerHTML='<div class="ms-empty">Tidak ada milestone aktif</div>';
+    return;
+  }
+  const chips=ms.map(t=>{
+    const df=daysFrom(t.due);
+    let cls='ms-none', label='';
+    if(df===null){cls='ms-none';label='';}
+    else if(df<0){cls='ms-urgent';label='Overdue';}
+    else if(df<=3){cls='ms-urgent';label=df===0?'Hari ini':df+'h';}
+    else if(df<=7){cls='ms-soon';label=df+'h';}
+    else{cls='ms-ok';label=t.due?fmtDue(t.due):'';}
+    const owner=PERSONS.find(p=>p.key===t.assignee);
+    const ownerEmoji=owner?owner.emoji:'';
+    return `<div class="ms-chip ${cls}">
+      ${ownerEmoji} <a href="${t.url}" target="_blank" rel="noopener">${t.name.replace('🏁','').trim()}</a>
+      ${label?`<span class="ms-badge">${label}</span>`:''}
+    </div>`;
+  }).join('');
+  document.getElementById('msChips').innerHTML=chips;
+}
+
+// ── PERSON ROWS ──
+function renderPersonRows(){
+  const container=document.getElementById('personRoot');
+  const MAX_TASKS=26; // yanti's count for normalization
+
+  const rows=PERSONS.map(person=>{
+    const myTasks=TASKS.filter(t=>t.assignee===person.key&&isActive(t));
+    const doingCount=myTasks.filter(t=>{const s=(t.status||'').toLowerCase();return s.includes('progress')||s.includes('doing');}).length;
+    const p1Count=myTasks.filter(t=>(t.priority||'').toLowerCase().includes('p1')).length;
+    const total=myTasks.length;
+    const pct=Math.round((total/MAX_TASKS)*100);
+    const loadClass=total>=15?'pb-high':total>=5?'pb-ok':'';
+    const badgeClass=total>=15?'pb-high':total>=5?'pb-ok':'pb-low';
+    const badgeLabel=total>=15?'High':total>=5?'OK':'Low';
+    const barClass=total>=15?'pb-high':total>=5?'pb-ok':'';
+
+    // Sort tasks: doing first, then P1, then by due date
+    const sorted=[...myTasks].sort((a,b)=>{
+      const sa=(a.status||'').toLowerCase();
+      const sb=(b.status||'').toLowerCase();
+      const ad=sa.includes('doing')||sa.includes('progress')?0:1;
+      const bd=sb.includes('doing')||sb.includes('progress')?0:1;
+      if(ad!==bd) return ad-bd;
+      const ap=(a.priority||'').toLowerCase();
+      const bp=(b.priority||'').toLowerCase();
+      if(ap!==bp) return ap<bp?-1:1;
+      if(a.due&&b.due) return new Date(a.due)-new Date(b.due);
+      if(a.due) return -1;
+      if(b.due) return 1;
+      return 0;
+    });
+
+    const topTasks=sorted.slice(0,6);
+    const remaining=sorted.length-topTasks.length;
+
+    const taskItems=topTasks.map(t=>{
+      const s=(t.status||'').toLowerCase();
+      const statCls=s.includes('doing')||s.includes('progress')?'pt-doing':s.includes('wait')||s.includes('hold')?'pt-wait':'pt-next';
+      const statLbl=s.includes('doing')||s.includes('progress')?'Doing':s.includes('wait')||s.includes('hold')?'Menunggu':'Next';
+      const priCls=(t.priority||'').toLowerCase().includes('p1')?'pt-p1':(t.priority||'').toLowerCase().includes('p2')?'pt-p2':'pt-p3';
+      const df=daysFrom(t.due);
+      const dueLbl=fmtDue(t.due);
+      const dueCls=df===null?'':(df<0?'due-overdue':df===0?'due-today':'');
+      return `<div class="pt-item">
+        <span class="pt-pri ${priCls}">${t.priority||'P–'}</span>
+        <span class="pt-status ${statCls}">${statLbl}</span>
+        <span class="pt-name">${t.name.replace('🏁','🏁 ').trim()}</span>
+        ${dueLbl?`<span class="pt-due ${dueCls}">${dueLbl}</span>`:''}
+        ${t.url?`<a class="pt-link" href="${t.url}" target="_blank" rel="noopener">Notion →</a>`:''}
       </div>`;
     }).join('');
-    const emptyMsg = tasks.length===0?'<div style="padding:12px 0;color:var(--grey);font-size:11px;text-align:center">Tidak ada task aktif ✓</div>':'';
-    return `<div class="member-card">
-      <div class="mc-top">
-        <div class="mc-avatar ${p.avatarCls}" style="font-size:1.2rem">${p.emoji}</div>
-        <div class="mc-info">
-          <div class="mc-name">${p.label}</div>
-          <div class="mc-role">${p.role}</div>
+
+    const moreHtml=remaining>0?`<div class="pt-more">+${remaining} task lainnya</div>`:'';
+    const emptyHtml=total===0?'<div class="pt-more">Belum ada task aktif</div>':'';
+
+    return `<div class="person-row">
+      <div class="pr-header" onclick="toggleRow(this)">
+        <div class="pr-emoji">${person.emoji}</div>
+        <div class="pr-identity">
+          <div class="pr-name">${person.label}</div>
+          <div class="pr-domain">${person.domain}</div>
         </div>
-        <div class="mc-load-badge">
-          <div class="mc-load-num">${tasks.length}</div>
-          <div class="mc-load-sub">tasks · ${load.label}</div>
+        <div class="pr-load-wrap">
+          <div class="pr-load-label">
+            <span class="pr-load-txt">${total} task aktif</span>
+            <span class="pr-load-txt">${pct}%</span>
+          </div>
+          <div class="pr-bar-bg"><div class="pr-bar-fill ${barClass}" style="width:${pct}%"></div></div>
         </div>
+        <div class="pr-stats">
+          <span class="pr-stat-item"><strong>${doingCount}</strong> Doing</span>
+          <span class="pr-stat-item">·</span>
+          <span class="pr-stat-item"><strong>${p1Count}</strong> P1</span>
+        </div>
+        <span class="pr-badge ${badgeClass}">${badgeLabel}</span>
+        <div class="pr-chevron">▾</div>
       </div>
-      <div class="mc-today-label">🎯 Prioritas Aktif</div>
-      ${taskRows}${emptyMsg}
-      ${tasks.length>3?`<div style="font-size:11px;color:var(--grey);padding:6px 0;text-align:center">+${tasks.length-3} task lainnya</div>`:''}
+      <div class="pr-tasks">
+        ${taskItems}${moreHtml}${emptyHtml}
+      </div>
     </div>`;
   }).join('');
 
-  document.getElementById('timCards').innerHTML=`<div class="member-grid">${cards}</div>`;
+  container.innerHTML=rows;
 }
 
-// ── INIT ─────────────────────────────────────────────────────────────────────
-renderStats();
-renderCapacity();
-renderMilestonesSection();
-renderMemberCards();
-
-// Sync time
-(function(){
-  const st=new Date(SYNC_TIME);
-  const el=document.getElementById('teamEyebrow');
-  if(el) el.textContent='Tampilan Tim · Sync '+st.toLocaleDateString('id-ID',{day:'numeric',month:'long'})+' '+st.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
-})();
-
-</script>
-
-<script>
-// Command palette
-(function initCommandPalette(){
-  const cmdData = [
-    { section: 'Navigasi', items: [
-      { name: 'Overview', sub: 'Kontrol & Arah', icon: '📊', href: 'dashboard-overview--v1.html' },
-      { name: 'Hari Ini', sub: 'Fokus harian', icon: '🎯', href: 'dashboard-hari-ini--v1.html' },
-      { name: 'Tim', sub: 'Status Tim', icon: '👥', href: 'dashboard-tim--v1.html' }
-    ]},
-    { section: 'Projects — IWDemy', items: [
-      { name: 'AI First Public', sub: 'db4b06bdf6da...', icon: '🚀', href: 'https://www.notion.so/db4b06bdf6da422c96953c0f991e56cc' },
-      { name: 'AI First Bootcamp', sub: 'a9beb927457b...', icon: '🎓', href: 'https://www.notion.so/a9beb927457b4759ae33aeb42c77cb58' },
-      { name: 'IWDemy Digital Lab', sub: 'b6fd3d52dcf9...', icon: '🧪', href: 'https://www.notion.so/b6fd3d52dcf942c288fd11ba444e9476' },
-      { name: 'K12', sub: 'a4b8cff191c7...', icon: '🎒', href: 'https://www.notion.so/a4b8cff191c742028d045e3e089cef41' },
-      { name: 'IWDemy Social Media', sub: 'bae23f0489d5...', icon: '📱', href: 'https://www.notion.so/bae23f0489d5493da1c550b095726478' },
-      { name: 'IWDemy Marketing', sub: '1ce5ce1de5ce...', icon: '📈', href: 'https://www.notion.so/1ce5ce1de5ce431cbc91ce6b8338e5a0' }
-    ]},
-    { section: 'Projects — Tjitra', items: [
-      { name: 'CIMB L&D', sub: '207c060c7dff...', icon: '👔', href: 'https://www.notion.so/207c060c7dff4d5c95d2053e1af17fad' },
-      { name: 'Demo PCU', sub: '5dec318978664...', icon: '💻', href: 'https://www.notion.so/5dec318978664ca1a9aa3c1e29abb1fd' },
-      { name: 'Agentic AI', sub: 'b56348019c59...', icon: '🤖', href: 'https://www.notion.so/b56348019c594a05b294d8a9e028893e' },
-      { name: 'Recruitment', sub: 'e35da5e622f8...', icon: '👫', href: 'https://www.notion.so/e35da5e622f848918ea7686dd61fc82a' }
-    ]},
-    { section: 'SOP', items: [
-      { name: 'Aturan Task', sub: 'Panduan task management', icon: '📋', href: 'https://www.notion.so/iwdemy/IWD-SOP-Guidelines-2d58ff32f8cf80969200ff8b9ef3209f' },
-      { name: 'Aturan Komunikasi', sub: 'Protokol komunikasi tim', icon: '💬', href: 'https://www.notion.so/iwdemy/IWD-SOP-Guidelines-2d58ff32f8cf80969200ff8b9ef3209f' },
-      { name: 'Aturan Meeting', sub: 'Panduan meeting', icon: '📞', href: 'https://www.notion.so/iwdemy/IWD-SOP-Guidelines-2d58ff32f8cf80969200ff8b9ef3209f' },
-      { name: 'Aturan Update & Reporting', sub: 'Update dan reporting', icon: '📊', href: 'https://www.notion.so/iwdemy/IWD-SOP-Guidelines-2d58ff32f8cf80969200ff8b9ef3209f' }
-    ]}
-  ];
-
-  let selectedIdx = -1;
-  const cmdOverlay = document.getElementById('cmdOverlay');
-  const cmdPalette = document.getElementById('cmdPalette');
-  const cmdInput = document.getElementById('cmdInput');
-  const cmdResults = document.getElementById('cmdResults');
-
-  function closeCmd() {
-    cmdOverlay.classList.remove('open');
-    cmdPalette.classList.remove('open');
-    cmdInput.value = '';
-    selectedIdx = -1;
-    renderResults('');
+function toggleRow(header){
+  const chevron=header.querySelector('.pr-chevron');
+  const tasks=header.nextElementSibling;
+  const isOpen=tasks.classList.contains('open');
+  // close all
+  document.querySelectorAll('.pr-tasks.open').forEach(el=>el.classList.remove('open'));
+  document.querySelectorAll('.pr-chevron.open').forEach(el=>el.classList.remove('open'));
+  if(!isOpen){
+    tasks.classList.add('open');
+    chevron.classList.add('open');
   }
+}
 
-  function openCmd() {
-    cmdOverlay.classList.add('open');
-    cmdPalette.classList.add('open');
-    cmdInput.focus();
-  }
+// ── FOOTER SYNC TIME ──
+function renderFooter(){
+  const d=new Date(SYNC_TIME);
+  const lbl=`Sync: ${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+  const el=document.getElementById('footerSync');
+  if(el) el.textContent='© 2026 Tjitra & Associates · '+lbl+' · Aspiring Growth, Experiencing Technology';
+}
 
-  function renderResults(query) {
-    const q = query.toLowerCase();
-    cmdResults.innerHTML = '';
-    let foundAny = false;
-
-    cmdData.forEach(function(section) {
-      const matches = section.items.filter(function(item) {
-        return item.name.toLowerCase().includes(q) || item.sub.toLowerCase().includes(q) || q === '';
-      });
-
-      if (matches.length > 0) {
-        foundAny = true;
-        const sectionEl = document.createElement('div');
-        sectionEl.className = 'cmd-section';
-        sectionEl.textContent = section.section;
-        cmdResults.appendChild(sectionEl);
-
-        matches.forEach(function(item, idx) {
-          const itemEl = document.createElement('a');
-          itemEl.className = 'cmd-item' + (selectedIdx === idx ? ' selected' : '');
-          itemEl.href = '#';
-          itemEl.onclick = function(e) { e.preventDefault(); selectItem(item); };
-          itemEl.innerHTML =
-            '<div class="cmd-item-icon' + (section.section.includes('IWDemy') ? ' ci-iw' : section.section.includes('Tjitra') ? ' ci-tj' : ' ci-nav') + '">' + item.icon + '</div>' +
-            '<div class="cmd-item-body">' +
-              '<div class="cmd-item-name">' + item.name + '</div>' +
-              '<div class="cmd-item-sub">' + item.sub + '</div>' +
-            '</div>';
-          cmdResults.appendChild(itemEl);
-        });
-      }
-    });
-
-    if (!foundAny && q !== '') {
-      const emptyEl = document.createElement('div');
-      emptyEl.style.cssText = 'padding:16px;text-align:center;color:var(--grey);font-size:12px;';
-      emptyEl.textContent = 'Tidak ada hasil untuk "' + query + '"';
-      cmdResults.appendChild(emptyEl);
-    }
-
-    selectedIdx = -1;
-  }
-
-  function selectItem(item) {
-    if (item.href.startsWith('http')) {
-      window.open(item.href, '_blank');
-    } else {
-      window.location.href = item.href;
-    }
-    closeCmd();
-  }
-
-  cmdInput.addEventListener('input', function() {
-    renderResults(this.value);
-  });
-
-  cmdInput.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-      closeCmd();
-    } else if (e.key === 'ArrowDown') {
-      const items = cmdResults.querySelectorAll('.cmd-item');
-      selectedIdx = Math.min(selectedIdx + 1, items.length - 1);
-      items.forEach((el, i) => el.classList.toggle('selected', i === selectedIdx));
-    } else if (e.key === 'ArrowUp') {
-      const items = cmdResults.querySelectorAll('.cmd-item');
-      selectedIdx = Math.max(selectedIdx - 1, -1);
-      items.forEach((el, i) => el.classList.toggle('selected', i === selectedIdx));
-    } else if (e.key === 'Enter' && selectedIdx >= 0) {
-      cmdResults.querySelectorAll('.cmd-item')[selectedIdx].click();
-    }
-  });
-
-  document.addEventListener('keydown', function(e) {
-    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-      e.preventDefault();
-      openCmd();
-    }
-  });
-
-  renderResults('');
-})();
-
-(function(){
-  const d=new Date();
-  const days=['Min','Sen','Sel','Rab','Kam','Jum','Sab'];
-  const months=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
-  document.getElementById('navDate').textContent=days[d.getDay()]+', '+d.getDate()+' '+months[d.getMonth()]+' '+d.getFullYear();
-
-  // Sapaan harian — kepemimpinan, value-based
-  const greetings=[
-    'Halo Yanti. Lima orang, satu arah. Siapa yang perlu perhatian minggu ini?',      // Min
-    'Halo Yanti. Senin — pastikan semua tahu prioritasnya sebelum tengah hari.',       // Sen
-    'Halo Yanti. Tim sedang jalan. Tugasmu: pastikan tidak ada yang stuck diam.',      // Sel
-    'Halo Yanti. Tengah minggu. Cek progress, jangan tunggu masalah datang sendiri.',  // Rab
-    'Halo Yanti. Dua hari lagi. Siapa yang butuh bantuan untuk finish tepat waktu?',   // Kam
-    'Halo Yanti. Akhiri minggu dengan tim yang tahu apa yang sudah dicapai.',          // Jum
-    'Halo Yanti. Tim yang baik butuh pemimpin yang hadir, bukan hanya yang mengarahkan.'  // Sab
-  ];
-  document.getElementById('teamGreeting').textContent=greetings[d.getDay()];
-
-  // Eyebrow
-  const wk=Math.ceil(d.getDate()/7);
-  document.getElementById('teamEyebrow').textContent='Status Tim · Minggu '+wk;
-
-  // ── VALUE BAR ──
-  const valueMap={1:'excellence',2:'trust',3:'impact',4:'care',5:'excellence',6:'care',0:'trust'};
-  const values={
-    excellence:{label:'✦ Excellence',items:[['Subject Mastery','Kamu tahu topik ini cukup, atau kamu benar-benar paham? Bedanya terlihat saat orang bertanya.'],['Personal Growth','Apa yang bisa kamu kerjakan hari ini yang bulan lalu belum bisa? Kalau tidak ada jawabannya, perlu dicek.'],['Drive to Learn','Ada yang tidak kamu mengerti hari ini? Bagus. Ikuti sampai kamu paham, bukan sekadar tahu.']]},
-    trust:{label:'✦ Trust',items:[['Respect','Balas pesan tepat waktu. Hadir penuh saat berbicara. Dua hal kecil itu sudah lebih dari cukup.'],['Responsibility','Kamu yang pegang, kamu yang selesaikan. Kalau tidak bisa, bilang sebelum deadline, bukan sesudah.'],['Integrity','Lakukan hal yang benar meski tidak ada yang melihat. Itu saja definisinya.']]},
-    impact:{label:'✦ Impact',items:[['Excellent Service','Sebelum kirim, tanya satu hal: ini menjawab masalah klien, atau sekadar selesai?'],['Entrepreneurship','Jangan tunggu semua siap. Ambil satu langkah, lihat hasilnya, pertanggungjawabkan.'],['Customer Relationship','Kapan terakhir kamu menghubungi klien tanpa ada keperluan tertentu?']]},
-    care:{label:'✦ Care',items:[['Sharing','Ada yang kamu tahu dan belum dibagikan? Satu hal kecil hari ini bisa membantu orang lain.'],['Kedekatan','Sapa seseorang hari ini bukan karena ada perlu, tapi karena kamu memang peduli.'],['Togetherness','Ada anggota tim yang sedang berat hari ini? Tanya duluan, jangan tunggu mereka minta.']]}
-  };
-  const v=values[valueMap[d.getDay()]];
-  document.getElementById('ticker-label').textContent=v.label;
+// ── TICKER ──
+const TICKER_MSGS = [
+  {org:'IWDemy', text:'<span class="ticker-sub">IWDemy</span> · AI First Program — mendorong adopsi AI yang bermakna di tempat kerja'},
+  {org:'Tjitra', text:'<span class="ticker-sub">Tjitra</span> · Membangun kapasitas manusia untuk era kerja yang berubah cepat'},
+  {org:'IWDemy', text:'<span class="ticker-sub">Aspiring Growth</span> · Experiencing Technology — nilai utama yang memandu setiap keputusan'},
+  {org:'Tjitra', text:'<span class="ticker-sub">Tjitra</span> · Human transformation for a sustainable organization'},
+  {org:'IWDemy', text:'<span class="ticker-sub">IWDemy</span> · Insight Web Academy — belajar, berkembang, bertumbuh bersama'},
+];
+let tickerIdx=0;
+function rotateTicker(){
   const el=document.getElementById('ticker-text');
-  let idx=0;
-  el.innerHTML='<span class="ticker-sub">'+v.items[0][0]+'</span> &nbsp;'+v.items[0][1];
-  setInterval(function(){
-    idx=(idx+1)%v.items.length;
-    el.classList.remove('visible');el.classList.add('exit');
-    setTimeout(function(){
-      el.innerHTML='<span class="ticker-sub">'+v.items[idx][0]+'</span> &nbsp;'+v.items[idx][1];
-      el.classList.remove('exit');el.classList.add('enter');
-      requestAnimationFrame(function(){requestAnimationFrame(function(){el.classList.remove('enter');el.classList.add('visible');});});
-    },700);
-  },9000);
-})();
+  const lb=document.getElementById('ticker-label');
+  el.classList.remove('visible'); el.classList.add('exit');
+  setTimeout(()=>{
+    tickerIdx=(tickerIdx+1)%TICKER_MSGS.length;
+    const m=TICKER_MSGS[tickerIdx];
+    el.innerHTML=m.text;
+    lb.textContent=m.org;
+    el.classList.remove('exit'); el.classList.add('enter');
+    setTimeout(()=>{el.classList.remove('enter'); el.classList.add('visible');},50);
+  },700);
+}
+const m0=TICKER_MSGS[0];
+document.getElementById('ticker-text').innerHTML=m0.text;
+document.getElementById('ticker-label').textContent=m0.org;
+setInterval(rotateTicker,4500);
 
+// ── HERO ──
+function renderHero(){
+  const d=new Date();
+  const h=d.getHours();
+  let greeting='';
+  if(h<10) greeting='Selamat pagi, Yanti.';
+  else if(h<15) greeting='Selamat siang, Yanti.';
+  else if(h<18) greeting='Selamat sore, Yanti.';
+  else greeting='Selamat malam, Yanti.';
+  document.getElementById('heroTitle').textContent='Tim sedang jalan. '+greeting;
+}
+
+// ── COMMAND PALETTE ──
+function openCmd(){document.getElementById('cmdOverlay').classList.add('open');document.getElementById('cmdPalette').classList.add('open');document.getElementById('cmdInput').focus();}
+function closeCmd(){document.getElementById('cmdOverlay').classList.remove('open');document.getElementById('cmdPalette').classList.remove('open');}
+document.addEventListener('keydown',e=>{
+  if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();openCmd();}
+  if(e.key==='Escape')closeCmd();
+});
+const CMD_ITEMS=[
+  {icon:'📊',name:'Overview',sub:'Dashboard ringkasan',href:'dashboard-overview--v1.html'},
+  {icon:'👥',name:'Tim',sub:'Beban kerja & task tim',href:'dashboard-tim--v1.html'},
+  {icon:'📅',name:'Hari Ini',sub:'Kanban & milestone harian',href:'dashboard-hari-ini--v1.html'},
+];
+document.getElementById('cmdInput').addEventListener('input',function(){
+  const q=this.value.toLowerCase();
+  const filtered=CMD_ITEMS.filter(i=>i.name.toLowerCase().includes(q)||i.sub.toLowerCase().includes(q));
+  document.getElementById('cmdResults').innerHTML=
+    filtered.map(i=>`<a class="cmd-item" href="${i.href}"><div class="cmd-item-icon">${i.icon}</div><div class="cmd-item-body"><div class="cmd-item-name">${i.name}</div><div class="cmd-item-sub">${i.sub}</div></div></a>`).join('');
+});
+document.getElementById('cmdResults').innerHTML=
+  CMD_ITEMS.map(i=>`<a class="cmd-item" href="${i.href}"><div class="cmd-item-icon">${i.icon}</div><div class="cmd-item-body"><div class="cmd-item-name">${i.name}</div><div class="cmd-item-sub">${i.sub}</div></div></a>`).join('');
+
+// ── INIT ──
+renderNavDate();
+renderHero();
+renderStats();
+renderMilestones();
+renderPersonRows();
+renderFooter();
 </script>
 </body>
 </html>
