@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="Tjitra & Associates">
-<meta name="description" content="Ruang Kerja Kristina — Dashboard operasional harian IWDemy & Tjitra">
-<title>Hari Ini · Ruang Kerja Kristina</title>
+<meta name="description" content="Ruang Kerja Yanti — Dashboard operasional harian IWDemy & Tjitra">
+<title>Hari Ini · Ruang Kerja Yanti</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=Carlito:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -59,16 +59,16 @@ body{font-family:'Carlito','Inter',sans-serif;background:var(--fog);color:var(--
 .wrap{max-width:1100px;margin:0 auto;padding:0 40px;position:relative;z-index:1}
 
 /* HERO */
-.hero{padding:36px 0 24px}
+.hero{padding:36px 0 20px}
 .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--mustard-10);border:1px solid var(--mustard-20);padding:4px 12px;border-radius:999px;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;color:var(--blue);letter-spacing:.07em;text-transform:uppercase;margin-bottom:10px}
 .eyebrow-dot{width:5px;height:5px;background:var(--mustard);border-radius:50%}
 .hero-title{font-family:'Montserrat',sans-serif;font-size:clamp(20px,2.2vw,28px);font-weight:800;color:var(--ink);letter-spacing:-.03em;margin-bottom:4px}
 .hero-title em{color:var(--blue);font-style:normal}
 .hero-sub{font-size:13px;color:var(--grey);line-height:1.6}
-.hero-bar{width:36px;height:3px;background:var(--mustard);border-radius:2px;margin-top:14px;margin-bottom:28px}
+.hero-bar{width:36px;height:3px;background:var(--mustard);border-radius:2px;margin-top:14px;margin-bottom:20px}
 
 /* NARRATIVE CARD */
-.narrative-card{background:linear-gradient(135deg,var(--blue) 0%,#0077b6 60%,#0096c7 100%);border-radius:var(--rlg);padding:20px 24px;margin-bottom:24px;color:var(--white);box-shadow:0 8px 28px rgba(0,82,135,.22)}
+.narrative-card{background:linear-gradient(135deg,var(--blue) 0%,#0077b6 60%,#0096c7 100%);border-radius:var(--rlg);padding:20px 24px;margin-bottom:20px;color:var(--white);box-shadow:0 8px 28px rgba(0,82,135,.22)}
 .narrative-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
 .narrative-icon{font-size:1.3rem}
 .narrative-title{font-family:'Montserrat',sans-serif;font-size:.95rem;font-weight:700;opacity:.9}
@@ -76,6 +76,16 @@ body{font-family:'Carlito','Inter',sans-serif;background:var(--fog);color:var(--
 .narrative-stats{display:flex;gap:16px;margin-top:14px;flex-wrap:wrap}
 .stat-chip{background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:.78rem;font-weight:600;display:flex;align-items:center;gap:6px}
 .stat-num{font-family:'Montserrat',sans-serif;font-size:1.05rem;font-weight:800}
+
+/* PERSON TABS */
+.person-tabs{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap}
+.person-tab{display:flex;align-items:center;gap:7px;padding:8px 16px;border-radius:10px;background:var(--white);border:1.5px solid var(--silver);cursor:pointer;transition:all .15s;font-family:'Montserrat',sans-serif;font-size:12px;font-weight:600;color:var(--grey);position:relative}
+.person-tab:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-08)}
+.person-tab.active{border-color:var(--mustard);background:var(--mustard-10);color:var(--blue);box-shadow:0 2px 8px rgba(252,181,40,.25)}
+.person-emoji{font-size:1.1rem;line-height:1}
+.person-domain{font-size:10px;color:var(--grey);font-weight:400;margin-top:1px}
+.person-tab.active .person-domain{color:var(--blue);opacity:.7}
+.p1-dot{position:absolute;top:6px;right:6px;width:7px;height:7px;border-radius:50%;background:var(--red);border:1.5px solid var(--white)}
 
 /* KANBAN */
 .kanban-board{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:40px}
@@ -89,22 +99,22 @@ body{font-family:'Carlito','Inter',sans-serif;background:var(--fog);color:var(--
 .col-title{font-family:'Montserrat',sans-serif;font-size:.8rem;font-weight:700;color:var(--ink)}
 .col-badge{font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:10px;background:var(--silver);color:var(--grey)}
 
-.col-kerjakan .col-header{border-bottom-color:var(--red);background:linear-gradient(135deg,var(--red-08),var(--white))}
-.col-kerjakan .col-badge{background:var(--red-08);color:var(--red)}
-.col-antrian .col-header{border-bottom-color:var(--mustard);background:linear-gradient(135deg,var(--mustard-10),var(--white))}
-.col-antrian .col-badge{background:var(--mustard-10);color:var(--mustard-dark,#B8850A)}
-.col-menunggu .col-header{border-bottom-color:var(--orange);background:linear-gradient(135deg,var(--orange-08),var(--white))}
-.col-menunggu .col-badge{background:var(--orange-08);color:var(--orange)}
-.col-besok .col-header{border-bottom-color:var(--blue);background:linear-gradient(135deg,var(--blue-08),var(--white))}
-.col-besok .col-badge{background:var(--blue-15);color:var(--blue)}
+.col-kerjakan .col-header,.col-hari-ini .col-header{border-bottom-color:var(--red);background:linear-gradient(135deg,var(--red-08),var(--white))}
+.col-kerjakan .col-badge,.col-hari-ini .col-badge{background:var(--red-08);color:var(--red)}
+.col-antrian .col-header,.col-besok .col-header{border-bottom-color:var(--mustard);background:linear-gradient(135deg,var(--mustard-10),var(--white))}
+.col-antrian .col-badge,.col-besok .col-badge{background:var(--mustard-10);color:#B8850A}
+.col-menunggu .col-header,.col-minggu-ini .col-header{border-bottom-color:var(--orange);background:linear-gradient(135deg,var(--orange-08),var(--white))}
+.col-menunggu .col-badge,.col-minggu-ini .col-badge{background:var(--orange-08);color:var(--orange)}
+.col-besok-plus .col-header,.col-nanti .col-header{border-bottom-color:var(--blue);background:linear-gradient(135deg,var(--blue-08),var(--white))}
+.col-besok-plus .col-badge,.col-nanti .col-badge{background:var(--blue-15);color:var(--blue)}
 
 .col-cards{padding:10px;display:flex;flex-direction:column;gap:8px;flex:1;min-height:60px}
 .kanban-card{background:var(--fog);border-radius:var(--rsm);padding:10px 12px;border-left:3px solid transparent;transition:transform .15s,box-shadow .15s}
 .kanban-card:hover{transform:translateY(-1px);box-shadow:var(--sm)}
-.col-kerjakan .kanban-card{border-left-color:var(--red)}
-.col-antrian .kanban-card{border-left-color:var(--mustard)}
-.col-menunggu .kanban-card{border-left-color:var(--orange)}
-.col-besok .kanban-card{border-left-color:var(--blue)}
+.col-kerjakan .kanban-card,.col-hari-ini .kanban-card{border-left-color:var(--red)}
+.col-antrian .kanban-card,.col-besok .kanban-card{border-left-color:var(--mustard)}
+.col-menunggu .kanban-card,.col-minggu-ini .kanban-card{border-left-color:var(--orange)}
+.col-besok-plus .kanban-card,.col-nanti .kanban-card{border-left-color:var(--blue)}
 
 .card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:6px;margin-bottom:7px}
 .card-name{font-size:.82rem;font-weight:600;color:var(--ink);line-height:1.4;flex:1}
@@ -183,13 +193,12 @@ body{font-family:'Carlito','Inter',sans-serif;background:var(--fog);color:var(--
       <div class="nav-logo-divider"></div>
       <img src="./logo-tjitra.jpg" class="nav-logo-img" alt="Tjitra">
     </div>
-    <div class="nav-sub">Ruang Kerja Kristina</div>
+    <div class="nav-sub">Ruang Kerja Yanti</div>
   </div>
   <div class="nav-tabs">
     <a href="dashboard-overview--v1.html" class="nav-tab">Overview</a>
-    <a href="dashboard-hari-ini--v1.html" class="nav-tab active">Hari Ini</a>
     <a href="dashboard-tim--v1.html" class="nav-tab">Tim</a>
-    <a href="dashboard-personal--v1.html" class="nav-tab">Personal</a>
+    <a href="dashboard-hari-ini--v1.html" class="nav-tab active">Hari Ini</a>
   </div>
   <div class="nav-right">
     <div class="nav-date" id="navDate">—</div>
@@ -203,12 +212,13 @@ body{font-family:'Carlito','Inter',sans-serif;background:var(--fog);color:var(--
   <!-- HERO -->
   <div class="hero">
     <div class="hero-eyebrow"><span class="eyebrow-dot"></span><span id="myDayEyebrow">Fokus Hari Ini</span></div>
-    <h1 class="hero-title" id="myDayGreeting">Halo <em>Kristina</em>.</h1>
-    <p class="hero-sub">Ruang kendali harianmu — task aktif, antrian, dan yang perlu perhatian.</p>
+    <h1 class="hero-title" id="myDayGreeting">Halo <em>Yanti</em>.</h1>
+    <p class="hero-sub">Ruang kendali harianmu — task aktif tim dan antrian yang perlu perhatian.</p>
     <div class="hero-bar"></div>
   </div>
 
-  <!-- NARRATIVE + KANBAN — rendered by JS -->
+  <!-- PERSON TABS + KANBAN — rendered by JS -->
+  <div id="personTabsRoot"></div>
   <div id="kanbanRoot"></div>
 
   <div class="sync-bar" id="syncBar">Memuat data...</div>
@@ -238,31 +248,84 @@ body{font-family:'Carlito','Inter',sans-serif;background:var(--fog);color:var(--
 <script>
 // ─────────────────────────────────────────────
 // AUTO:START — NOTION SYNC DATA
+const USERS = {
+  yanti:   '4ee75f0d-4dc7-483f-8b3b-a0965365c77a',
+  juli:    'd9f6882d-73e7-4749-85cd-56b0f90f7cf1',
+  meliana: '01ee5cb8-5b07-4ffa-821d-deed6134e5b9',
+  anita:   '4b515780-3208-493a-a95e-1584c9f376ec',
+  stephen: 'bbfcd9ba-60c0-43bf-8f95-3dcae01b571e',
+};
 const TASKS = [
-  { name: 'Kirim AIF Program Concept CIMB', priority: 'P1', status: 'In Progress', project: 'Tjitra', due: '2026-04-20', url: 'https://www.notion.so/3428ff32f8cf80f5b207db8aa78a4324' },
-  { name: 'Kirim AIF Program Concept Pertamina', priority: 'P1', status: 'In Progress', project: 'Tjitra', due: '2026-04-20', url: 'https://www.notion.so/6398a42afed046a79f5ace17ae522e42' },
-  { name: 'Kirim Activity Report CIMB Workshop', priority: 'P1', status: 'Next', project: 'Tjitra', due: '2026-04-20', url: 'https://www.notion.so/2faa6e7f7bbe4807a848a3b5978e9666' },
-  { name: 'Follow up IFP Metra, Temasek, Ciputra', priority: 'P2', status: 'In Progress', project: 'Tjitra', due: '2026-04-22', url: 'https://www.notion.so/734a70bb0086468e8bff99a17f9679b1' },
-  { name: 'Final website aifirst26.iwdemy.com', priority: 'P2', status: 'Next', project: 'IWDemy', due: '2026-04-22', url: 'https://www.notion.so/3488ff32f8cf80b19a05ca8482e9d070' },
+  { assignee:'yanti', name:'Kirim AIF Program Concept CIMB', priority:'P1', status:'Doing', domain:'Tjitra', due:'2026-04-20', url:'https://www.notion.so/3428ff32f8cf80f5b207db8aa78a4324' },
+  { assignee:'yanti', name:'Kirim AIF Program Concept Pertamina', priority:'P1', status:'Doing', domain:'Tjitra', due:'2026-04-20', url:'https://www.notion.so/6398a42afed046a79f5ace17ae522e42' },
+  { assignee:'yanti', name:'Kirim Activity Report CIMB Workshop', priority:'P1', status:'Next', domain:'Tjitra', due:'2026-04-20', url:'https://www.notion.so/2faa6e7f7bbe4807a848a3b5978e9666' },
+  { assignee:'yanti', name:'Final Offer AIF Professional Level 2', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-04-21', url:'https://www.notion.so/3498ff32f8cf8018b5dcda08735a645f' },
+  { assignee:'yanti', name:'Final website aifirst26.iwdemy.com', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-04-21', url:'https://www.notion.so/3488ff32f8cf80b19a05ca8482e9d070' },
+  { assignee:'yanti', name:'FU IFP Metra, Temasek, Ciputra', priority:'P2', status:'Doing', domain:'IWDemy', due:'2026-04-21', url:'https://www.notion.so/734a70bb0086468e8bff99a17f9679b1' },
+  { assignee:'yanti', name:'Event Level 1 LSL 1 🏁', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-04-22', url:'https://www.notion.so/3478ff32f8cf8086a9efe6e1fd32507c' },
+  { assignee:'yanti', name:'Event AIF Program Professional Level 1 🏁', priority:'P1', status:'Next', domain:'Tjitra', due:'2026-04-22', url:'https://www.notion.so/3428ff32f8cf80a78026c5109221d6ca' },
+  { assignee:'yanti', name:'Event AIF Program Leaders Level 2 Day 2 🏁', priority:'P2', status:'Doing', domain:'Tjitra', due:'2026-04-25', url:'https://www.notion.so/3478ff32f8cf808fbd01e3ab166e9a99' },
+  { assignee:'yanti', name:'Final Proposal Leadership Development MRA', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-04-26', url:'https://www.notion.so/3438ff32f8cf803dbec0c03388ff911f' },
+  { assignee:'yanti', name:'Final MD files 4 Gallery Walk', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-04-26', url:'https://www.notion.so/6aafcae85fdf4422baef58c2f22c7b8d' },
+  { assignee:'yanti', name:'Final persona Open Claw - Agentic AI', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-04-26', url:'https://www.notion.so/3378ff32f8cf80df897af5051ce9aa2c' },
+  { assignee:'yanti', name:'Final Website IWDemy', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-04-26', url:'https://www.notion.so/aa0306da677b4c87b0748afa7ffade09' },
+  { assignee:'yanti', name:'Finish AHDO Registration', priority:'P3', status:'Next', domain:'Tjitra', due:'2026-04-26', url:'https://www.notion.so/0531adac70344e16ae8b0c717897a479' },
+  { assignee:'yanti', name:'Event AIF Program Professional Level 1 🏁', priority:'P1', status:'Next', domain:'Tjitra', due:'2026-04-29', url:'https://www.notion.so/3438ff32f8cf809ca2afe2696be1b719' },
+  { assignee:'yanti', name:'Event Level 1 LSL 2 🏁', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-04-29', url:'https://www.notion.so/3478ff32f8cf805f9dedc11b76e1c2ca' },
+  { assignee:'yanti', name:'Training Aloy AI Workshop AIF 🏁', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-05-04', url:'https://www.notion.so/3428ff32f8cf80c28752d59b037242a9' },
+  { assignee:'yanti', name:'Training Aloy SinaD 🏁', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-05-04', url:'https://www.notion.so/33d8ff32f8cf80e3b3d7c1fba49892c5' },
+  { assignee:'yanti', name:'Event AIF Program Professional Level 2 🏁', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-05-06', url:'https://www.notion.so/3488ff32f8cf8099bb24fc04eecab444' },
+  { assignee:'yanti', name:'Closing Delto OKR', priority:'P1', status:'Next', domain:'Tjitra', due:null, url:'https://www.notion.so/32b8ff32f8cf80949512dc580ac8036f' },
+  { assignee:'yanti', name:'Final Compro IWDemy', priority:'P2', status:'Waiting', domain:'IWDemy', due:null, url:'https://www.notion.so/c27e663de07c4c6994f10ec41285e0ab' },
+  { assignee:'yanti', name:'Final Tjitra Value Handbook', priority:'P2', status:'Waiting', domain:'Tjitra', due:null, url:'https://www.notion.so/6064d680fd074b2ca6ce784843584261' },
+  { assignee:'yanti', name:'Pengaturan GitHub IWDemy', priority:'P2', status:'Waiting', domain:'IWDemy', due:null, url:'https://www.notion.so/ef9c8b0badfd4641b23add3bb23679ab' },
+  { assignee:'yanti', name:'Final prompt Senior Talent Advisor', priority:'P2', status:'Waiting', domain:'IWDemy', due:null, url:'https://www.notion.so/fd7e8e68e73f4941ba8cbbd80ef2c98a' },
+  { assignee:'yanti', name:'Final Tjitra Identity untuk Jobstreet', priority:'P2', status:'Waiting', domain:'Tjitra', due:null, url:'https://www.notion.so/e90b5b488f6441108f8d66ba35ffc482' },
+  { assignee:'yanti', name:'Final all JD untuk Recruitment', priority:'P2', status:'Waiting', domain:'IWDemy', due:null, url:'https://www.notion.so/06e9c74f73744bb98030cf0c7baba1a9' },
+  { assignee:'juli', name:'Final Local AI AIF Professional', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-04-21', url:'https://www.notion.so/3488ff32f8cf803fb7edfca94bfd6e0f' },
+  { assignee:'meliana', name:'Final IDL AIF Professional', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-04-21', url:'https://www.notion.so/3488ff32f8cf80a58358dd4fa2361b5a' },
+  { assignee:'anita', name:'Event Bootcamp 🏁', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-04-22', url:'https://www.notion.so/3478ff32f8cf80f0ab7aeb0840019f95' },
+  { assignee:'stephen', name:'Final Multimodal AIF Professional', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-04-21', url:'https://www.notion.so/3488ff32f8cf809ab7fbd825574a1600' },
 ];
-const SYNC_TIME = '2026-04-21T04:06:00';
+const SYNC_TIME = '2026-04-21T09:30:00';
 // AUTO:END — NOTION SYNC DATA
 // ─────────────────────────────────────────────
+
+// ── PERSONS CONFIG ───────────────────────────
+const PERSONS = [
+  { key:'yanti',   label:'Saya',    emoji:'🏠', mode:'exec',     domain:'Manager' },
+  { key:'juli',    label:'Juli',    emoji:'🤖', mode:'timeline', domain:'Local AI' },
+  { key:'meliana', label:'Meliana', emoji:'📚', mode:'timeline', domain:'IDL' },
+  { key:'anita',   label:'Anita',   emoji:'🎉', mode:'timeline', domain:'Event' },
+  { key:'stephen', label:'Stephen', emoji:'🎬', mode:'timeline', domain:'Multimodal' },
+];
+
+// ── STATE ────────────────────────────────────
+let activePerson = 'yanti';
 
 // ── HELPERS ─────────────────────────────────
 const TODAY = new Date(); TODAY.setHours(0,0,0,0);
 const TOMORROW = new Date(TODAY); TOMORROW.setDate(TODAY.getDate()+1);
+const EOW = new Date(TODAY);
+(function(){ const d=EOW.getDay(); EOW.setDate(EOW.getDate()+(d===0?6:7-d)); })();
 
-function colOf(t) {
+function yColOf(t) {
   const s = (t.status||'').toLowerCase();
   if (s.includes('hold')||s.includes('wait')||s.includes('blocked')||s.includes('menunggu')) return 'menunggu';
   if (s.includes('progress')||s.includes('doing')) return 'kerjakan';
-  // Next / Todo — check due
-  if (t.due) {
-    const d = new Date(t.due); d.setHours(0,0,0,0);
-    if (d <= TODAY) return 'antrian'; // today or overdue
-  }
-  return 'besok';
+  if (t.due) { const d=new Date(t.due); d.setHours(0,0,0,0); if (d<=TODAY) return 'antrian'; }
+  return 'besok-plus';
+}
+
+function tColOf(t) {
+  const s = (t.status||'').toLowerCase();
+  if (s.includes('hold')||s.includes('wait')||s.includes('blocked')||s.includes('menunggu')) return 'nanti';
+  if (!t.due) return 'nanti';
+  const d = new Date(t.due); d.setHours(0,0,0,0);
+  if (d<=TODAY) return 'hari-ini';
+  if (d<=TOMORROW) return 'besok';
+  if (d<=EOW) return 'minggu-ini';
+  return 'nanti';
 }
 
 function priorityTag(p) {
@@ -290,27 +353,12 @@ function fmtDue(t) {
   return [`+${diff} hari`,'tag-due'];
 }
 
-function projTag(proj) {
-  if(!proj) return '';
-  const iw = proj.toLowerCase().includes('iwdemy')||proj.toLowerCase().includes('iwd');
-  return `<span class="tag ${iw?'tag-proj-iw':'tag-proj'}">${proj}</span>`;
+function domainTag(dom) {
+  if(!dom) return '';
+  const iw = dom.toLowerCase().includes('iwdemy')||dom.toLowerCase().includes('iwd');
+  return `<span class="tag ${iw?'tag-proj-iw':'tag-proj'}">${dom}</span>`;
 }
 
-// ── NARRATIVE ───────────────────────────────
-function buildNarrative(tasks) {
-  const total = tasks.length;
-  if(total===0) return 'Tidak ada task aktif saat ini. Gunakan waktu ini untuk merencanakan langkah berikutnya.';
-  const doing = tasks.filter(t=>colOf(t)==='kerjakan');
-  const p1 = tasks.filter(t=>(t.priority||'').toLowerCase().includes('p1'));
-  const overdue = tasks.filter(t=>{if(!t.due)return false;const d=new Date(t.due);d.setHours(0,0,0,0);return d<TODAY;});
-  let s = `Hari ini ada ${total} task aktif. `;
-  if(doing.length>0) s+=`Sedang dikerjakan: ${doing.slice(0,2).map(t=>'"'+t.name+'"').join(' dan ')}${doing.length>2?' (dan lainnya)':''}. `;
-  if(overdue.length>0) s+=`⚠ ${overdue.length} task sudah lewat deadline — perlu dikebut segera.`;
-  else if(p1.length>0) s+=`${p1.length} task P1 perlu perhatian utama hari ini.`;
-  return s.trim();
-}
-
-// ── CARD HTML ───────────────────────────────
 function cardHTML(t) {
   const [pL,pC]=priorityTag(t.priority);
   const [sL,sC]=statusTag(t.status);
@@ -321,50 +369,111 @@ function cardHTML(t) {
     <div class="card-tags">
       <span class="tag ${pC}">${pL}</span>
       <span class="tag ${sC}">${sL}</span>
-      ${projTag(t.project)}
-      ${due?`<span class="tag ${due[1]}">${due[0]}`+'</span>':''}
+      ${domainTag(t.domain)}
+      ${due?`<span class="tag ${due[1]}">${due[0]}</span>`:''}
     </div>
   </div>`;
 }
 
-// ── RENDER ───────────────────────────────────
-function render() {
-  const active = TASKS.filter(t=>!(t.status||'').toLowerCase().includes('done'));
-  const cols = {kerjakan:[],antrian:[],menunggu:[],besok:[]};
-  active.forEach(t=>cols[colOf(t)].push(t));
+// ── NARRATIVE ────────────────────────────────
+function buildNarrative(tasks, person) {
+  const total = tasks.length;
+  const pConfig = PERSONS.find(p=>p.key===person);
+  const label = pConfig ? pConfig.label : person;
+  if(total===0) return `Tidak ada task aktif untuk ${label} saat ini.`;
+  if(pConfig && pConfig.mode==='exec') {
+    const doing = tasks.filter(t=>yColOf(t)==='kerjakan');
+    const p1 = tasks.filter(t=>(t.priority||'').toLowerCase().includes('p1'));
+    const overdue = tasks.filter(t=>{if(!t.due)return false;const d=new Date(t.due);d.setHours(0,0,0,0);return d<TODAY;});
+    let s = `${label} punya ${total} task aktif. `;
+    if(doing.length>0) s+=`Sedang dikerjakan: ${doing.slice(0,2).map(t=>'"'+t.name+'"').join(' dan ')}${doing.length>2?' (dan lainnya)':''}. `;
+    if(overdue.length>0) s+=`⚠ ${overdue.length} task sudah lewat deadline.`;
+    else if(p1.length>0) s+=`${p1.length} task P1 perlu selesai segera.`;
+    return s.trim();
+  } else {
+    const today = tasks.filter(t=>tColOf(t)==='hari-ini');
+    const p1 = tasks.filter(t=>(t.priority||'').toLowerCase().includes('p1'));
+    let s = `${label} punya ${total} task aktif. `;
+    if(today.length>0) s+=`${today.length} task due hari ini atau sudah lewat. `;
+    if(p1.length>0) s+=`${p1.length} task P1 perlu perhatian.`;
+    return s.trim();
+  }
+}
 
-  const narrative = buildNarrative(active);
-  const stats = {
-    total: active.length,
-    doing: cols.kerjakan.length,
-    dueToday: active.filter(t=>{if(!t.due)return false;const d=new Date(t.due);d.setHours(0,0,0,0);return d<=TODAY;}).length,
-  };
+// ── RENDER PERSON TABS ───────────────────────
+function renderPersonTabs() {
+  let html = '<div class="person-tabs">';
+  PERSONS.forEach(p => {
+    const myTasks = TASKS.filter(t=>t.assignee===p.key && !(t.status||'').toLowerCase().includes('done'));
+    const hasP1 = myTasks.some(t=>(t.priority||'').toLowerCase().includes('p1'));
+    html += `<div class="person-tab${activePerson===p.key?' active':''}" onclick="switchPerson('${p.key}')">
+      <span class="person-emoji">${p.emoji}</span>
+      <div>
+        <div>${p.label}</div>
+        <div class="person-domain">${p.domain}</div>
+      </div>
+      ${hasP1?'<span class="p1-dot" title="Ada task P1"></span>':''}
+    </div>`;
+  });
+  html += '</div>';
+  document.getElementById('personTabsRoot').innerHTML = html;
+}
 
-  const colDef = [
-    {key:'kerjakan', cls:'col-kerjakan', icon:'🔥', title:'Kerjakan'},
-    {key:'antrian',  cls:'col-antrian',  icon:'⚡', title:'Antrian Hari Ini'},
-    {key:'menunggu', cls:'col-menunggu', icon:'🕐', title:'Menunggu'},
-    {key:'besok',    cls:'col-besok',    icon:'📅', title:'Besok +'},
-  ];
+// ── RENDER KANBAN ────────────────────────────
+function renderKanban() {
+  const pConfig = PERSONS.find(p=>p.key===activePerson);
+  const myTasks = TASKS.filter(t=>t.assignee===activePerson && !(t.status||'').toLowerCase().includes('done'));
+
+  const narrative = buildNarrative(myTasks, activePerson);
+
+  let cols, colDef;
+
+  if(pConfig && pConfig.mode==='exec') {
+    cols = {kerjakan:[],antrian:[],menunggu:[],'besok-plus':[]};
+    myTasks.forEach(t=>cols[yColOf(t)].push(t));
+    colDef = [
+      {key:'kerjakan',  cls:'col-kerjakan',  icon:'🔥', title:'Kerjakan'},
+      {key:'antrian',   cls:'col-antrian',   icon:'⚡', title:'Antrian Hari Ini'},
+      {key:'menunggu',  cls:'col-menunggu',  icon:'🕐', title:'Menunggu'},
+      {key:'besok-plus',cls:'col-besok-plus',icon:'📅', title:'Besok +'},
+    ];
+  } else {
+    cols = {'hari-ini':[],besok:[],'':[],nanti:[]};
+    // use 'minggu-ini' as key — reset
+    cols = {'hari-ini':[],'besok':[],'minggu-ini':[],'nanti':[]};
+    myTasks.forEach(t=>cols[tColOf(t)].push(t));
+    colDef = [
+      {key:'hari-ini',  cls:'col-hari-ini',  icon:'🔥', title:'Hari Ini'},
+      {key:'besok',     cls:'col-besok',     icon:'⚡', title:'Besok'},
+      {key:'minggu-ini',cls:'col-minggu-ini',icon:'📅', title:'Minggu Ini'},
+      {key:'nanti',     cls:'col-nanti',     icon:'🕐', title:'Menunggu / Nanti'},
+    ];
+  }
+
+  const total = myTasks.length;
+  const doing = pConfig && pConfig.mode==='exec'
+    ? cols['kerjakan'].length
+    : cols['hari-ini'].length;
+  const p1count = myTasks.filter(t=>(t.priority||'').toLowerCase().includes('p1')).length;
 
   let html = `
     <div class="narrative-card">
       <div class="narrative-header">
-        <span class="narrative-icon">🎯</span>
-        <span class="narrative-title">Fokus Hari Ini</span>
+        <span class="narrative-icon">${pConfig ? pConfig.emoji : '🎯'}</span>
+        <span class="narrative-title">Fokus ${pConfig ? pConfig.label : ''}</span>
       </div>
       <div class="narrative-text">${narrative}</div>
       <div class="narrative-stats">
-        <div class="stat-chip"><span class="stat-num">${stats.total}</span> Task Aktif</div>
-        <div class="stat-chip"><span class="stat-num">${stats.doing}</span> Sedang Dikerjakan</div>
-        <div class="stat-chip"><span class="stat-num">${stats.dueToday}</span> Due Hari Ini</div>
+        <div class="stat-chip"><span class="stat-num">${total}</span> Task Aktif</div>
+        <div class="stat-chip"><span class="stat-num">${doing}</span> ${pConfig && pConfig.mode==='exec' ? 'Sedang Dikerjakan' : 'Due Hari Ini'}</div>
+        <div class="stat-chip"><span class="stat-num">${p1count}</span> P1 Prioritas</div>
       </div>
     </div>
     <div class="kanban-board">`;
 
   colDef.forEach(c=>{
-    const items=cols[c.key];
-    html+=`<div class="kanban-col ${c.cls}">
+    const items = cols[c.key] || [];
+    html += `<div class="kanban-col ${c.cls}">
       <div class="col-header">
         <div class="col-header-left">
           <span class="col-icon">${c.icon}</span>
@@ -378,18 +487,26 @@ function render() {
     </div>`;
   });
 
-  html+=`</div>`;
-  document.getElementById('kanbanRoot').innerHTML=html;
+  html += '</div>';
+  document.getElementById('kanbanRoot').innerHTML = html;
 
   // Sync bar
-  const st=new Date(SYNC_TIME);
-  document.getElementById('syncBar').textContent=
+  const st = new Date(SYNC_TIME);
+  document.getElementById('syncBar').textContent =
     `Sync: ${st.toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'})} pukul ${st.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'})} WIB`;
 }
 
-render();
+function switchPerson(key) {
+  activePerson = key;
+  renderPersonTabs();
+  renderKanban();
+}
 
-// ── DATE + GREETING ─────────────────────────
+// ── INIT ─────────────────────────────────────
+renderPersonTabs();
+renderKanban();
+
+// ── DATE + GREETING ──────────────────────────
 (function(){
   const d=new Date();
   const days=['Min','Sen','Sel','Rab','Kam','Jum','Sab'];
@@ -397,15 +514,15 @@ render();
   document.getElementById('navDate').textContent=days[d.getDay()]+', '+d.getDate()+' '+months[d.getMonth()]+' '+d.getFullYear();
 
   const greetings=[
-    'Halo Kristina. Kepercayaan dimulai dari konsistensi.',
-    'Halo Kristina. Kerja baik, dampak nyata.',
-    'Halo Kristina. Konsisten hari ini, dipercaya esok.',
-    'Halo Kristina. Satu hari, satu dampak.',
-    'Halo Kristina. Hadirkan yang terbaik darimu.',
-    'Halo Kristina. Standar tinggi dimulai dari diri sendiri.',
-    'Halo Kristina. Peduli dalam, kerja lebih kuat.'
+    'Halo Yanti. Kepercayaan dimulai dari konsistensi.',
+    'Halo Yanti. Kerja baik, dampak nyata.',
+    'Halo Yanti. Konsisten hari ini, dipercaya esok.',
+    'Halo Yanti. Satu hari, satu dampak.',
+    'Halo Yanti. Hadirkan yang terbaik darimu.',
+    'Halo Yanti. Standar tinggi dimulai dari diri sendiri.',
+    'Halo Yanti. Peduli dalam, kerja lebih kuat.'
   ];
-  document.getElementById('myDayGreeting').innerHTML=greetings[d.getDay()].replace('Halo Kristina','Halo <em>Kristina</em>');
+  document.getElementById('myDayGreeting').innerHTML=greetings[d.getDay()].replace('Halo Yanti','Halo <em>Yanti</em>');
 
   const wk=Math.ceil(d.getDate()/7);
   document.getElementById('myDayEyebrow').textContent='Fokus Hari Ini · Minggu '+wk;
@@ -443,9 +560,8 @@ render();
   const cmdData=[
     {section:'Navigasi',items:[
       {name:'Overview',sub:'Kontrol & Arah',icon:'📊',href:'dashboard-overview--v1.html'},
-      {name:'Hari Ini',sub:'Fokus harian',icon:'🎯',href:'dashboard-hari-ini--v1.html'},
       {name:'Tim',sub:'Status Tim',icon:'👥',href:'dashboard-tim--v1.html'},
-      {name:'Personal',sub:'Kanban Per Orang',icon:'🪪',href:'dashboard-personal--v1.html'},
+      {name:'Hari Ini',sub:'Fokus harian',icon:'🎯',href:'dashboard-hari-ini--v1.html'},
     ]},
     {section:'Projects — IWDemy',items:[
       {name:'AI First Public',sub:'db4b06bdf6da...',icon:'🚀',href:'https://www.notion.so/db4b06bdf6da422c96953c0f991e56cc'},
@@ -475,6 +591,8 @@ render();
 
   function closeCmd(){cmdOverlay.classList.remove('open');cmdPalette.classList.remove('open');cmdInput.value='';selectedIdx=-1;renderResults('');}
   function openCmd(){cmdOverlay.classList.add('open');cmdPalette.classList.add('open');cmdInput.focus();}
+  window.openCmd=openCmd;
+  window.closeCmd=closeCmd;
 
   function renderResults(query){
     const q=query.toLowerCase();
