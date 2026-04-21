@@ -292,168 +292,19 @@ body{line-height:1.6}
 
   <!-- SINYAL TIM -->
   <div class="sec-label"><span class="si">📡</span> Sinyal Tim Minggu Ini</div>
-  <div class="stats" style="margin-bottom:40px">
-    <div class="sc">
-      <div class="sc-ring" style="--pct: 144deg; --ring-color: var(--green);">
-        <div class="sc-ring-inner"><div class="sc-num">4</div></div>
-      </div>
-      <div class="sc-lbl">Sedang Dikerjakan<br><span style="color:var(--grey);font-size:10px">Aktif dikerjakan · KA</span></div>
-    </div>
-    <div class="sc">
-      <div class="sc-ring" style="--pct: 324deg; --ring-color: var(--mustard);">
-        <div class="sc-ring-inner"><div class="sc-num">19</div></div>
-      </div>
-      <div class="sc-lbl">Task Aktif<br><span style="color:var(--grey);font-size:10px">Status: Next + Doing · KA</span></div>
-    </div>
-    <div class="sc">
-      <div class="sc-ring" style="--pct: 324deg; --ring-color: var(--blue);">
-        <div class="sc-ring-inner"><div class="sc-num">9</div></div>
-      </div>
-      <div class="sc-lbl">Milestone Dipegang<br><span style="color:var(--grey);font-size:10px">Apr – Mei 2026 · KA</span></div>
-    </div>
-    <div class="sc">
-      <div class="sc-ring" style="--pct: 36deg; --ring-color: var(--grey);">
-        <div class="sc-ring-inner"><div class="sc-num" style="font-size:14px">TBA</div></div>
-      </div>
-      <div class="sc-lbl">Data Tim Lain<br><span style="color:var(--grey);font-size:10px">Belum ada Assignee di Notion</span></div>
-    </div>
-  </div>
+  <div id="timStats" style="margin-bottom:40px"></div>
 
-  <!-- WORKLOAD: KRISTINA -->
+  <!-- WORKLOAD -->
   <div class="sec-label"><span class="si">⚡</span> Kapasitas Tim · Minggu Ini</div>
-  <div class="capacity-wrap">
-    <div class="cap-head">
-      <div>
-        <div class="cap-title">Distribusi Beban Kerja</div>
-        <div class="cap-sub">Berdasarkan task aktif di Notion — data Assignee wajib diisi untuk semua anggota tim</div>
-      </div>
-      <div class="cap-legend">
-        <div class="leg-item"><span class="leg-dot ld-iw"></span>IWDemy</div>
-        <div class="leg-item"><span class="leg-dot ld-tj"></span>Tjitra</div>
-      </div>
-    </div>
-    <div class="cap-rows">
-      <div class="cap-row">
-        <div class="cap-person">
-          <div class="cap-avatar av-k">KA</div>
-          <div>
-            <div class="cap-pname">Yanti</div>
-            <div class="cap-role">Lead · IWDemy + Tjitra</div>
-          </div>
-        </div>
-        <div class="cap-bars">
-          <div class="cap-bar-row">
-            <div class="cap-bar-bg"><div class="cap-bar-fill bf-iw" style="width:58%"></div></div>
-            <span class="cap-bar-pct">58%</span>
-          </div>
-          <div class="cap-bar-row">
-            <div class="cap-bar-bg"><div class="cap-bar-fill bf-tj" style="width:42%"></div></div>
-            <span class="cap-bar-pct">42%</span>
-          </div>
-        </div>
-        <div class="cap-load">
-          <div class="cap-load-num">18</div>
-          <div class="cap-load-lbl">tasks aktif</div>
-          <div class="cap-load-pill lp-high">High</div>
-        </div>
-      </div>
-      <div class="cap-divider"></div>
-      <div class="cap-row" style="opacity:.5">
-        <div class="cap-person">
-          <div class="cap-avatar" style="background:var(--silver);color:var(--grey)">—</div>
-          <div>
-            <div class="cap-pname" style="color:var(--grey)">Anggota Tim Lain</div>
-            <div class="cap-role">Data belum tersedia</div>
-          </div>
-        </div>
-        <div style="flex:1;font-size:11px;color:var(--grey);padding:0 16px;line-height:1.6">
-          Untuk melihat workload anggota tim, pastikan setiap task di Notion diisi field <strong>Assignee</strong>. Tanpa itu, dashboard tidak bisa menampilkan distribusi beban kerja.
-        </div>
-        <div class="cap-load">
-          <div class="cap-load-num" style="color:var(--grey)">—</div>
-          <div class="cap-load-lbl">tasks aktif</div>
-          <div class="cap-load-pill lp-tba">TBA</div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div id="timCapacity"></div>
 
   <!-- MILESTONE OWNERSHIP -->
   <div class="sec-label"><span class="si">🏁</span> Milestone · Siapa Membawa Apa</div>
-  <div class="milestone-wrap" style="margin-bottom:40px">
-    <div class="milestone-header">
-      <div class="milestone-title">Milestone aktif per orang — Apr & Mei 2026</div>
-      <div class="milestone-sub"></div>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:10px;padding-top:12px">
-      <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--blue-08);border-radius:8px">
-        <div class="cap-avatar av-k" style="width:32px;height:32px;font-size:11px;flex-shrink:0">KA</div>
-        <div style="flex:1">
-          <div style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:4px">Yanti · 8 milestones</div>
-          <div style="font-size:11px;color:var(--grey);line-height:1.7">
-            🏁 AIF Program Professional Level 1 — Day 1 (22 Apr) &nbsp;·&nbsp;
-            Event Level 1 LSL 1 (22 Apr) &nbsp;·&nbsp;
-            Event AIF Leaders Level 2 Day 2 (25 Apr) &nbsp;·&nbsp;
-            AIF Program Professional Level 1 — Day 2 (29 Apr) &nbsp;·&nbsp;
-            Event Level 1 LSL 2 (29 Apr) &nbsp;·&nbsp;
-            Aloy AI Workshop AIF (4 Mei) &nbsp;·&nbsp;
-            Aloy SinaD (4 Mei) &nbsp;·&nbsp;
-            AIF Program Professional Level 2 (6 Mei)
-          </div>
-        </div>
-      </div>
-      <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--mustard-10);border-radius:8px;border:1px solid var(--mustard-20)">
-        <div class="cap-avatar" style="width:32px;height:32px;font-size:11px;flex-shrink:0;background:var(--mustard-20);color:var(--blue)">TM</div>
-        <div style="flex:1">
-          <div style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:4px">Anggota Tim · 1 milestone terdeteksi</div>
-          <div style="font-size:11px;color:var(--grey);line-height:1.7">
-            🏁 Event Bootcamp (22 Apr) &nbsp;·&nbsp;
-            <em style="color:var(--orange)">Lengkapi field Assignee di Notion untuk tampilkan nama &amp; milestone lainnya</em>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div id="timMilestones" style="margin-bottom:40px"></div>
 
   <!-- MEMBER CARDS -->
   <div class="sec-label"><span class="si">👥</span> Tim · Status Anggota</div>
-  <div class="member-grid">
-    <div class="member-card">
-      <div class="mc-top">
-        <div class="mc-avatar av-ka">KA</div>
-        <div class="mc-info">
-          <div class="mc-name">Yanti</div>
-          <div class="mc-role">IWDemy + Tjitra · Lead</div>
-        </div>
-        <div class="mc-load-badge">
-          <div class="mc-load-num">18</div>
-          <div class="mc-load-sub">tasks · High</div>
-        </div>
-      </div>
-      <div class="mc-today-label">🎯 Top 3 Minggu Ini</div>
-      <div class="mc-task">
-        <span class="mct-pri mct-p1">P1</span>
-        <span class="mct-name">Kirim AIF Program Concept CIMB — hari ini</span>
-        <a href="https://www.notion.so/3428ff32f8cf80f5b207db8aa78a4324" target="_blank" class="mct-link">↗</a>
-      </div>
-      <div class="mc-task">
-        <span class="mct-pri mct-p1">P1</span>
-        <span class="mct-name">Kirim AIF Program Concept Pertamina — hari ini</span>
-        <a href="https://www.notion.so/6398a42afed046a79f5ace17ae522e42" target="_blank" class="mct-link">↗</a>
-      </div>
-      <div class="mc-task">
-        <span class="mct-pri mct-p1">P1</span>
-        <span class="mct-name">Kirim Activity Report CIMB Workshop — hari ini</span>
-        <a href="https://www.notion.so/2faa6e7f7bbe4807a848a3b5978e9666" target="_blank" class="mct-link">↗</a>
-      </div>
-    </div>
-    <div class="ph-card" style="display:flex;flex-direction:column;justify-content:center;align-items:center;gap:8px;padding:24px;text-align:center">
-      <div style="font-size:28px">👥</div>
-      <div style="font-size:12px;font-weight:600;color:var(--ink)">Tim lain belum terhubung</div>
-      <div style="font-size:11px;color:var(--grey);line-height:1.6;max-width:200px">Isi field <strong>Assignee</strong> di setiap task Notion agar workload tim bisa ditampilkan di sini.</div>
-      <a href="https://www.notion.so/iwdemy/a8cadc66cb544be68c896feaba03d85b" target="_blank" style="font-size:11px;font-weight:700;color:var(--blue);text-decoration:none;margin-top:4px">Buka Notion ↗</a>
-    </div>
-  </div>
+  <div id="timCards"></div>
 
 </div>
 
@@ -477,6 +328,266 @@ body{line-height:1.6}
   <div class="cmd-footer">⌘K untuk buka · ESC untuk tutup · Enter untuk buka</div>
 </div>
 
+
+<script>
+// ─────────────────────────────────────────────
+// AUTO:START — NOTION SYNC DATA
+const USERS = {
+  yanti:   '4ee75f0d-4dc7-483f-8b3b-a0965365c77a',
+  juli:    'd9f6882d-73e7-4749-85cd-56b0f90f7cf1',
+  meliana: '01ee5cb8-5b07-4ffa-821d-deed6134e5b9',
+  anita:   '4b515780-3208-493a-a95e-1584c9f376ec',
+  stephen: 'bbfcd9ba-60c0-43bf-8f95-3dcae01b571e',
+};
+const TASKS = [
+  { assignee:'yanti', name:'Kirim AIF Program Concept CIMB', priority:'P1', status:'Doing', domain:'Tjitra', due:'2026-04-20', url:'https://www.notion.so/3428ff32f8cf80f5b207db8aa78a4324' },
+  { assignee:'yanti', name:'Kirim AIF Program Concept Pertamina', priority:'P1', status:'Doing', domain:'Tjitra', due:'2026-04-20', url:'https://www.notion.so/6398a42afed046a79f5ace17ae522e42' },
+  { assignee:'yanti', name:'Kirim Activity Report CIMB Workshop', priority:'P1', status:'Next', domain:'Tjitra', due:'2026-04-20', url:'https://www.notion.so/2faa6e7f7bbe4807a848a3b5978e9666' },
+  { assignee:'yanti', name:'Final Offer AIF Professional Level 2', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-04-21', url:'https://www.notion.so/3498ff32f8cf8018b5dcda08735a645f' },
+  { assignee:'yanti', name:'Final website aifirst26.iwdemy.com', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-04-21', url:'https://www.notion.so/3488ff32f8cf80b19a05ca8482e9d070' },
+  { assignee:'yanti', name:'FU IFP Metra, Temasek, Ciputra', priority:'P2', status:'Doing', domain:'IWDemy', due:'2026-04-21', url:'https://www.notion.so/734a70bb0086468e8bff99a17f9679b1' },
+  { assignee:'yanti', name:'Event Level 1 LSL 1 🏁', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-04-22', url:'https://www.notion.so/3478ff32f8cf8086a9efe6e1fd32507c' },
+  { assignee:'yanti', name:'Event AIF Program Professional Level 1 🏁', priority:'P1', status:'Next', domain:'Tjitra', due:'2026-04-22', url:'https://www.notion.so/3428ff32f8cf80a78026c5109221d6ca' },
+  { assignee:'yanti', name:'Event AIF Program Leaders Level 2 Day 2 🏁', priority:'P2', status:'Doing', domain:'Tjitra', due:'2026-04-25', url:'https://www.notion.so/3478ff32f8cf808fbd01e3ab166e9a99' },
+  { assignee:'yanti', name:'Final Proposal Leadership Development MRA', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-04-26', url:'https://www.notion.so/3438ff32f8cf803dbec0c03388ff911f' },
+  { assignee:'yanti', name:'Final MD files 4 Gallery Walk', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-04-26', url:'https://www.notion.so/6aafcae85fdf4422baef58c2f22c7b8d' },
+  { assignee:'yanti', name:'Final persona Open Claw - Agentic AI', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-04-26', url:'https://www.notion.so/3378ff32f8cf80df897af5051ce9aa2c' },
+  { assignee:'yanti', name:'Final Website IWDemy', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-04-26', url:'https://www.notion.so/aa0306da677b4c87b0748afa7ffade09' },
+  { assignee:'yanti', name:'Finish AHDO Registration', priority:'P3', status:'Next', domain:'Tjitra', due:'2026-04-26', url:'https://www.notion.so/0531adac70344e16ae8b0c717897a479' },
+  { assignee:'yanti', name:'Event AIF Program Professional Level 1 🏁', priority:'P1', status:'Next', domain:'Tjitra', due:'2026-04-29', url:'https://www.notion.so/3438ff32f8cf809ca2afe2696be1b719' },
+  { assignee:'yanti', name:'Event Level 1 LSL 2 🏁', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-04-29', url:'https://www.notion.so/3478ff32f8cf805f9dedc11b76e1c2ca' },
+  { assignee:'yanti', name:'Training Aloy AI Workshop AIF 🏁', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-05-04', url:'https://www.notion.so/3428ff32f8cf80c28752d59b037242a9' },
+  { assignee:'yanti', name:'Training Aloy SinaD 🏁', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-05-04', url:'https://www.notion.so/33d8ff32f8cf80e3b3d7c1fba49892c5' },
+  { assignee:'yanti', name:'Event AIF Program Professional Level 2 🏁', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-05-06', url:'https://www.notion.so/3488ff32f8cf8099bb24fc04eecab444' },
+  { assignee:'yanti', name:'Closing Delto OKR', priority:'P1', status:'Next', domain:'Tjitra', due:null, url:'https://www.notion.so/32b8ff32f8cf80949512dc580ac8036f' },
+  { assignee:'yanti', name:'Final Compro IWDemy', priority:'P2', status:'Waiting', domain:'IWDemy', due:null, url:'https://www.notion.so/c27e663de07c4c6994f10ec41285e0ab' },
+  { assignee:'yanti', name:'Final Tjitra Value Handbook', priority:'P2', status:'Waiting', domain:'Tjitra', due:null, url:'https://www.notion.so/6064d680fd074b2ca6ce784843584261' },
+  { assignee:'yanti', name:'Pengaturan GitHub IWDemy', priority:'P2', status:'Waiting', domain:'IWDemy', due:null, url:'https://www.notion.so/ef9c8b0badfd4641b23add3bb23679ab' },
+  { assignee:'yanti', name:'Final prompt Senior Talent Advisor', priority:'P2', status:'Waiting', domain:'IWDemy', due:null, url:'https://www.notion.so/fd7e8e68e73f4941ba8cbbd80ef2c98a' },
+  { assignee:'yanti', name:'Final Tjitra Identity untuk Jobstreet', priority:'P2', status:'Waiting', domain:'Tjitra', due:null, url:'https://www.notion.so/e90b5b488f6441108f8d66ba35ffc482' },
+  { assignee:'yanti', name:'Final all JD untuk Recruitment', priority:'P2', status:'Waiting', domain:'IWDemy', due:null, url:'https://www.notion.so/06e9c74f73744bb98030cf0c7baba1a9' },
+  { assignee:'juli', name:'Final Local AI AIF Professional', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-04-21', url:'https://www.notion.so/3488ff32f8cf803fb7edfca94bfd6e0f' },
+  { assignee:'meliana', name:'Final IDL AIF Professional', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-04-21', url:'https://www.notion.so/3488ff32f8cf80a58358dd4fa2361b5a' },
+  { assignee:'anita', name:'Event Bootcamp 🏁', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-04-22', url:'https://www.notion.so/3478ff32f8cf80f0ab7aeb0840019f95' },
+  { assignee:'stephen', name:'Final Multimodal AIF Professional', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-04-21', url:'https://www.notion.so/3488ff32f8cf809ab7fbd825574a1600' },
+];
+const SYNC_TIME = '2026-04-21T09:30:00';
+// AUTO:END — NOTION SYNC DATA
+// ─────────────────────────────────────────────
+
+const PERSONS = [
+  { key:'yanti',   label:'Yanti',   emoji:'🏠', role:'Lead · IWDemy + Tjitra', avatarCls:'av-ka' },
+  { key:'juli',    label:'Juli',    emoji:'🤖', role:'Local AI Specialist',    avatarCls:'av-ju' },
+  { key:'meliana', label:'Meliana', emoji:'📚', role:'IDL Specialist',         avatarCls:'av-me' },
+  { key:'anita',   label:'Anita',   emoji:'🎉', role:'Event Specialist',       avatarCls:'av-an' },
+  { key:'stephen', label:'Stephen', emoji:'🎬', role:'Multimodal Specialist',  avatarCls:'av-st' },
+];
+
+const TODAY_TIM = new Date(); TODAY_TIM.setHours(0,0,0,0);
+
+function isMsTask(t){ return (t.name||'').includes('🏁'); }
+
+function activeTasks(key){
+  return TASKS.filter(t=>t.assignee===key && !(t.status||'').toLowerCase().includes('done'));
+}
+
+function loadLevel(n){
+  if(n>=10) return {label:'High',cls:'lp-high'};
+  if(n>=5)  return {label:'Med', cls:'lp-med'};
+  return {label:'OK',  cls:'lp-ok'};
+}
+
+function fmtDueTim(due){
+  if(!due) return '';
+  const d=new Date(due); d.setHours(0,0,0,0);
+  const diff=Math.round((d-TODAY_TIM)/(1000*60*60*24));
+  if(diff<0) return ' · <span style="color:var(--red);font-weight:700">telat '+Math.abs(diff)+'h</span>';
+  if(diff===0) return ' · <span style="color:var(--red);font-weight:600">hari ini</span>';
+  if(diff===1) return ' · besok';
+  return ' · +'+diff+'h';
+}
+
+// ── RENDER STATS RINGS ───────────────────────────────────────────────────────
+function renderStats(){
+  const allActive = TASKS.filter(t=>!(t.status||'').toLowerCase().includes('done'));
+  const doing = allActive.filter(t=>{const s=(t.status||'').toLowerCase();return s.includes('doing')||s.includes('progress');});
+  const milestones = allActive.filter(isMsTask);
+  const p1 = allActive.filter(t=>(t.priority||'').toLowerCase().includes('p1'));
+  const maxT = Math.max(allActive.length,1);
+
+  function ring(num,total,color,label,sub){
+    const pct = Math.round((num/total)*360);
+    return `<div class="sc">
+      <div class="sc-ring" style="--pct:${pct}deg;--ring-color:${color}">
+        <div class="sc-ring-inner"><div class="sc-num">${num}</div></div>
+      </div>
+      <div class="sc-lbl">${label}<br><span style="color:var(--grey);font-size:10px">${sub}</span></div>
+    </div>`;
+  }
+
+  document.getElementById('timStats').innerHTML =
+    '<div class="stats">' +
+    ring(doing.length, maxT, 'var(--green)', 'Sedang Dikerjakan', 'Status: Doing · semua orang') +
+    ring(allActive.length, allActive.length, 'var(--mustard)', 'Task Aktif', 'Next + Doing + Waiting') +
+    ring(milestones.length, Math.max(milestones.length,1), 'var(--blue)', 'Milestones', 'Events & deliverables 🏁') +
+    ring(p1.length, maxT, 'var(--red)', 'Task P1', 'Prioritas tinggi · semua orang') +
+    '</div>';
+}
+
+// ── RENDER CAPACITY ──────────────────────────────────────────────────────────
+function renderCapacity(){
+  let rows = PERSONS.map(p=>{
+    const tasks = activeTasks(p.key);
+    const iw = tasks.filter(t=>(t.domain||'').toLowerCase().includes('iwdemy')||((t.domain||'').toLowerCase().includes('iwd'))).length;
+    const tj = tasks.length - iw;
+    const iwPct = tasks.length>0 ? Math.round((iw/tasks.length)*100) : 0;
+    const tjPct = 100-iwPct;
+    const load = loadLevel(tasks.length);
+    const p1count = tasks.filter(t=>(t.priority||'').toLowerCase().includes('p1')).length;
+    return `<div class="cap-row">
+      <div class="cap-person">
+        <div class="cap-avatar ${p.avatarCls}" style="font-size:1.1rem">${p.emoji}</div>
+        <div>
+          <div class="cap-pname">${p.label}</div>
+          <div class="cap-role">${p.role}</div>
+        </div>
+      </div>
+      <div class="cap-bars">
+        <div class="cap-bar-row">
+          <div class="cap-bar-bg"><div class="cap-bar-fill bf-iw" style="width:${iwPct}%"></div></div>
+          <span class="cap-bar-pct">${iwPct}% IWD</span>
+        </div>
+        <div class="cap-bar-row">
+          <div class="cap-bar-bg"><div class="cap-bar-fill bf-tj" style="width:${tjPct}%"></div></div>
+          <span class="cap-bar-pct">${tjPct}% Tjitra</span>
+        </div>
+      </div>
+      <div class="cap-load">
+        <div class="cap-load-num">${tasks.length}</div>
+        <div class="cap-load-lbl">tasks${p1count>0?' · <span style="color:var(--red);font-weight:700">'+p1count+' P1</span>':''}</div>
+        <div class="cap-load-pill ${load.cls}">${load.label}</div>
+      </div>
+    </div>`;
+  }).join('<div class="cap-divider"></div>');
+
+  document.getElementById('timCapacity').innerHTML = `<div class="capacity-wrap">
+    <div class="cap-head">
+      <div>
+        <div class="cap-title">Distribusi Beban Kerja · ${PERSONS.length} Orang</div>
+        <div class="cap-sub">Data real-time dari Notion · Sync ${new Date(SYNC_TIME).toLocaleDateString('id-ID',{day:'numeric',month:'long'})}</div>
+      </div>
+      <div class="cap-legend">
+        <div class="leg-item"><span class="leg-dot ld-iw"></span>IWDemy</div>
+        <div class="leg-item"><span class="leg-dot ld-tj"></span>Tjitra</div>
+      </div>
+    </div>
+    <div class="cap-rows">${rows}</div>
+  </div>`;
+}
+
+// ── RENDER MILESTONES ────────────────────────────────────────────────────────
+function renderMilestonesSection(){
+  const allMs = TASKS.filter(isMsTask).filter(t=>!(t.status||'').toLowerCase().includes('done'));
+  allMs.sort((a,b)=>{
+    if(!a.due&&!b.due)return 0; if(!a.due)return 1; if(!b.due)return -1;
+    return new Date(a.due)-new Date(b.due);
+  });
+
+  let blocks = PERSONS.map(p=>{
+    const ms = allMs.filter(t=>t.assignee===p.key);
+    if(ms.length===0) return '';
+    const items = ms.map(t=>{
+      const name=(t.name||'').replace('🏁','').trim();
+      const d=t.due?new Date(t.due):null;
+      const dateStr=d?d.toLocaleDateString('id-ID',{day:'numeric',month:'short'}):'TBD';
+      const diff=d?Math.round((d-TODAY_TIM)/(1000*60*60*24)):999;
+      const color=diff<=3?'var(--red)':diff<=7?'var(--orange)':'var(--grey)';
+      return `<span style="color:${color};font-weight:${diff<=7?'600':'400'}">🏁 ${name} (${dateStr})</span>`;
+    }).join(' &nbsp;·&nbsp; ');
+    return `<div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--blue-08);border-radius:8px">
+      <div class="cap-avatar ${p.avatarCls}" style="width:32px;height:32px;font-size:1rem;flex-shrink:0">${p.emoji}</div>
+      <div style="flex:1">
+        <div style="font-size:12px;font-weight:700;color:var(--ink);margin-bottom:4px">${p.label} · ${ms.length} milestone</div>
+        <div style="font-size:11px;color:var(--grey);line-height:1.8">${items}</div>
+      </div>
+    </div>`;
+  }).filter(Boolean).join('');
+
+  if(!blocks) blocks='<div style="padding:16px;color:var(--grey);font-size:12px;text-align:center">Tidak ada milestone aktif.</div>';
+
+  document.getElementById('timMilestones').innerHTML=`<div class="milestone-wrap">
+    <div class="milestone-header">
+      <div class="milestone-title">Milestone aktif per orang</div>
+      <div class="milestone-sub">${allMs.length} total · merah ≤3h · oranye ≤7h</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;padding-top:12px">${blocks}</div>
+  </div>`;
+}
+
+// ── RENDER MEMBER CARDS ──────────────────────────────────────────────────────
+function renderMemberCards(){
+  const MONTHS=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+  let cards = PERSONS.map(p=>{
+    const tasks = activeTasks(p.key).filter(t=>!isMsTask(t));
+    const load = loadLevel(tasks.length);
+    const p1tasks = tasks.filter(t=>(t.priority||'').toLowerCase().includes('p1'));
+    // Top tasks: P1 first sorted by due, then P2 sorted by due
+    const sorted = [...tasks].sort((a,b)=>{
+      const pa=(a.priority||'').toLowerCase().includes('p1')?0:1;
+      const pb=(b.priority||'').toLowerCase().includes('p1')?0:1;
+      if(pa!==pb) return pa-pb;
+      if(!a.due&&!b.due)return 0; if(!a.due)return 1; if(!b.due)return -1;
+      return new Date(a.due)-new Date(b.due);
+    });
+    const top3 = sorted.slice(0,3);
+    const taskRows = top3.map(t=>{
+      const lp=(t.priority||'').toLowerCase();
+      const priCls=lp.includes('p1')?'mct-p1':lp.includes('p2')?'mct-p2':'mct-p3';
+      const priLbl=lp.includes('p1')?'P1':lp.includes('p2')?'P2':'P3';
+      const link=t.url?`<a href="${t.url}" target="_blank" class="mct-link">↗</a>`:'';
+      const dueStr=fmtDueTim(t.due);
+      return `<div class="mc-task">
+        <span class="mct-pri ${priCls}">${priLbl}</span>
+        <span class="mct-name">${t.name}${dueStr}</span>
+        ${link}
+      </div>`;
+    }).join('');
+    const emptyMsg = tasks.length===0?'<div style="padding:12px 0;color:var(--grey);font-size:11px;text-align:center">Tidak ada task aktif ✓</div>':'';
+    return `<div class="member-card">
+      <div class="mc-top">
+        <div class="mc-avatar ${p.avatarCls}" style="font-size:1.2rem">${p.emoji}</div>
+        <div class="mc-info">
+          <div class="mc-name">${p.label}</div>
+          <div class="mc-role">${p.role}</div>
+        </div>
+        <div class="mc-load-badge">
+          <div class="mc-load-num">${tasks.length}</div>
+          <div class="mc-load-sub">tasks · ${load.label}</div>
+        </div>
+      </div>
+      <div class="mc-today-label">🎯 Prioritas Aktif</div>
+      ${taskRows}${emptyMsg}
+      ${tasks.length>3?`<div style="font-size:11px;color:var(--grey);padding:6px 0;text-align:center">+${tasks.length-3} task lainnya</div>`:''}
+    </div>`;
+  }).join('');
+
+  document.getElementById('timCards').innerHTML=`<div class="member-grid">${cards}</div>`;
+}
+
+// ── INIT ─────────────────────────────────────────────────────────────────────
+renderStats();
+renderCapacity();
+renderMilestonesSection();
+renderMemberCards();
+
+// Sync time
+(function(){
+  const st=new Date(SYNC_TIME);
+  const el=document.getElementById('teamEyebrow');
+  if(el) el.textContent='Tampilan Tim · Sync '+st.toLocaleDateString('id-ID',{day:'numeric',month:'long'})+' '+st.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
+})();
+
+</script>
 
 <script>
 // Command palette
