@@ -614,12 +614,17 @@ function renderKanban() {
 
 function switchPerson(key) {
   activePerson = key;
+  history.replaceState(null, '', '?person=' + key);
   renderPersonTabs();
   renderKanban();
   renderMilestones();
 }
 
 // ── INIT ─────────────────────────────────────
+(function(){
+  const urlPerson = new URLSearchParams(location.search).get('person');
+  if(urlPerson && PERSONS.find(p=>p.key===urlPerson)) activePerson = urlPerson;
+})();
 renderPersonTabs();
 renderKanban();
 renderMilestones();
