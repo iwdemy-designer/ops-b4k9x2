@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard IWD · Yanti</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f1117; height: 100vh; display: flex; flex-direction: column; }
+
+  .tab-bar {
+    display: flex;
+    background: #1a1d27;
+    border-bottom: 1px solid #2a2d3a;
+    padding: 0 16px;
+    gap: 4px;
+    align-items: flex-end;
+    flex-shrink: 0;
+    height: 48px;
+  }
+
+  .tab-bar-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-right: 20px;
+    padding-bottom: 2px;
+  }
+
+  .tab-bar-logo span {
+    color: #f5c842;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .tab {
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #8b8fa8;
+    cursor: pointer;
+    border-radius: 6px 6px 0 0;
+    border: 1px solid transparent;
+    border-bottom: none;
+    transition: all 0.15s;
+    user-select: none;
+    white-space: nowrap;
+  }
+
+  .tab:hover { color: #c8cad8; background: #22253a; }
+
+  .tab.active {
+    color: #ffffff;
+    background: #0f1117;
+    border-color: #2a2d3a;
+    border-bottom-color: #0f1117;
+    margin-bottom: -1px;
+  }
+
+  .tab .dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    margin-right: 7px;
+    vertical-align: middle;
+    margin-top: -2px;
+  }
+
+  .tab-hari-ini .dot { background: #f5c842; }
+  .tab-tim .dot { background: #4f8ef7; }
+  .tab-overview .dot { background: #5ec97e; }
+
+  .iframe-container {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+  }
+
+  iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: none;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+  }
+
+  iframe.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .spacer { flex: 1; }
+
+  .tab-meta {
+    color: #4a4d5e;
+    font-size: 11px;
+    padding-bottom: 14px;
+    padding-right: 4px;
+  }
+</style>
+</head>
+<body>
+
+<div class="tab-bar">
+  <div class="tab-bar-logo">
+    <span>IWD · Yanti</span>
+  </div>
+
+  <div class="tab tab-hari-ini active" onclick="switchTab('hari-ini')">
+    <span class="dot"></span>Hari Ini
+  </div>
+  <div class="tab tab-tim" onclick="switchTab('tim')">
+    <span class="dot"></span>Tim
+  </div>
+  <div class="tab tab-overview" onclick="switchTab('overview')">
+    <span class="dot"></span>Overview
+  </div>
+
+  <div class="spacer"></div>
+  <div class="tab-meta" id="sync-label">—</div>
+</div>
+
+<div class="iframe-container">
+  <iframe id="frame-hari-ini"
+    src="https://iwdemy.github.io/ops-b4k9x2/dashboard-hari-ini--v1.html?person=yanti"
+    class="active"
+    onload="onFrameLoad(this)">
+  </iframe>
+  <iframe id="frame-tim"
+    data-src="https://iwdemy.github.io/ops-b4k9x2/dashboard-tim--v1.html">
+  </iframe>
+  <iframe id="frame-overview"
+    data-src="https://iwdemy.github.io/ops-b4k9x2/dashboard-overview--v1.html">
+  </iframe>
+</div>
+
+<script>
+  let loaded = { 'hari-ini': false, tim: false, overview: false };
+  let active = 'hari-ini';
+
+  function onFrameLoad(frame) {
+    // Try to read SYNC_TIME from nested iframe
+    try {
+      const key = frame.id.replace('frame-', '');
+      loaded[key] = true;
+      updateSyncLabel(frame);
+    } catch(e) {}
+  }
+
+  function updateSyncLabel(frame) {
+    try {
+      const ts = frame.contentWindow.SYNC_TIME || frame.contentWindow.OV_SYNC;
+      if (ts) {
+        const d = new Date(ts);
+        const fmt = d.toLocaleDateString('id-ID', {day:'numeric', month:'short'}) + ' ' +
+                    d.toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'});
+        document.getElementById('sync-label').textContent = 'Sync: ' + fmt;
+      }
+    } catch(e) {}
+  }
+
+  function switchTab(key) {
+    if (active === key) return;
+    active = key;
+
+    // Update tab styles
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelector('.tab-' + key.replace('-', '-')).classList.add('active');
+
+    // Show active iframe
+    document.querySelectorAll('iframe').forEach(f => f.classList.remove('active'));
+    const frame = document.getElementById('frame-' + key);
+    frame.classList.add('active');
+
+    // Lazy-load on first switch
+    if (!loaded[key] && frame.dataset.src) {
+      frame.src = frame.dataset.src;
+      frame.onload = () => {
+        loaded[key] = true;
+        onFrameLoad(frame);
+      };
+    }
+  }
+
+  // Map tab class names correctly
+  document.querySelector('.tab-hari-ini').onclick = () => switchTab('hari-ini');
+  document.querySelector('.tab-tim').onclick = () => switchTab('tim');
+  document.querySelector('.tab-overview').onclick = () => switchTab('overview');
+</script>
+</body>
+</html>
