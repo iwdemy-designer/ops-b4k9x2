@@ -4,76 +4,226 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard IWD · Yanti</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f1117; height: 100vh; display: flex; flex-direction: column; }
-
-  .tab-bar {
-    display: flex;
-    background: #1a1d27;
-    border-bottom: 1px solid #2a2d3a;
-    padding: 0 16px;
-    gap: 4px;
-    align-items: flex-end;
-    flex-shrink: 0;
-    height: 48px;
+  :root {
+    --mustard: #FCB528;
+    --mustard-dim: rgba(252,181,40,0.15);
+    --mustard-glow: rgba(252,181,40,0.25);
+    --blue: #005287;
+    --shell-bg: #0B0E16;
+    --bar-bg: #111520;
+    --bar-border: rgba(255,255,255,0.07);
+    --tab-text: rgba(255,255,255,0.38);
+    --tab-hover: rgba(255,255,255,0.65);
+    --tab-active: #ffffff;
+    --brand-text: rgba(255,255,255,0.55);
+    --meta-text: rgba(255,255,255,0.25);
+    --dot-hi: #FCB528;
+    --dot-tim: #4B96F3;
+    --dot-ov: #3DBD76;
   }
 
-  .tab-bar-logo {
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--shell-bg);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* ── TOPBAR ── */
+  .topbar {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-right: 20px;
-    padding-bottom: 2px;
+    background: var(--bar-bg);
+    border-bottom: 1px solid var(--bar-border);
+    height: 52px;
+    padding: 0 20px 0 24px;
+    flex-shrink: 0;
+    gap: 0;
+    position: relative;
   }
 
-  .tab-bar-logo span {
-    color: #f5c842;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.04em;
+  /* subtle top accent line */
+  .topbar::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, var(--mustard) 0%, transparent 60%);
+    opacity: 0.5;
+  }
+
+  /* ── BRAND ── */
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-right: 28px;
+    flex-shrink: 0;
+  }
+
+  .brand-mark {
+    width: 28px;
+    height: 28px;
+    background: var(--mustard);
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .brand-mark svg {
+    width: 14px; height: 14px;
+    fill: #0B0E16;
+  }
+
+  .brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+    gap: 2px;
+  }
+
+  .brand-name {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
+    color: var(--mustard);
+  }
+
+  .brand-sub {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--brand-text);
+  }
+
+  /* ── DIVIDER ── */
+  .bar-divider {
+    width: 1px;
+    height: 20px;
+    background: var(--bar-border);
+    margin: 0 20px 0 4px;
+    flex-shrink: 0;
+  }
+
+  /* ── TABS ── */
+  .tabs {
+    display: flex;
+    align-items: stretch;
+    gap: 2px;
+    height: 100%;
   }
 
   .tab {
-    padding: 10px 20px;
-    font-size: 13px;
-    font-weight: 500;
-    color: #8b8fa8;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 18px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--tab-text);
     cursor: pointer;
-    border-radius: 6px 6px 0 0;
-    border: 1px solid transparent;
-    border-bottom: none;
-    transition: all 0.15s;
     user-select: none;
+    position: relative;
+    border-radius: 0;
+    transition: color 0.18s;
     white-space: nowrap;
   }
 
-  .tab:hover { color: #c8cad8; background: #22253a; }
+  .tab:hover { color: var(--tab-hover); }
 
-  .tab.active {
-    color: #ffffff;
-    background: #0f1117;
-    border-color: #2a2d3a;
-    border-bottom-color: #0f1117;
-    margin-bottom: -1px;
+  .tab.active { color: var(--tab-active); }
+
+  /* animated underline indicator */
+  .tab::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 18px; right: 18px;
+    height: 2px;
+    border-radius: 2px 2px 0 0;
+    background: var(--mustard);
+    opacity: 0;
+    transform: scaleX(0.4);
+    transition: opacity 0.2s, transform 0.2s;
   }
 
-  .tab .dot {
-    display: inline-block;
-    width: 6px;
-    height: 6px;
+  .tab.active::after {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  .tab-dot {
+    width: 6px; height: 6px;
     border-radius: 50%;
-    margin-right: 7px;
-    vertical-align: middle;
-    margin-top: -2px;
+    flex-shrink: 0;
+    opacity: 0.5;
+    transition: opacity 0.2s;
   }
 
-  .tab-hari-ini .dot { background: #f5c842; }
-  .tab-tim .dot { background: #4f8ef7; }
-  .tab-overview .dot { background: #5ec97e; }
+  .tab.active .tab-dot { opacity: 1; }
+  .tab-hari-ini .tab-dot { background: var(--dot-hi); }
+  .tab-tim      .tab-dot { background: var(--dot-tim); }
+  .tab-overview .tab-dot { background: var(--dot-ov); }
 
-  .iframe-container {
+  /* ── RIGHT SECTION ── */
+  .bar-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-shrink: 0;
+  }
+
+  .sync-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--bar-border);
+    border-radius: 6px;
+    padding: 4px 10px;
+  }
+
+  .sync-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--dot-ov);
+    flex-shrink: 0;
+  }
+
+  .sync-text {
+    font-size: 10.5px;
+    font-weight: 500;
+    color: var(--meta-text);
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.02em;
+  }
+
+  .live-clock {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--meta-text);
+    letter-spacing: 0.05em;
+    min-width: 44px;
+    text-align: right;
+  }
+
+  /* ── IFRAME AREA ── */
+  .iframe-wrap {
     flex: 1;
     position: relative;
     overflow: hidden;
@@ -86,46 +236,60 @@
     border: none;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.2s;
+    transition: opacity 0.22s ease;
   }
 
   iframe.active {
     opacity: 1;
     pointer-events: auto;
   }
-
-  .spacer { flex: 1; }
-
-  .tab-meta {
-    color: #4a4d5e;
-    font-size: 11px;
-    padding-bottom: 14px;
-    padding-right: 4px;
-  }
 </style>
 </head>
 <body>
 
-<div class="tab-bar">
-  <div class="tab-bar-logo">
-    <span>IWD · Yanti</span>
+<div class="topbar">
+
+  <!-- Brand -->
+  <div class="brand">
+    <div class="brand-mark">
+      <!-- simple lightning bolt / IWD monogram -->
+      <svg viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="8,1 3,7.5 6.5,7.5 6,13 11,6.5 7.5,6.5" fill="#0B0E16"/>
+      </svg>
+    </div>
+    <div class="brand-text">
+      <div class="brand-name">IWDemy</div>
+      <div class="brand-sub">Ruang Kerja · Yanti</div>
+    </div>
   </div>
 
-  <div class="tab tab-hari-ini active" onclick="switchTab('hari-ini')">
-    <span class="dot"></span>Hari Ini
-  </div>
-  <div class="tab tab-tim" onclick="switchTab('tim')">
-    <span class="dot"></span>Tim
-  </div>
-  <div class="tab tab-overview" onclick="switchTab('overview')">
-    <span class="dot"></span>Overview
+  <div class="bar-divider"></div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab tab-hari-ini active" id="tab-hari-ini" onclick="switchTab('hari-ini')">
+      <span class="tab-dot"></span>Hari Ini
+    </div>
+    <div class="tab tab-tim" id="tab-tim" onclick="switchTab('tim')">
+      <span class="tab-dot"></span>Tim
+    </div>
+    <div class="tab tab-overview" id="tab-overview" onclick="switchTab('overview')">
+      <span class="tab-dot"></span>Overview
+    </div>
   </div>
 
-  <div class="spacer"></div>
-  <div class="tab-meta" id="sync-label">—</div>
+  <!-- Right -->
+  <div class="bar-right">
+    <div class="sync-badge">
+      <div class="sync-dot"></div>
+      <div class="sync-text" id="sync-label">Memuat…</div>
+    </div>
+    <div class="live-clock" id="live-clock">—</div>
+  </div>
+
 </div>
 
-<div class="iframe-container">
+<div class="iframe-wrap">
   <iframe id="frame-hari-ini"
     src="https://iwdemy.github.io/ops-b4k9x2/dashboard-hari-ini--v1.html?person=yanti"
     class="active"
@@ -140,18 +304,21 @@
 </div>
 
 <script>
+  // ── State ──
   let loaded = { 'hari-ini': false, tim: false, overview: false };
   let active = 'hari-ini';
 
-  function onFrameLoad(frame) {
-    // Try to read SYNC_TIME from nested iframe
-    try {
-      const key = frame.id.replace('frame-', '');
-      loaded[key] = true;
-      updateSyncLabel(frame);
-    } catch(e) {}
+  // ── Live clock ──
+  function tickClock() {
+    const now = new Date();
+    const h = String(now.getHours()).padStart(2,'0');
+    const m = String(now.getMinutes()).padStart(2,'0');
+    document.getElementById('live-clock').textContent = h + ':' + m;
   }
+  tickClock();
+  setInterval(tickClock, 10000);
 
+  // ── Sync label ──
   function updateSyncLabel(frame) {
     try {
       const ts = frame.contentWindow.SYNC_TIME || frame.contentWindow.OV_SYNC;
@@ -159,25 +326,34 @@
         const d = new Date(ts);
         const fmt = d.toLocaleDateString('id-ID', {day:'numeric', month:'short'}) + ' ' +
                     d.toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'});
-        document.getElementById('sync-label').textContent = 'Sync: ' + fmt;
+        document.getElementById('sync-label').textContent = 'Sync ' + fmt;
       }
+    } catch(e) {
+      document.getElementById('sync-label').textContent = 'Live';
+    }
+  }
+
+  // ── Frame load ──
+  function onFrameLoad(frame) {
+    try {
+      const key = frame.id.replace('frame-', '');
+      loaded[key] = true;
+      updateSyncLabel(frame);
     } catch(e) {}
   }
 
+  // ── Tab switch ──
   function switchTab(key) {
     if (active === key) return;
     active = key;
 
-    // Update tab styles
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.querySelector('.tab-' + key.replace('-', '-')).classList.add('active');
+    document.getElementById('tab-' + key).classList.add('active');
 
-    // Show active iframe
     document.querySelectorAll('iframe').forEach(f => f.classList.remove('active'));
     const frame = document.getElementById('frame-' + key);
     frame.classList.add('active');
 
-    // Lazy-load on first switch
     if (!loaded[key] && frame.dataset.src) {
       frame.src = frame.dataset.src;
       frame.onload = () => {
@@ -186,11 +362,6 @@
       };
     }
   }
-
-  // Map tab class names correctly
-  document.querySelector('.tab-hari-ini').onclick = () => switchTab('hari-ini');
-  document.querySelector('.tab-tim').onclick = () => switchTab('tim');
-  document.querySelector('.tab-overview').onclick = () => switchTab('overview');
 </script>
 </body>
 </html>
