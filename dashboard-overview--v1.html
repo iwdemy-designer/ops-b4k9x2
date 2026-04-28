@@ -992,10 +992,12 @@ window.OV_SYNC = '2026-04-28T07:07:04';
     var ovStr=overdue>0?'<strong style="color:var(--maroon)">'+overdue+' overdue</strong> &nbsp;·&nbsp; ':'';
     ovEl.innerHTML='<div class="ov-tl-persons">'+chips+'</div><div class="ov-tl-summary">'+ovStr+'<strong>'+doing+'</strong> doing &nbsp;·&nbsp; <strong>'+active.length+'</strong> task aktif</div>';
   })();
-// Hide nav when embedded in iframe (e.g. dashboard-all wrapper)
+// Hide nav + ticker when embedded in iframe (e.g. dashboard-all wrapper)
 if (window.self !== window.top) {
   var _nav = document.querySelector('nav.nav');
   if (_nav) _nav.style.display = 'none';
+  var _ticker = document.querySelector('.ticker-wrap');
+  if (_ticker) _ticker.style.display = 'none';
 }
 </script>
 </body>
