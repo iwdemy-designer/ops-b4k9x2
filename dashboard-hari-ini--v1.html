@@ -750,8 +750,8 @@ renderMilestones();
   document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();openCmd();}});
   renderResults('');
 })();
-// Hide nav + ticker when embedded in iframe (e.g. dashboard-all wrapper)
-if (window.self !== window.top) {
+// Hide nav + ticker when embedded (via ?embed=1 param OR iframe detection)
+if (new URLSearchParams(location.search).get('embed') === '1' || window.self !== window.top) {
   var _nav = document.querySelector('nav.nav');
   if (_nav) _nav.style.display = 'none';
   var _ticker = document.querySelector('.ticker-wrap');

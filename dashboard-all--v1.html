@@ -4,226 +4,182 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard IWD · Yanti</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
     --mustard: #FCB528;
-    --mustard-dim: rgba(252,181,40,0.15);
-    --mustard-glow: rgba(252,181,40,0.25);
+    --mustard-dim: rgba(252,181,40,0.12);
     --blue: #005287;
-    --shell-bg: #0B0E16;
-    --bar-bg: #111520;
-    --bar-border: rgba(255,255,255,0.07);
-    --tab-text: rgba(255,255,255,0.38);
-    --tab-hover: rgba(255,255,255,0.65);
-    --tab-active: #ffffff;
-    --brand-text: rgba(255,255,255,0.55);
-    --meta-text: rgba(255,255,255,0.25);
-    --dot-hi: #FCB528;
+    --bg: #0B0E16;
+    --bar: #12151F;
+    --border: rgba(255,255,255,0.07);
+    --muted: rgba(255,255,255,0.28);
+    --dot-hi:  #FCB528;
     --dot-tim: #4B96F3;
-    --dot-ov: #3DBD76;
+    --dot-ov:  #3DBD76;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    font-family: 'Inter', -apple-system, sans-serif;
-    background: var(--shell-bg);
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
     height: 100vh;
     display: flex;
     flex-direction: column;
     overflow: hidden;
   }
 
-  /* ── TOPBAR ── */
+  /* ══ TOP BAR ══ */
   .topbar {
+    position: relative;
     display: flex;
     align-items: center;
-    background: var(--bar-bg);
-    border-bottom: 1px solid var(--bar-border);
-    height: 52px;
-    padding: 0 20px 0 24px;
+    height: 56px;
+    background: var(--bar);
+    border-bottom: 1px solid var(--border);
     flex-shrink: 0;
-    gap: 0;
-    position: relative;
+    padding: 0 24px;
   }
 
-  /* subtle top accent line */
-  .topbar::before {
+  /* mustard accent line */
+  .topbar::after {
     content: '';
     position: absolute;
-    top: 0; left: 0; right: 0;
+    bottom: -1px; left: 0; right: 0;
     height: 1px;
-    background: linear-gradient(90deg, var(--mustard) 0%, transparent 60%);
-    opacity: 0.5;
+    background: linear-gradient(90deg, var(--mustard) 0%, transparent 50%);
+    opacity: 0.4;
   }
 
-  /* ── BRAND ── */
+  /* ── Brand (left) ── */
   .brand {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-right: 28px;
     flex-shrink: 0;
+    width: 160px;
   }
 
-  .brand-mark {
-    width: 28px;
-    height: 28px;
+  .brand-icon {
+    width: 30px; height: 30px;
     background: var(--mustard);
-    border-radius: 7px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
   }
 
-  .brand-mark svg {
-    width: 14px; height: 14px;
-    fill: #0B0E16;
-  }
+  .brand-icon svg { width: 15px; height: 15px; }
 
-  .brand-text {
-    display: flex;
-    flex-direction: column;
-    line-height: 1;
-    gap: 2px;
+  .brand-label {
+    display: flex; flex-direction: column; gap: 1px;
   }
-
   .brand-name {
     font-family: 'Montserrat', sans-serif;
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+    font-size: 11px; font-weight: 800;
+    letter-spacing: 0.1em; text-transform: uppercase;
     color: var(--mustard);
+    line-height: 1;
   }
-
   .brand-sub {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 9px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
+    font-size: 9.5px; font-weight: 500;
+    color: var(--muted);
+    letter-spacing: 0.05em;
     text-transform: uppercase;
-    color: var(--brand-text);
+    line-height: 1;
   }
 
-  /* ── DIVIDER ── */
-  .bar-divider {
-    width: 1px;
-    height: 20px;
-    background: var(--bar-border);
-    margin: 0 20px 0 4px;
-    flex-shrink: 0;
-  }
-
-  /* ── TABS ── */
-  .tabs {
-    display: flex;
-    align-items: stretch;
-    gap: 2px;
-    height: 100%;
-  }
-
-  .tab {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 0 18px;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 11.5px;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    color: var(--tab-text);
-    cursor: pointer;
-    user-select: none;
-    position: relative;
-    border-radius: 0;
-    transition: color 0.18s;
-    white-space: nowrap;
-  }
-
-  .tab:hover { color: var(--tab-hover); }
-
-  .tab.active { color: var(--tab-active); }
-
-  /* animated underline indicator */
-  .tab::after {
-    content: '';
+  /* ── Center tabs ── */
+  .tabs-center {
     position: absolute;
-    bottom: 0; left: 18px; right: 18px;
-    height: 2px;
-    border-radius: 2px 2px 0 0;
-    background: var(--mustard);
-    opacity: 0;
-    transform: scaleX(0.4);
-    transition: opacity 0.2s, transform 0.2s;
-  }
-
-  .tab.active::after {
-    opacity: 1;
-    transform: scaleX(1);
-  }
-
-  .tab-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    opacity: 0.5;
-    transition: opacity 0.2s;
-  }
-
-  .tab.active .tab-dot { opacity: 1; }
-  .tab-hari-ini .tab-dot { background: var(--dot-hi); }
-  .tab-tim      .tab-dot { background: var(--dot-tim); }
-  .tab-overview .tab-dot { background: var(--dot-ov); }
-
-  /* ── RIGHT SECTION ── */
-  .bar-right {
-    margin-left: auto;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    flex-shrink: 0;
-  }
-
-  .sync-badge {
+    left: 50%; transform: translateX(-50%);
     display: flex;
     align-items: center;
     gap: 6px;
     background: rgba(255,255,255,0.04);
-    border: 1px solid var(--bar-border);
-    border-radius: 6px;
-    padding: 4px 10px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 5px;
   }
 
-  .sync-dot {
+  .tab-btn {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 20px;
+    border-radius: 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.18s ease;
+    white-space: nowrap;
+  }
+
+  .tab-btn:hover {
+    color: rgba(255,255,255,0.75);
+    background: rgba(255,255,255,0.06);
+  }
+
+  .tab-btn.active {
+    color: #0B0E16;
+    background: var(--mustard);
+    box-shadow: 0 2px 12px rgba(252,181,40,0.35);
+  }
+
+  .tab-dot {
     width: 5px; height: 5px;
     border-radius: 50%;
+    flex-shrink: 0;
+    transition: background 0.18s;
+  }
+
+  .tab-btn.active .tab-dot { background: rgba(0,0,0,0.45); }
+  .tab-hi  .tab-dot { background: var(--dot-hi); }
+  .tab-tim .tab-dot { background: var(--dot-tim); }
+  .tab-ov  .tab-dot { background: var(--dot-ov); }
+
+  /* ── Right meta ── */
+  .bar-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+    width: 160px;
+    justify-content: flex-end;
+  }
+
+  .sync-pill {
+    display: flex; align-items: center; gap: 5px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+  }
+  .sync-dot {
+    width: 5px; height: 5px; border-radius: 50%;
     background: var(--dot-ov);
     flex-shrink: 0;
   }
-
-  .sync-text {
-    font-size: 10.5px;
-    font-weight: 500;
-    color: var(--meta-text);
-    font-family: 'Inter', sans-serif;
-    letter-spacing: 0.02em;
+  .sync-txt {
+    font-size: 10px; font-weight: 500;
+    color: var(--muted);
+    letter-spacing: 0.03em;
   }
 
-  .live-clock {
+  .clock {
     font-family: 'Montserrat', sans-serif;
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--meta-text);
-    letter-spacing: 0.05em;
-    min-width: 44px;
-    text-align: right;
+    font-size: 11px; font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 0.06em;
   }
 
-  /* ── IFRAME AREA ── */
-  .iframe-wrap {
+  /* ══ IFRAME ══ */
+  .frames {
     flex: 1;
     position: relative;
     overflow: hidden;
@@ -249,105 +205,88 @@
 
 <div class="topbar">
 
-  <!-- Brand -->
   <div class="brand">
-    <div class="brand-mark">
-      <!-- simple lightning bolt / IWD monogram -->
-      <svg viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
-        <polygon points="8,1 3,7.5 6.5,7.5 6,13 11,6.5 7.5,6.5" fill="#0B0E16"/>
+    <div class="brand-icon">
+      <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="9,1 3.5,8 7,8 6,14 11.5,7 8,7" fill="#0B0E16"/>
       </svg>
     </div>
-    <div class="brand-text">
+    <div class="brand-label">
       <div class="brand-name">IWDemy</div>
       <div class="brand-sub">Ruang Kerja · Yanti</div>
     </div>
   </div>
 
-  <div class="bar-divider"></div>
-
-  <!-- Tabs -->
-  <div class="tabs">
-    <div class="tab tab-hari-ini active" id="tab-hari-ini" onclick="switchTab('hari-ini')">
+  <div class="tabs-center">
+    <div class="tab-btn tab-hi active" id="tab-hari-ini" onclick="switchTab('hari-ini')">
       <span class="tab-dot"></span>Hari Ini
     </div>
-    <div class="tab tab-tim" id="tab-tim" onclick="switchTab('tim')">
+    <div class="tab-btn tab-tim" id="tab-tim" onclick="switchTab('tim')">
       <span class="tab-dot"></span>Tim
     </div>
-    <div class="tab tab-overview" id="tab-overview" onclick="switchTab('overview')">
+    <div class="tab-btn tab-ov" id="tab-overview" onclick="switchTab('overview')">
       <span class="tab-dot"></span>Overview
     </div>
   </div>
 
-  <!-- Right -->
   <div class="bar-right">
-    <div class="sync-badge">
+    <div class="sync-pill">
       <div class="sync-dot"></div>
-      <div class="sync-text" id="sync-label">Memuat…</div>
+      <div class="sync-txt" id="sync-label">–</div>
     </div>
-    <div class="live-clock" id="live-clock">—</div>
+    <div class="clock" id="clock">–</div>
   </div>
 
 </div>
 
-<div class="iframe-wrap">
+<div class="frames">
   <iframe id="frame-hari-ini"
-    src="https://iwdemy.github.io/ops-b4k9x2/dashboard-hari-ini--v1.html?person=yanti"
+    src="https://iwdemy.github.io/ops-b4k9x2/dashboard-hari-ini--v1.html?person=yanti&embed=1"
     class="active"
     onload="onFrameLoad(this)">
   </iframe>
   <iframe id="frame-tim"
-    data-src="https://iwdemy.github.io/ops-b4k9x2/dashboard-tim--v1.html">
+    data-src="https://iwdemy.github.io/ops-b4k9x2/dashboard-tim--v1.html?embed=1">
   </iframe>
   <iframe id="frame-overview"
-    data-src="https://iwdemy.github.io/ops-b4k9x2/dashboard-overview--v1.html">
+    data-src="https://iwdemy.github.io/ops-b4k9x2/dashboard-overview--v1.html?embed=1">
   </iframe>
 </div>
 
 <script>
-  // ── State ──
   let loaded = { 'hari-ini': false, tim: false, overview: false };
-  let active = 'hari-ini';
+  let activeTab = 'hari-ini';
 
-  // ── Live clock ──
-  function tickClock() {
-    const now = new Date();
-    const h = String(now.getHours()).padStart(2,'0');
-    const m = String(now.getMinutes()).padStart(2,'0');
-    document.getElementById('live-clock').textContent = h + ':' + m;
-  }
-  tickClock();
-  setInterval(tickClock, 10000);
+  // clock
+  (function tick() {
+    const n = new Date();
+    document.getElementById('clock').textContent =
+      String(n.getHours()).padStart(2,'0') + ':' + String(n.getMinutes()).padStart(2,'0');
+    setTimeout(tick, 30000);
+  })();
 
-  // ── Sync label ──
-  function updateSyncLabel(frame) {
+  // sync label
+  function updateSync(frame) {
     try {
       const ts = frame.contentWindow.SYNC_TIME || frame.contentWindow.OV_SYNC;
       if (ts) {
         const d = new Date(ts);
-        const fmt = d.toLocaleDateString('id-ID', {day:'numeric', month:'short'}) + ' ' +
-                    d.toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'});
-        document.getElementById('sync-label').textContent = 'Sync ' + fmt;
+        document.getElementById('sync-label').textContent =
+          'Sync ' + d.toLocaleDateString('id-ID',{day:'numeric',month:'short'}) + ' ' +
+          d.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
       }
-    } catch(e) {
-      document.getElementById('sync-label').textContent = 'Live';
-    }
+    } catch(e) { document.getElementById('sync-label').textContent = 'Live'; }
   }
 
-  // ── Frame load ──
   function onFrameLoad(frame) {
-    try {
-      const key = frame.id.replace('frame-', '');
-      loaded[key] = true;
-      updateSyncLabel(frame);
-    } catch(e) {}
+    try { loaded[frame.id.replace('frame-','')] = true; updateSync(frame); } catch(e) {}
   }
 
-  // ── Tab switch ──
   function switchTab(key) {
-    if (active === key) return;
-    active = key;
+    if (activeTab === key) return;
+    activeTab = key;
 
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
     document.getElementById('tab-' + key).classList.add('active');
 
     document.querySelectorAll('iframe').forEach(f => f.classList.remove('active'));
@@ -356,10 +295,7 @@
 
     if (!loaded[key] && frame.dataset.src) {
       frame.src = frame.dataset.src;
-      frame.onload = () => {
-        loaded[key] = true;
-        onFrameLoad(frame);
-      };
+      frame.onload = () => { loaded[key] = true; onFrameLoad(frame); };
     }
   }
 </script>
