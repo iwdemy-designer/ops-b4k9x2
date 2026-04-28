@@ -147,10 +147,42 @@
     margin-left: auto;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     flex-shrink: 0;
-    width: 160px;
     justify-content: flex-end;
+  }
+
+  /* schedule badge */
+  .sched-pill {
+    display: flex; align-items: center; gap: 6px;
+    padding: 4px 11px;
+    border-radius: 6px;
+    background: rgba(252,181,40,0.07);
+    border: 1px solid rgba(252,181,40,0.18);
+  }
+  .sched-icon {
+    font-size: 9px;
+    opacity: 0.7;
+  }
+  .sched-label {
+    font-size: 9px; font-weight: 600;
+    color: rgba(252,181,40,0.55);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+  .sched-times {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px; font-weight: 700;
+    color: rgba(252,181,40,0.75);
+    letter-spacing: 0.04em;
+    line-height: 1;
+  }
+
+  .bar-divider-v {
+    width: 1px; height: 18px;
+    background: var(--border);
+    flex-shrink: 0;
   }
 
   .sync-pill {
@@ -176,6 +208,8 @@
     font-size: 11px; font-weight: 700;
     color: var(--muted);
     letter-spacing: 0.06em;
+    min-width: 36px;
+    text-align: right;
   }
 
   /* ══ IFRAME ══ */
@@ -230,10 +264,25 @@
   </div>
 
   <div class="bar-right">
+
+    <!-- schedule reminder -->
+    <div class="sched-pill" title="Dashboard otomatis diperbarui dari Notion pada jam-jam ini">
+      <span class="sched-icon">⏱</span>
+      <div style="display:flex;flex-direction:column;gap:1px;">
+        <div class="sched-label">Auto-sync</div>
+        <div class="sched-times">08:30 · 11:30 · 15:30 · 18:30</div>
+      </div>
+    </div>
+
+    <div class="bar-divider-v"></div>
+
+    <!-- last sync -->
     <div class="sync-pill">
       <div class="sync-dot"></div>
       <div class="sync-txt" id="sync-label">–</div>
     </div>
+
+    <!-- live clock -->
     <div class="clock" id="clock">–</div>
   </div>
 
