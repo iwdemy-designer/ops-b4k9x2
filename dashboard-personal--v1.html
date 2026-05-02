@@ -309,8 +309,18 @@ function getZone(t){
 
 // ── TASK CARD ────────────────────────────────────────────────────
 var SHOW_CP = false; // set true for Yanti's view
+const PORD={P1:0,P2:1,P3:2,Hold:3};
 function cpBarHTML(cp){
-  if(cp===null||cp===undefined)return'';
+  // Show placeholder bar when cp:null so Yanti sees the feature exists
+  if(cp===null||cp===undefined){
+    return`<div class="cp-wrap">
+      <div class="cp-row">
+        <div class="cp-bar"><div class="cp-fill" style="width:0%;background:rgba(30,28,24,.10)"></div></div>
+        <span class="cp-pct" style="color:var(--t3)">–%</span>
+      </div>
+      <div class="cp-label">Cowork progress · belum ada data</div>
+    </div>`;
+  }
   const cls=cp>=70?'hi':cp>=30?'md':'lo';
   return`<div class="cp-wrap">
     <div class="cp-row">
@@ -344,14 +354,13 @@ function tcHTML(t){
   </div>`;
 }
 
-// ── URGENCY ZONES ────────────────────────────────────────────────
+// ── URGENCY ZONES — untuk team members ────────────────────────────────────────
 function renderZones(key){
   const tasks=getPersonTasks(key);
   const Z={overdue:[],today:[],week:[],queue:[]};
   tasks.forEach(t=>Z[getZone(t)].push(t));
-  const pOrd={P1:0,P2:1,P3:2,Hold:3};
   const byDue=(a,b)=>{const da=du(a.due)??9999,db=du(b.due)??9999;return da-db;};
-  const byPri=(a,b)=>(pOrd[a.priority]??2)-(pOrd[b.priority]??2);
+  const byPri=(a,b)=>(PORD[a.priority]??2)-(PORD[b.priority]??2);
   Z.overdue.sort(byDue);Z.today.sort(byPri);Z.week.sort(byDue);Z.queue.sort(byPri);
   const defs=[
     {k:'overdue',cls:'zone-overdue',lbl:'Overdue',show:Z.overdue.length>0},
@@ -363,6 +372,38 @@ function renderZones(key){
     <div class="zone-hdr"><div class="zdot"></div><span class="zlbl">${z.lbl}</span><span class="zct">${Z[z.k].length}</span></div>
     ${Z[z.k].length===0?`<div class="zempty">Tidak ada task di zona ini.</div>`:Z[z.k].map(tcHTML).join('')}
   </div>`).join('');
+}
+
+// ── FOCUS SECTION — khusus Yanti (compact: top 6 task terpenting) ──────────────
+function renderFocus(key){
+  const tasks=getPersonTasks(key);
+  const byDue=(a,b)=>{const da=du(a.due)??9999,db=du(b.due)??9999;return da-db;};
+  const byPri=(a,b)=>(PORD[a.priority]??2)-(PORD[b.priority]??2);
+  const overdue=tasks.filter(t=>{const d=du(t.due);return d!==null&&d<0;}).sort(byDue);
+  const today=tasks.filter(t=>du(t.due)===0).sort(byPri);
+  const weekP1=tasks.filter(t=>{const d=du(t.due);return d!==null&&d>0&&d<=7&&(t.priority||'').toLowerCase()==='p1';}).sort(byDue);
+  const doing=tasks.filter(t=>(t.status||'').toLowerCase()==='doing'&&du(t.due)===null).sort(byPri);
+  // Build priority pool: overdue → today → this-week P1 → doing no-due
+  const seen=new Set();
+  const pool=[];
+  [...overdue,...today,...weekP1,...doing].forEach(t=>{
+    if(!seen.has(t.name)){seen.add(t.name);pool.push(t);}
+  });
+  const top=pool.slice(0,6);
+  const totalActive=tasks.filter(t=>(t.priority||'').toLowerCase()!=='hold').length;
+  const hdr=`<div class="zone-hdr">
+    <div class="zdot" style="background:var(--mustard)"></div>
+    <span class="zlbl">Focus Sekarang</span>
+    <span class="zct">${top.length} terpenting · ${totalActive} aktif total</span>
+  </div>`;
+  const cards=top.length===0
+    ?`<div class="zempty">Tidak ada task mendesak hari ini 🎉</div>`
+    :top.map(tcHTML).join('');
+  const moreLink=`<a href="./dashboard-hari-ini--v1.html" class="tim-link" style="margin-top:16px;display:inline-flex">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    Lihat semua task tim di Hari Ini
+  </a>`;
+  return`<div class="zone">${hdr}${cards}</div>${moreLink}`;
 }
 
 // ── COCKPIT ────────────────────────────────────────────────────
@@ -426,7 +467,7 @@ if(isPersonal&&activePerson){
       <span class="q-author">— ${q.a}</span>
     </div></div>
     ${renderIAM(activePerson.iam)}`;
-  viewsEl.innerHTML=renderZones(activePerson.key);
+  viewsEl.innerHTML=activePerson.key==='yanti'?renderFocus(activePerson.key):renderZones(activePerson.key);
 } else {
   const totalAll=TASKS.length;
   const ovAll=TASKS.filter(t=>{const d=du(t.due);return d!==null&&d<0;}).length;
