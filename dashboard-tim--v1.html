@@ -118,12 +118,8 @@ body{font-family:'Carlito','Inter',sans-serif;background:var(--fog);color:var(--
 .pr-badge.pb-high{background:var(--orange-08);color:var(--orange)}
 .pr-badge.pb-ok{background:var(--green-08);color:var(--green)}
 .pr-badge.pb-low{background:rgba(0,0,0,.04);color:var(--grey)}
-.pr-chevron{font-size:13px;color:var(--grey);transition:transform .25s;text-align:center;flex-shrink:0}
-.pr-chevron.open{transform:rotate(180deg)}
-
 /* EXPANDED TASK LIST */
-.pr-tasks{display:none;border-top:1px solid rgba(0,0,0,.06);padding:4px 0 12px}
-.pr-tasks.open{display:block}
+.pr-tasks{display:block;border-top:1px solid rgba(0,0,0,.06);padding:4px 0 12px}
 .pt-item{display:flex;align-items:center;gap:10px;padding:9px 22px;border-bottom:1px solid rgba(0,0,0,.04);border-left:3px solid transparent;transition:background .12s}
 .pt-item:last-child{border-bottom:none}
 .pt-item:hover{background:rgba(0,82,135,.03)}
@@ -204,7 +200,6 @@ body{font-family:'Carlito','Inter',sans-serif;background:var(--fog);color:var(--
     <div class="nav-sub">Ruang Kerja Yanti</div>
   </div>
   <div class="nav-tabs">
-    <a href="dashboard-overview--v1.html" class="nav-tab">Overview</a>
     <a href="dashboard-tim--v1.html" class="nav-tab active">Tim</a>
     <a href="dashboard-hari-ini--v1.html" class="nav-tab">Hari Ini</a>
   </div>
@@ -432,10 +427,7 @@ function renderPersonRows(){
       return 0;
     });
 
-    const topTasks=sorted.slice(0,6);
-    const remaining=sorted.length-topTasks.length;
-
-    const taskItems=topTasks.map(t=>{
+    const taskItems=sorted.map(t=>{
       const s=(t.status||'').toLowerCase();
       const statCls=s.includes('doing')||s.includes('progress')?'pt-doing':s.includes('wait')||s.includes('hold')?'pt-wait':'pt-next';
       const statLbl=s.includes('doing')||s.includes('progress')?'Doing':s.includes('wait')||s.includes('hold')?'Menunggu':'Next';
@@ -454,11 +446,10 @@ function renderPersonRows(){
       </div>`;
     }).join('');
 
-    const moreHtml=remaining>0?`<div class="pt-more">+${remaining} task lainnya</div>`:'';
     const emptyHtml=total===0?'<div class="pt-more">Belum ada task aktif</div>':'';
 
     return `<div class="person-row">
-      <div class="pr-header" onclick="toggleRow(this)">
+      <div class="pr-header">
         <div class="pr-emoji">${person.emoji}</div>
         <div class="pr-identity">
           <div class="pr-name">${person.label}</div>
@@ -477,28 +468,14 @@ function renderPersonRows(){
           <span class="pr-stat-item"><strong>${p1Count}</strong> P1</span>
         </div>
         <span class="pr-badge ${badgeClass}">${badgeLabel}</span>
-        <div class="pr-chevron">▾</div>
       </div>
       <div class="pr-tasks">
-        ${taskItems}${moreHtml}${emptyHtml}
+        ${taskItems}${emptyHtml}
       </div>
     </div>`;
   }).join('');
 
   container.innerHTML=rows;
-}
-
-function toggleRow(header){
-  const chevron=header.querySelector('.pr-chevron');
-  const tasks=header.nextElementSibling;
-  const isOpen=tasks.classList.contains('open');
-  // close all
-  document.querySelectorAll('.pr-tasks.open').forEach(el=>el.classList.remove('open'));
-  document.querySelectorAll('.pr-chevron.open').forEach(el=>el.classList.remove('open'));
-  if(!isOpen){
-    tasks.classList.add('open');
-    chevron.classList.add('open');
-  }
 }
 
 // ── FOOTER SYNC TIME ──
