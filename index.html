@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IWD Dashboard Hub</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',Arial,sans-serif;background:#F7F7F5;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 16px}
+  .logo-row{display:flex;align-items:center;gap:12px;margin-bottom:32px}
+  .logo-row img{height:32px;object-fit:contain}
+  .sep{width:1px;height:28px;background:rgba(0,0,0,.12)}
+  h1{font-size:18px;font-weight:700;color:#1A1A1A;letter-spacing:-.02em}
+  .sub{font-size:12px;color:#888;margin-top:2px}
+  .section{width:100%;max-width:480px;margin-bottom:24px}
+  .section-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#888;margin-bottom:10px;padding-left:4px}
+  .card-grid{display:flex;flex-direction:column;gap:8px}
+  .card{display:flex;align-items:center;gap:14px;padding:14px 16px;background:#fff;border-radius:10px;border:1px solid rgba(0,0,0,.07);text-decoration:none;color:#1A1A1A;transition:all .2s ease;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+  .card:hover{box-shadow:0 4px 14px rgba(0,0,0,.10);transform:translateY(-1px);border-color:rgba(252,181,40,.4)}
+  .avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex-shrink:0}
+  .av-yanti{background:#FCB528;color:#000}
+  .av-juli{background:#005287;color:#fff}
+  .av-meliana{background:#1B8040;color:#fff}
+  .av-anita{background:#660000;color:#fff}
+  .av-stephen{background:#444;color:#fff}
+  .av-shared{background:#EFEFEF;color:#555}
+  .card-info{flex:1}
+  .card-name{font-size:14px;font-weight:600;color:#1A1A1A}
+  .card-role{font-size:11px;color:#888;margin-top:1px}
+  .arrow{font-size:16px;color:#CCC}
+  .divider{height:1px;background:rgba(0,0,0,.06);margin:8px 0 20px}
+  .footer{font-size:10px;color:#BBB;margin-top:8px;text-align:center}
+</style>
+</head>
+<body>
+
+<div class="logo-row">
+  <img src="./logo-iwdemy.jpg" alt="IWDemy">
+  <div class="sep"></div>
+  <img src="./logo-tjitra.jpg" alt="Tjitra & Associates">
+</div>
+
+<div class="section">
+  <div class="section-title">Dashboard Pribadi</div>
+  <div class="card-grid">
+
+    <a class="card" href="./dashboard-personal--v1.html?person=yanti">
+      <div class="avatar av-yanti">Y</div>
+      <div class="card-info">
+        <div class="card-name">Kristina Aryanti</div>
+        <div class="card-role">Manager · IWDemy</div>
+      </div>
+      <span class="arrow">›</span>
+    </a>
+
+    <a class="card" href="./dashboard-personal--v1.html?person=juli">
+      <div class="avatar av-juli">J</div>
+      <div class="card-info">
+        <div class="card-name">Juli</div>
+        <div class="card-role">Tim IWDemy</div>
+      </div>
+      <span class="arrow">›</span>
+    </a>
+
+    <a class="card" href="./dashboard-personal--v1.html?person=meliana">
+      <div class="avatar av-meliana">M</div>
+      <div class="card-info">
+        <div class="card-name">Meliana</div>
+        <div class="card-role">Tim IWDemy</div>
+      </div>
+      <span class="arrow">›</span>
+    </a>
+
+    <a class="card" href="./dashboard-personal--v1.html?person=anita">
+      <div class="avatar av-anita">A</div>
+      <div class="card-info">
+        <div class="card-name">Anita</div>
+        <div class="card-role">Tim IWDemy</div>
+      </div>
+      <span class="arrow">›</span>
+    </a>
+
+    <a class="card" href="./dashboard-personal--v1.html?person=stephen">
+      <div class="avatar av-stephen">S</div>
+      <div class="card-info">
+        <div class="card-name">Stephen</div>
+        <div class="card-role">Tim IWDemy</div>
+      </div>
+      <span class="arrow">›</span>
+    </a>
+
+  </div>
+</div>
+
+<div class="divider" style="width:100%;max-width:480px"></div>
+
+<div class="section">
+  <div class="section-title">Shared Dashboard</div>
+  <div class="card-grid">
+
+    <a class="card" href="./dashboard-hari-ini--v1.html">
+      <div class="avatar av-shared">📅</div>
+      <div class="card-info">
+        <div class="card-name">Hari Ini</div>
+        <div class="card-role">Task harian · semua tim</div>
+      </div>
+      <span class="arrow">›</span>
+    </a>
+
+    <a class="card" href="./dashboard-tim--v1.html">
+      <div class="avatar av-shared">👥</div>
+      <div class="card-info">
+        <div class="card-name">Tim</div>
+        <div class="card-role">Overview semua anggota</div>
+      </div>
+      <span class="arrow">›</span>
+    </a>
+
+  </div>
+</div>
+
+<div class="footer">IWDemy · Insight Web Academy · Powered by Tjitra &amp; Associates</div>
+
+</body>
+</html>
