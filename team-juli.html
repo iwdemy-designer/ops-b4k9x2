@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dashboard · Juli</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#F7F7F5;font-family:'Segoe UI',Arial,sans-serif;overflow:hidden;height:100vh;display:flex;flex-direction:column}
+.tabbar{display:flex;align-items:center;gap:4px;padding:8px 16px;background:#fff;border-bottom:1px solid rgba(0,0,0,.08);flex-shrink:0;height:46px}
+.tabbar-title{font-size:11px;font-weight:700;color:#888;letter-spacing:.06em;text-transform:uppercase;margin-right:8px;padding-right:12px;border-right:1px solid rgba(0,0,0,.10)}
+.tab{padding:6px 14px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;border:none;background:none;color:#666;transition:all .15s;font-family:inherit}
+.tab.active{background:#FCB528;color:#000;box-shadow:0 1px 4px rgba(252,181,40,.30)}
+.tab:hover:not(.active){background:rgba(0,82,135,.07);color:#005287}
+.frame{width:100%;flex:1;border:none;display:none}
+.frame.active{display:block}
+</style>
+</head>
+<body>
+<div class="tabbar">
+  <span class="tabbar-title">IWDemy</span>
+  <button class="tab active" id="t-hari" onclick="sw('hari')">📅 Hari Ini</button>
+  <button class="tab" id="t-personal" onclick="sw('personal')">🟦 Juli</button>
+</div>
+<iframe class="frame active" id="f-hari" src="./dashboard-hari-ini--v1.html" title="Hari Ini"></iframe>
+<iframe class="frame" id="f-personal" src="./dashboard-personal--v1.html?person=juli" title="Juli"></iframe>
+<script>
+function sw(id){
+  ['hari','personal'].forEach(k=>{
+    document.getElementById('t-'+k).classList.toggle('active',k===id);
+    document.getElementById('f-'+k).classList.toggle('active',k===id);
+  });
+}
+</script>
+</body>
+</html>
