@@ -141,6 +141,9 @@ body{font-family:'Carlito','Inter',sans-serif;background:var(--fog);color:var(--
 .pt-link{font-size:10px;color:var(--blue);text-decoration:none;flex-shrink:0;opacity:0;transition:opacity .15s;padding:2px 6px;border-radius:4px;background:var(--blue-08)}
 .pt-item:hover .pt-link{opacity:1}
 .pt-more{padding:8px 22px;font-size:11px;color:var(--grey);font-style:italic}
+.pt-more-btn{background:none;border:1px solid rgba(0,0,0,.10);border-radius:6px;padding:5px 14px;font-size:11px;color:var(--blue);cursor:pointer;font-family:inherit;font-weight:600;transition:all .15s}
+.pt-more-btn:hover{background:var(--blue-08);border-color:var(--blue-15)}
+.pt-hidden{display:none}
 
 /* FOOTER */
 .footer{background:var(--blue);padding:20px 52px;margin-top:48px;position:relative;z-index:1}
@@ -428,7 +431,8 @@ function renderPersonRows(){
       return 0;
     });
 
-    const taskItems=sorted.map(t=>{
+    const SHOW_LIMIT=5;
+    function renderTaskRow(t){
       const s=(t.status||'').toLowerCase();
       const statCls=s.includes('doing')||s.includes('progress')?'pt-doing':s.includes('wait')||s.includes('hold')?'pt-wait':'pt-next';
       const statLbl=s.includes('doing')||s.includes('progress')?'Doing':s.includes('wait')||s.includes('hold')?'Menunggu':'Next';
@@ -445,7 +449,13 @@ function renderPersonRows(){
         ${dueLbl?`<span class="pt-due ${dueCls}">${dueLbl}</span>`:''}
         ${t.url?`<a class="pt-link" href="${t.url}" target="_blank" rel="noopener">Notion →</a>`:''}
       </div>`;
-    }).join('');
+    }
+    const visible=sorted.slice(0,SHOW_LIMIT);
+    const hidden=sorted.slice(SHOW_LIMIT);
+    const taskItems=visible.map(renderTaskRow).join('');
+    const hiddenHtml=hidden.length>0?`
+      <div class="pt-hidden" id="hid-${person.key}">${hidden.map(renderTaskRow).join('')}</div>
+      <div class="pt-more"><button class="pt-more-btn" onclick="expandTasks('hid-${person.key}',this)">+ ${hidden.length} task lagi</button></div>`:'';
 
     const emptyHtml=total===0?'<div class="pt-more">Belum ada task aktif</div>':'';
 
@@ -471,7 +481,7 @@ function renderPersonRows(){
         <span class="pr-badge ${badgeClass}">${badgeLabel}</span>
       </div>
       <div class="pr-tasks">
-        ${taskItems}${emptyHtml}
+        ${taskItems}${hiddenHtml}${emptyHtml}
       </div>
     </div>`;
   }).join('');
@@ -555,6 +565,12 @@ renderMilestones();
 renderPersonRows();
 renderFooter();
 // Hide nav + ticker when embedded (via ?embed=1 param OR iframe detection)
+function expandTasks(hidId, btn){
+  const el=document.getElementById(hidId);
+  if(el){el.style.display='block';}
+  if(btn&&btn.parentElement){btn.parentElement.style.display='none';}
+}
+
 if (new URLSearchParams(location.search).get('embed') === '1' || window.self !== window.top) {
   var _nav = document.querySelector('nav.nav');
   if (_nav) _nav.style.display = 'none';

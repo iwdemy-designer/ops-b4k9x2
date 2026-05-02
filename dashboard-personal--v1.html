@@ -23,25 +23,50 @@
   --fb:'Carlito','Calibri',Arial,sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
-body{font-family:var(--fb);background:var(--bg);color:var(--t1);-webkit-font-smoothing:antialiased;min-height:100vh}
-.wrap{max-width:760px;margin:0 auto;padding:0 20px 56px}
+body{font-family:var(--fb);background:var(--bg);color:var(--t1);-webkit-font-smoothing:antialiased;min-height:100vh;line-height:1.6}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 56px;position:relative;z-index:1}
 a{color:inherit;text-decoration:none}
 
-/* TOP BAR */
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 0;margin-bottom:4px;border-bottom:1px solid var(--border)}
-.topbar-left{display:flex;align-items:center;gap:8px}
-.topbar-left img{height:24px;object-fit:contain}
-.logo-div{width:1px;height:18px;background:var(--border);margin:0 2px}
-.tim-link{display:inline-flex;align-items:center;gap:5px;font-family:var(--fb);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--t3);padding:4px 10px;border-radius:5px;border:1px solid var(--border);transition:all .18s}
-.tim-link:hover{border-color:var(--mustard);color:var(--mustard-d)}
-.tim-link svg{width:12px;height:12px}
+/* BACKGROUND BLOBS */
+.bg-blobs{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.bg-blob{position:absolute;border-radius:50%;filter:blur(100px)}
+.bg-blob:nth-child(1){width:560px;height:560px;top:-180px;left:-120px;background:rgba(0,82,135,.05)}
+.bg-blob:nth-child(2){width:480px;height:480px;top:30%;right:-100px;background:rgba(252,181,40,.04)}
+.bg-blob:nth-child(3){width:420px;height:420px;bottom:-120px;left:50%;transform:translateX(-50%);background:rgba(100,100,100,.04)}
+
+/* TICKER */
+.ticker-wrap{background:var(--blue);height:36px;display:flex;align-items:center;overflow:hidden}
+.ticker-label{flex-shrink:0;background:var(--mustard);color:var(--blue);font-family:var(--fd);font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:0 16px;height:100%;display:flex;align-items:center;white-space:nowrap}
+.ticker-msg{flex:1;padding:0 24px;position:relative;height:100%;overflow:hidden}
+.ticker-text{font-size:11px;color:rgba(255,255,255,.82);position:absolute;top:50%;left:24px;right:24px;transform:translateY(-50%);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:opacity .6s ease,transform .6s ease}
+.ticker-text.visible{opacity:1;transform:translateY(-50%) translateX(0)}
+.ticker-text.exit{opacity:0;transform:translateY(-50%) translateX(-8px)}
+.ticker-text.enter{opacity:0;transform:translateY(-50%) translateX(8px)}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,.82);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid var(--border);height:58px;display:flex;align-items:center;padding:0 24px;justify-content:space-between}
+.nav-brand{display:flex;align-items:center;gap:12px}
+.nav-logos{display:flex;align-items:center;gap:10px}
+.nav-logo-img{height:28px;width:auto;object-fit:contain;display:block}
+.nav-logo-divider{width:1px;height:20px;background:var(--border);flex-shrink:0}
+.nav-tabs{display:flex;gap:2px}
+.nav-tab{font-family:var(--fd);font-size:11px;font-weight:700;color:var(--t3);padding:6px 13px;border-radius:7px;text-decoration:none;transition:all .15s}
+.nav-tab:hover{color:var(--blue);background:var(--blue-s)}
+.nav-tab.active{color:var(--blue);background:var(--mustard);box-shadow:0 1px 4px rgba(252,181,40,.30)}
+.nav-right{display:flex;align-items:center;gap:8px}
+.nav-date{font-size:11px;color:var(--t3);padding:5px 12px;border-radius:7px;background:rgba(30,28,24,.06);font-weight:600}
+
+/* HERO */
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--mustard-s);border:1px solid rgba(252,181,40,.22);padding:4px 12px;border-radius:999px;font-family:var(--fd);font-size:10px;font-weight:700;color:var(--blue);letter-spacing:.07em;text-transform:uppercase;margin-bottom:10px}
+.eyebrow-dot{width:5px;height:5px;background:var(--mustard);border-radius:50%}
+.hero-bar{width:36px;height:3px;background:var(--mustard);border-radius:2px;margin-top:12px;margin-bottom:18px}
 
 /* HEADER */
-.hdr{margin:20px 0 16px}
-.hdr-name{font-family:var(--fd);font-size:28px;font-weight:800;letter-spacing:-1px;color:var(--t1);line-height:1.1;margin-bottom:4px}
+.hdr{padding:32px 0 0}
+.hdr-name{font-family:var(--fd);font-size:clamp(22px,3vw,30px);font-weight:800;letter-spacing:-1px;color:var(--t1);line-height:1.15;margin-bottom:4px}
 .hdr-name span{color:var(--mustard-d)}
 .hdr-sub{font-size:12px;color:var(--t3);letter-spacing:.3px}
-.admin-hdr{margin:16px 0 18px}
+.admin-hdr{padding:32px 0 0}
 .admin-title{font-family:var(--fd);font-size:22px;font-weight:800;letter-spacing:-.8px;color:var(--t1);margin-bottom:3px}
 .admin-sub{font-size:12px;color:var(--t3)}
 
@@ -159,33 +184,51 @@ a{color:inherit;text-decoration:none}
 </style>
 </head>
 <body>
-<div class="wrap">
 
-<div class="topbar">
-  <div class="topbar-left">
-    <img src="./logo-iwdemy.jpg" alt="IWDemy">
-    <div class="logo-div"></div>
-    <img src="./logo-tjitra.jpg" alt="Tjitra">
-  </div>
-  <a class="tim-link" href="./dashboard-tim--v1.html" target="_blank">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-    Dashboard Tim
-  </a>
-  <a class="tim-link" href="./dashboard-overview--v1.html" target="_blank" id="ovLink" style="display:none">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-    Overview
-  </a>
+<div class="bg-blobs">
+  <div class="bg-blob"></div>
+  <div class="bg-blob"></div>
+  <div class="bg-blob"></div>
 </div>
+
+<div class="ticker-wrap">
+  <div class="ticker-label">Personal</div>
+  <div class="ticker-msg" id="tickerMsg">
+    <div class="ticker-text visible" id="tickerTxt">Loading...</div>
+  </div>
+</div>
+
+<nav class="nav">
+  <div class="nav-brand">
+    <div class="nav-logos">
+      <img class="nav-logo-img" src="./logo-iwdemy.jpg" alt="IWDemy">
+      <div class="nav-logo-divider"></div>
+      <img class="nav-logo-img" src="./logo-tjitra.jpg" alt="Tjitra">
+    </div>
+  </div>
+  <div class="nav-tabs">
+    <a class="nav-tab" href="./dashboard-hari-ini--v1.html">Hari Ini</a>
+    <a class="nav-tab active" href="#">Personal</a>
+    <a class="nav-tab" href="./dashboard-tim--v1.html">Tim</a>
+    <a class="nav-tab" href="./dashboard-overview--v1.html" id="ovLink" style="display:none">Overview</a>
+  </div>
+  <div class="nav-right">
+    <div class="nav-date" id="navDateBadge"></div>
+  </div>
+</nav>
+
+<div class="wrap">
 
 <div id="hdrArea"></div>
 <div class="person-tabs" id="personTabs" style="display:none"></div>
 <div id="personViews"></div>
 <div class="sync-bar" id="syncBar"></div>
+</div><!-- /wrap -->
+
 <footer class="ftr">
   <p>Designed by Tjitra · Powered by IWDemy</p>
   <span>&copy; 2026 Tjitra &amp; Associates &middot; Aspiring Growth, Experiencing Technology</span>
 </footer>
-</div>
 
 <script>
 // AUTO:START — NOTION SYNC DATA
@@ -450,13 +493,15 @@ if(isPersonal&&activePerson){
   if(activePerson.key==='yanti'){
     SHOW_CP=true;
     const ovLink=document.getElementById('ovLink');
-    if(ovLink) ovLink.style.display='inline-flex';
+    if(ovLink) ovLink.style.display='flex';
   }
   const tasks=getPersonTasks(activePerson.key);
   hdrArea.innerHTML=`
     <div class="hdr">
+      <div class="hero-eyebrow"><span class="eyebrow-dot"></span>Personal Command Centre</div>
       <div class="hdr-name">Halo, <span>${activePerson.label}</span> 👋</div>
-      <div class="hdr-sub">${dateLbl} · Command Centre</div>
+      <div class="hdr-sub">${dateLbl}</div>
+      <div class="hero-bar"></div>
     </div>
     ${renderCockpit(tasks)}
     <div class="quote-bar"><div class="q-accent"></div><div>
@@ -477,8 +522,10 @@ if(isPersonal&&activePerson){
       items:['15M in 2026','5 containers IQ + EGOO','300 monthly SocMed','Winning attitude team with 1 vision','Unexpected income']}
   };
   hdrArea.innerHTML=`<div class="admin-hdr">
+    <div class="hero-eyebrow"><span class="eyebrow-dot"></span>Personal Command Centre</div>
     <div class="admin-title">Dashboard Personal</div>
     <div class="admin-sub">${totalAll} tasks aktif · ${ovAll} overdue · ${dateLbl}</div>
+    <div class="hero-bar"></div>
   </div>
   <div class="quote-bar"><div class="q-accent"></div><div>
     <div class="q-text">&ldquo;${q.q}&rdquo;</div>
@@ -515,6 +562,38 @@ if(SYNC_TIME&&SYNC_TIME!=='PLACEHOLDER'){
 } else {
   syncEl.textContent='Data belum disinkronkan.';
 }
+
+// ── NAV DATE BADGE ────────────────────────────────────────────────
+const navDateBadge=document.getElementById('navDateBadge');
+if(navDateBadge){
+  const nd=new Date();
+  navDateBadge.textContent=nd.toLocaleDateString('id-ID',{weekday:'short',day:'numeric',month:'short'});
+}
+
+// ── TICKER ────────────────────────────────────────────────────────
+(function initTicker(){
+  const tickerEl=document.getElementById('tickerTxt');
+  if(!tickerEl||!QUOTES||!QUOTES.length) return;
+  let idx=0;
+  function showNext(){
+    const next=QUOTES[(idx+1)%QUOTES.length];
+    tickerEl.classList.remove('visible');
+    tickerEl.classList.add('exit');
+    setTimeout(()=>{
+      tickerEl.textContent='“'+next.q+'” — '+next.a;
+      tickerEl.classList.remove('exit');
+      tickerEl.classList.add('enter');
+      requestAnimationFrame(()=>requestAnimationFrame(()=>{
+        tickerEl.classList.remove('enter');
+        tickerEl.classList.add('visible');
+      }));
+      idx=(idx+1)%QUOTES.length;
+    },650);
+  }
+  const firstQ=QUOTES[0];
+  tickerEl.textContent='“'+firstQ.q+'” — '+firstQ.a;
+  setInterval(showNext,8000);
+})();
 </script>
 </body>
 </html>
