@@ -220,16 +220,7 @@ const SYNC_TIME = '2026-05-01T08:30:00';
 
 // ── CONFIG ────────────────────────────────────────────────────
 const PERSONS = [
-  { key:'yanti', label:'Yanti', initials:'YA', fullName:'Kristina Aryanti',
-    iam:{
-      grateful:{icon:'🌱',type:'grateful',title:'Grateful for',
-        items:['Myself & my health','Home and work','Family & friends','My bank account','My journey to becoming']},
-      feelbest:{icon:'🏛',type:'feelbest',title:'Feel best for',
-        items:['Fulfillment in work','Abundance in life and business','Secure in financial situation','Joy with spouse & kids','Peace with myself']},
-      blessed:{icon:'👑',type:'blessed',title:'Miraculously blessed',
-        items:['15M in 2026','5 containers IQ + EGOO','300 monthly SocMed','Winning attitude team with 1 vision','Unexpected income']}
-    }
-  },
+  { key:'yanti', label:'Yanti', initials:'YA', fullName:'Kristina Aryanti', iam:null },
   { key:'juli',    label:'Juli',    initials:'JL', fullName:'Juli',    iam:null },
   { key:'meliana', label:'Meliana', initials:'ML', fullName:'Meliana', iam:null },
   { key:'anita',   label:'Anita',   initials:'AN', fullName:'Anita',   iam:null },
@@ -403,10 +394,23 @@ if(isPersonal&&activePerson){
 } else {
   const totalAll=TASKS.length;
   const ovAll=TASKS.filter(t=>{const d=du(t.due);return d!==null&&d<0;}).length;
+  const TJITRA_IAM={
+    grateful:{icon:'🌱',type:'grateful',title:'Grateful for',
+      items:['Myself & my health','Home and work','Family & friends','My bank account','My journey to becoming']},
+    feelbest:{icon:'🏛',type:'feelbest',title:'Feel best for',
+      items:['Fulfillment in work','Abundance in life and business','Secure in financial situation','Joy with spouse & kids','Peace with myself']},
+    blessed:{icon:'👑',type:'blessed',title:'Miraculously blessed',
+      items:['15M in 2026','5 containers IQ + EGOO','300 monthly SocMed','Winning attitude team with 1 vision','Unexpected income']}
+  };
   hdrArea.innerHTML=`<div class="admin-hdr">
     <div class="admin-title">Dashboard Personal</div>
     <div class="admin-sub">${totalAll} tasks aktif · ${ovAll} overdue · ${dateLbl}</div>
-  </div>`;
+  </div>
+  <div class="quote-bar"><div class="q-accent"></div><div>
+    <div class="q-text">&ldquo;${q.q}&rdquo;</div>
+    <span class="q-author">— ${q.a}</span>
+  </div></div>
+  ${renderIAM(TJITRA_IAM)}`;
   tabsEl.style.display='flex';
   PERSONS.forEach((p,i)=>{
     const tasks=getPersonTasks(p.key);
