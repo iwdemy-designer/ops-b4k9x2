@@ -1,510 +1,442 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard Personal · IWDemy</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=Carlito:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Command Centre · IWDemy</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root {
-  --mustard:#FCB528; --mustard-10:rgba(252,181,40,.10); --mustard-20:rgba(252,181,40,.26);
-  --mustard-dark:#B8850A;
-  --blue:#005287; --blue-08:rgba(0,82,135,.08); --blue-15:rgba(0,82,135,.15);
-  --green:#1B8040; --green-08:rgba(27,128,64,.08);
-  --maroon:#660000; --maroon-08:rgba(102,0,0,.08);
-  --orange:#D06A00; --orange-08:rgba(208,106,0,.08);
-  --red:#C0392B; --red-08:rgba(192,57,43,.08);
-  --ink:#111; --grey:#6A6A6A; --silver:#EFEFEF; --fog:#F7F7F5; --white:#FFF;
-  --xs:0 1px 3px rgba(0,0,0,.06); --sm:0 2px 8px rgba(0,0,0,.08); --md:0 6px 24px rgba(0,0,0,.10);
-  --rsm:8px; --rmd:12px; --rlg:16px; --rxl:24px;
+:root{
+  --bg:#F8F6F2;--card:#FFFFFF;
+  --gold:#D4A84B;--gold-d:#8B7340;--gold-s:rgba(212,168,75,.10);
+  --amber:#C4912E;--amber-s:rgba(196,145,46,.10);
+  --green:#2E7D52;--green-s:rgba(46,125,82,.08);
+  --red:#C0392B;--red-s:rgba(192,57,43,.10);
+  --maroon:#660000;
+  --blue:#1A5CA8;--blue-s:rgba(26,92,168,.08);
+  --t1:rgba(14,14,14,.92);--t2:rgba(30,28,24,.68);--t3:rgba(30,28,24,.44);
+  --border:rgba(30,28,24,.09);--r:10px;
+  --sh:0 1px 3px rgba(20,20,18,.04),0 4px 12px rgba(20,20,18,.04);
+  --sh2:0 2px 8px rgba(20,20,18,.06),0 10px 28px rgba(20,20,18,.06);
+  --fd:'Plus Jakarta Sans',system-ui,sans-serif;
+  --fb:'Inter',system-ui,sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
-body{font-family:'Carlito','Inter',sans-serif;background:var(--fog);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased;position:relative}
+body{font-family:var(--fb);background:var(--bg);color:var(--t1);-webkit-font-smoothing:antialiased;min-height:100vh}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 56px}
+a{color:inherit;text-decoration:none}
 
-/* BG BLOBS */
-.bg-blobs{position:fixed;inset:0;pointer-events:none;z-index:0}
-.bg-blobs::before{content:'';position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(252,181,40,.13) 0%,transparent 70%);top:-100px;right:-100px;border-radius:50%}
-.bg-blobs::after{content:'';position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(0,82,135,.09) 0%,transparent 70%);bottom:50px;left:-50px;border-radius:50%}
-
-.wrap{max-width:1100px;margin:0 auto;padding:24px 20px;position:relative;z-index:1}
+/* TOP BAR */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 0;margin-bottom:4px;border-bottom:1px solid var(--border)}
+.topbar-left{display:flex;align-items:center;gap:8px}
+.topbar-left img{height:24px;object-fit:contain}
+.logo-div{width:1px;height:18px;background:var(--border);margin:0 2px}
+.tim-link{display:inline-flex;align-items:center;gap:5px;font-family:var(--fb);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--t3);padding:4px 10px;border-radius:5px;border:1px solid var(--border);transition:all .18s}
+.tim-link:hover{border-color:var(--gold);color:var(--gold-d)}
+.tim-link svg{width:12px;height:12px}
 
 /* HEADER */
-.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;gap:16px;flex-wrap:wrap}
-.header-left{display:flex;align-items:center;gap:14px}
-.logo-pair{display:flex;align-items:center;gap:8px}
-.logo-pair img{height:32px;object-fit:contain}
-.logo-divider{width:1px;height:24px;background:var(--silver)}
-.header-title h1{font-family:'Montserrat',sans-serif;font-size:1.1rem;font-weight:700;color:var(--ink)}
-.header-title p{font-size:.8rem;color:var(--grey);margin-top:1px}
-.header-date{font-size:.8rem;color:var(--grey);text-align:right;background:var(--white);border:1px solid var(--silver);padding:6px 14px;border-radius:20px;box-shadow:var(--xs)}
+.hdr{margin:20px 0 16px}
+.hdr-name{font-family:var(--fd);font-size:28px;font-weight:800;letter-spacing:-1px;color:var(--t1);line-height:1.1;margin-bottom:4px}
+.hdr-name span{color:var(--gold-d)}
+.hdr-sub{font-size:12px;color:var(--t3);letter-spacing:.3px}
+.admin-hdr{margin:16px 0 18px}
+.admin-title{font-family:var(--fd);font-size:22px;font-weight:800;letter-spacing:-.8px;color:var(--t1);margin-bottom:3px}
+.admin-sub{font-size:12px;color:var(--t3)}
 
-/* PERSON TABS */
-.person-tabs{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
-.tab-btn{position:relative;display:flex;align-items:center;gap:8px;padding:10px 18px;border-radius:24px;border:2px solid var(--silver);background:var(--white);cursor:pointer;font-family:'Inter',sans-serif;font-size:.85rem;font-weight:600;color:var(--grey);transition:all .2s;box-shadow:var(--xs)}
-.tab-btn:hover{border-color:var(--mustard);color:var(--mustard-dark)}
-.tab-btn.active{background:var(--mustard);border-color:var(--mustard);color:var(--white);box-shadow:0 4px 12px rgba(252,181,40,.35)}
-.tab-avatar{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700}
-.tab-btn:not(.active) .tab-avatar{background:var(--silver);color:var(--ink)}
-.tab-count{font-size:.7rem;background:rgba(255,255,255,.4);padding:1px 6px;border-radius:10px;font-weight:700}
-.tab-btn:not(.active) .tab-count{background:var(--silver);color:var(--grey)}
-.p1-dot{position:absolute;top:4px;right:4px;width:8px;height:8px;border-radius:50%;background:var(--red);border:2px solid var(--white)}
+/* COCKPIT */
+.cockpit{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.chip{display:flex;align-items:baseline;gap:5px;padding:6px 14px;border-radius:20px;border:1px solid var(--border);background:var(--card);box-shadow:var(--sh)}
+.chip-num{font-family:var(--fd);font-size:18px;font-weight:800;letter-spacing:-.8px;line-height:1}
+.chip-lbl{font-size:10px;color:var(--t3);letter-spacing:.3px}
+.chip.c-ov .chip-num{color:var(--red)}
+.chip.c-td .chip-num{color:var(--amber)}
+.chip.c-do .chip-num{color:var(--green)}
 
-/* PERSON VIEW */
-.person-view{display:none}
-.person-view.active{display:block}
+/* QUOTE */
+.quote-bar{display:flex;gap:12px;align-items:stretch;margin-bottom:22px;padding:13px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.q-accent{width:2px;background:var(--gold);border-radius:1px;flex-shrink:0}
+.q-text{font-family:var(--fd);font-size:12.5px;font-style:italic;color:var(--t2);line-height:1.55}
+.q-author{display:block;font-style:normal;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3);margin-top:4px}
 
-/* NARRATIVE CARD */
-.narrative-card{background:linear-gradient(135deg,var(--blue) 0%,#0077b6 60%,#0096c7 100%);border-radius:var(--rlg);padding:20px 24px;margin-bottom:24px;color:var(--white);box-shadow:0 8px 28px rgba(0,82,135,.22)}
-.narrative-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.narrative-icon{font-size:1.4rem}
-.narrative-title{font-family:'Montserrat',sans-serif;font-size:1rem;font-weight:700;opacity:.9}
-.narrative-text{font-size:.95rem;line-height:1.7;opacity:.92}
-.narrative-stats{display:flex;gap:20px;margin-top:14px;flex-wrap:wrap}
-.stat-chip{background:rgba(255,255,255,.18);border-radius:20px;padding:5px 14px;font-size:.78rem;font-weight:600;display:flex;align-items:center;gap:6px}
-.stat-chip .stat-num{font-family:'Montserrat',sans-serif;font-size:1.05rem;font-weight:800}
+/* I AM */
+.iam-section{margin-bottom:22px}
+.iam-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold-d);margin-bottom:10px}
+.iam-grid{display:flex;gap:8px;flex-wrap:wrap}
+.iam-card{flex:1 1 calc(33.33% - 6px);min-width:175px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;cursor:pointer;box-shadow:var(--sh);overflow:hidden}
+.iam-card.grateful{background:rgba(46,125,82,.04);border-color:rgba(46,125,82,.14)}
+.iam-card.feelbest{background:rgba(26,92,168,.04);border-color:rgba(26,92,168,.12)}
+.iam-card.blessed{background:var(--gold-s);border-color:rgba(212,168,75,.20)}
+.iam-hdr{display:flex;align-items:center;gap:7px}
+.iam-icon{font-size:15px;flex-shrink:0}
+.iam-title{font-family:var(--fd);font-size:11.5px;font-weight:700;color:var(--t1);flex:1}
+.iam-chev{font-size:9px;color:var(--t3);transition:transform .22s;flex-shrink:0}
+.iam-card.open .iam-chev{transform:rotate(180deg)}
+.iam-body{max-height:0;overflow:hidden;transition:max-height .28s ease}
+.iam-card.open .iam-body{max-height:180px}
+.iam-card.open .iam-hdr{margin-bottom:9px}
+.iam-list{list-style:none}
+.iam-list li{font-size:11px;color:var(--t2);line-height:1.65;padding-left:13px;position:relative}
+.iam-list li::before{content:'·';position:absolute;left:2px;color:var(--t3);font-weight:700}
 
-/* KANBAN BOARD */
-.kanban-board{display:grid;gap:16px;margin-bottom:32px}
-.kanban-board.timeline{grid-template-columns:repeat(4,1fr)}
-.kanban-board.priority{grid-template-columns:repeat(3,1fr)}
+/* TABS */
+.person-tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px}
+.tab-btn{display:flex;align-items:center;gap:7px;padding:8px 16px;border-radius:20px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;font-family:var(--fb);font-size:13px;font-weight:600;color:var(--t2);transition:all .18s;box-shadow:var(--sh)}
+.tab-btn:hover{border-color:var(--gold);color:var(--gold-d)}
+.tab-btn.active{background:var(--gold);border-color:var(--gold);color:#fff;box-shadow:0 3px 10px rgba(212,168,75,.35)}
+.tab-av{width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700}
+.tab-btn:not(.active) .tab-av{background:rgba(30,28,24,.08);color:var(--t2)}
+.tab-ct{font-size:10px;background:rgba(255,255,255,.4);padding:1px 6px;border-radius:8px;font-weight:700}
+.tab-btn:not(.active) .tab-ct{background:rgba(30,28,24,.07);color:var(--t3)}
+.tab-dot{width:7px;height:7px;border-radius:50%;background:var(--red);flex-shrink:0}
+.person-view{display:none}.person-view.active{display:block}
 
-@media(max-width:900px){
-  .kanban-board.timeline{grid-template-columns:repeat(2,1fr)}
-  .kanban-board.priority{grid-template-columns:repeat(2,1fr)}
-}
-@media(max-width:540px){
-  .kanban-board.timeline,.kanban-board.priority{grid-template-columns:1fr}
-}
+/* ZONES */
+.zone{margin-bottom:20px}
+.zone-hdr{display:flex;align-items:center;gap:9px;margin-bottom:10px}
+.zdot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.zone-overdue .zdot{background:var(--red)}
+.zone-today .zdot{background:var(--amber)}
+.zone-week .zdot{background:var(--blue)}
+.zone-queue .zdot{background:rgba(30,28,24,.22)}
+.zlbl{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--t3)}
+.zone-overdue .zlbl{color:var(--red)}
+.zone-today .zlbl{color:var(--amber)}
+.zone-week .zlbl{color:var(--blue)}
+.zct{font-size:10px;color:var(--t3);margin-left:3px}
+.zempty{font-size:12px;color:var(--t3);font-style:italic;padding:6px 0}
 
-/* KANBAN COLUMN */
-.kanban-col{background:var(--white);border-radius:var(--rlg);box-shadow:var(--sm);overflow:hidden;display:flex;flex-direction:column}
-.col-header{padding:12px 14px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--silver)}
-.col-header-left{display:flex;align-items:center;gap:8px}
-.col-icon{font-size:1.1rem}
-.col-title{font-family:'Montserrat',sans-serif;font-size:.82rem;font-weight:700;color:var(--ink)}
-.col-badge{font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:10px;background:var(--silver);color:var(--grey)}
-
-/* Column accent colors */
-.col-haini .col-header{border-bottom-color:var(--mustard);background:linear-gradient(135deg,rgba(252,181,40,.06),var(--white))}
-.col-haini .col-badge{background:var(--mustard-10);color:var(--mustard-dark)}
-.col-besok .col-header{border-bottom-color:var(--blue);background:linear-gradient(135deg,var(--blue-08),var(--white))}
-.col-besok .col-badge{background:var(--blue-15);color:var(--blue)}
-.col-minggu .col-header{border-bottom-color:var(--green);background:linear-gradient(135deg,var(--green-08),var(--white))}
-.col-minggu .col-badge{background:var(--green-08);color:var(--green)}
-.col-menunggu .col-header{border-bottom-color:var(--silver)}
-.col-p1 .col-header{border-bottom-color:var(--red);background:linear-gradient(135deg,var(--red-08),var(--white))}
-.col-p1 .col-badge{background:var(--red-08);color:var(--red)}
-.col-p2 .col-header{border-bottom-color:var(--orange);background:linear-gradient(135deg,var(--orange-08),var(--white))}
-.col-p2 .col-badge{background:var(--orange-08);color:var(--orange)}
-.col-p3 .col-header{border-bottom-color:var(--green);background:linear-gradient(135deg,var(--green-08),var(--white))}
-.col-p3 .col-badge{background:var(--green-08);color:var(--green)}
-
-/* KANBAN CARDS */
-.col-cards{padding:10px 10px;display:flex;flex-direction:column;gap:8px;flex:1;min-height:60px}
-.kanban-card{background:var(--fog);border-radius:var(--rsm);padding:10px 12px;border-left:3px solid transparent;cursor:default;transition:transform .15s,box-shadow .15s}
-.kanban-card:hover{transform:translateY(-1px);box-shadow:var(--sm)}
-.col-haini .kanban-card{border-left-color:var(--mustard)}
-.col-besok .kanban-card{border-left-color:var(--blue)}
-.col-minggu .kanban-card{border-left-color:var(--green)}
-.col-menunggu .kanban-card{border-left-color:var(--silver)}
-.col-p1 .kanban-card{border-left-color:var(--red)}
-.col-p2 .kanban-card{border-left-color:var(--orange)}
-.col-p3 .kanban-card{border-left-color:var(--green)}
-
-.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:6px;margin-bottom:7px}
-.card-name{font-size:.83rem;font-weight:600;color:var(--ink);line-height:1.45;flex:1}
-.card-notion-link{flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:6px;background:var(--silver);color:var(--grey);text-decoration:none;font-size:.75rem;transition:background .15s,color .15s;margin-top:1px}
-.card-notion-link:hover{background:var(--blue-15);color:var(--blue)}
-.card-tags{display:flex;flex-wrap:wrap;gap:4px}
-.tag{font-size:.68rem;font-weight:600;padding:2px 7px;border-radius:8px;white-space:nowrap}
-.tag-priority-p1{background:var(--red-08);color:var(--red)}
-.tag-priority-p2{background:var(--orange-08);color:var(--orange)}
-.tag-priority-p3{background:var(--green-08);color:var(--green)}
-.tag-status-doing{background:var(--mustard-10);color:var(--mustard-dark)}
-.tag-status-next{background:var(--blue-08);color:var(--blue)}
-.tag-status-waiting{background:var(--silver);color:var(--grey)}
-.tag-status-done{background:var(--green-08);color:var(--green)}
+/* TASK CARD */
+.tc{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;margin-bottom:7px;position:relative;box-shadow:var(--sh);transition:box-shadow .18s;overflow:hidden}
+.tc:hover{box-shadow:var(--sh2)}
+.tc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.tc.p1::before{background:var(--amber)}
+.tc.p2::before{background:var(--gold)}
+.tc.p3::before{background:rgba(30,28,24,.14)}
+.tc.hold::before{background:rgba(30,28,24,.08)}
+.tc-r1{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:7px}
+.tc-name{font-family:var(--fd);font-size:13.5px;font-weight:700;letter-spacing:-.2px;line-height:1.3;flex:1;color:var(--t1)}
+.tc-name a:hover{color:var(--gold-d)}
+.tc-cd{font-family:var(--fd);font-size:11px;font-weight:700;padding:3px 10px;border-radius:5px;white-space:nowrap;flex-shrink:0}
+.tc-cd.overdue{background:var(--red-s);color:var(--red)}
+.tc-cd.today{background:var(--amber-s);color:var(--amber)}
+.tc-cd.tomorrow{background:var(--green-s);color:var(--green)}
+.tc-cd.days{background:rgba(30,28,24,.06);color:var(--t2)}
+.tc-cd.nodue{background:rgba(30,28,24,.04);color:var(--t3)}
+.tc-tags{display:flex;gap:5px;flex-wrap:wrap}
+.tag{font-size:9.5px;font-weight:600;letter-spacing:.4px;padding:2px 8px;border-radius:4px}
+.tag-p1{background:var(--amber-s);color:var(--amber)}
+.tag-p2{background:var(--gold-s);color:var(--gold-d)}
+.tag-p3{background:rgba(30,28,24,.06);color:var(--t3)}
+.tag-hold{background:rgba(30,28,24,.05);color:var(--t3)}
+.tag-doing{background:var(--green-s);color:var(--green)}
+.tag-next{background:rgba(30,28,24,.06);color:var(--t2)}
+.tag-waiting{background:rgba(30,28,24,.05);color:var(--t3)}
 .tag-domain{background:rgba(102,0,0,.07);color:var(--maroon)}
-.tag-due{background:var(--blue-08);color:var(--blue)}
-.tag-overdue{background:var(--red-08);color:var(--red)}
-.tag-assignee{background:var(--mustard-10);color:var(--mustard-dark)}
+.tag-ms{background:rgba(212,168,75,.15);color:var(--gold-d)}
+.tag-ov{background:var(--red-s);color:var(--red);font-weight:700}
 
-.col-empty{text-align:center;padding:20px 10px;color:var(--grey);font-size:.8rem;font-style:italic;opacity:.7}
+/* SYNC + FOOTER */
+.sync-bar{text-align:center;font-size:11px;color:var(--t3);margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
+.ftr{text-align:center;margin-top:28px;padding-top:14px;border-top:1px solid var(--border)}
+.ftr p{font-size:11px;color:var(--t3);font-style:italic;line-height:1.6}
+.ftr span{display:block;font-size:9px;color:rgba(30,28,24,.22);letter-spacing:1px;text-transform:uppercase;margin-top:3px}
 
-/* SYNC INFO */
-.sync-bar{text-align:center;font-size:.75rem;color:var(--grey);margin-top:8px;padding:8px;border-top:1px solid var(--silver)}
+@media(max-width:540px){.iam-card{flex:1 1 100%}.cockpit{gap:6px}.chip{padding:5px 12px}}
 </style>
 </head>
 <body>
-<div class="bg-blobs"></div>
 <div class="wrap">
 
-  <!-- HEADER -->
-  <div class="header">
-    <div class="header-left">
-      <div class="logo-pair">
-        <img src="./logo-iwdemy.jpg" alt="IWDemy">
-        <div class="logo-divider"></div>
-        <img src="./logo-tjitra.jpg" alt="Tjitra">
-      </div>
-      <div class="header-title">
-        <h1>Dashboard Personal</h1>
-        <p>Kanban · Insight Web Academy</p>
-      </div>
-    </div>
-    <div class="header-date" id="headerDate">Memuat...</div>
+<div class="topbar">
+  <div class="topbar-left">
+    <img src="./logo-iwdemy.jpg" alt="IWDemy">
+    <div class="logo-div"></div>
+    <img src="./logo-tjitra.jpg" alt="Tjitra">
   </div>
+  <a class="tim-link" href="./dashboard-tim--v1.html" target="_blank">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    Dashboard Tim
+  </a>
+</div>
 
-  <!-- PERSON TABS -->
-  <div class="person-tabs" id="personTabs"></div>
-
-  <!-- PERSON VIEWS (rendered by JS) -->
-  <div id="personViews"></div>
-
-  <div class="sync-bar" id="syncBar">Memuat data...</div>
+<div id="hdrArea"></div>
+<div class="person-tabs" id="personTabs" style="display:none"></div>
+<div id="personViews"></div>
+<div class="sync-bar" id="syncBar"></div>
+<footer class="ftr">
+  <p>Designed by Tjitra · Powered by IWDemy</p>
+  <span>&copy; 2026 Tjitra &amp; Associates &middot; Aspiring Growth, Experiencing Technology</span>
+</footer>
 </div>
 
 <script>
-// ─────────────────────────────────────────────
 // AUTO:START — NOTION SYNC DATA
-const USERS = {
-  kristina: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a',
-  juli:     'd9f6882d-73e7-4749-85cd-56b0f90f7cf1',
-  meliana:  '01ee5cb8-5b07-4ffa-821d-deed6134e5b9',
-  anita:    '4b515780-3208-493a-a95e-1584c9f376ec',
-  stephen:  'bbfcd9ba-60c0-43bf-8f95-3dcae01b571e',
-};
 const TASKS = [
-  { name: 'Kirim AIF Program Concept CIMB', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P1', status: 'Doing', domain: 'Tjitra', due: '2026-04-20', url: 'https://www.notion.so/Kirim-AIF-Program-Concept-CIMB-3428ff32f8cf80f5b207db8aa78a4324' },
-  { name: 'Kirim AIF Program Concept Pertamina', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P1', status: 'Doing', domain: 'Tjitra', due: '2026-04-20', url: 'https://www.notion.so/Kirim-AIF-Program-Concept-Pertamina-6398a42afed046a79f5ace17ae522e42' },
-  { name: 'Kirim activity report CIMB Workshop', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P1', status: 'Next', domain: 'Tjitra', due: '2026-04-20', url: 'https://www.notion.so/Kirim-activity-report-CIMB-Workshop-2faa6e7f7bbe4807a848a3b5978e9666' },
-  { name: 'FU IFP Metra, Temasek, Ciputra', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P2', status: 'Doing', domain: 'IWDemy', due: '2026-04-21', url: 'https://www.notion.so/FU-IFP-Metra-Temasek-Ciputra-734a70bb0086468e8bff99a17f9679b1' },
-  { name: 'Final website aifirst26.iwdemy.com', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P1', status: 'Next', domain: 'IWDemy', due: '2026-04-21', url: 'https://www.notion.so/Final-website-aifirst26-iwdemy-com-3488ff32f8cf80b19a05ca8482e9d070' },
-  { name: 'Final Offer AIF Professional Level 2', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P1', status: 'Next', domain: 'IWDemy', due: '2026-04-21', url: 'https://www.notion.so/Final-Offer-AIF-Professional-Level-2-3498ff32f8cf8018b5dcda08735a645f' },
-  { name: 'Final Local AI AIF Professional', assignee: 'd9f6882d-73e7-4749-85cd-56b0f90f7cf1', priority: 'P1', status: 'Next', domain: 'Local AI', due: '2026-04-21', url: 'https://www.notion.so/Final-Local-AI-AIF-Professional-3488ff32f8cf803fb7edfca94bfd6e0f' },
-  { name: 'Final IDL AIF Professional', assignee: '01ee5cb8-5b07-4ffa-821d-deed6134e5b9', priority: 'P1', status: 'Next', domain: 'IDL', due: '2026-04-21', url: 'https://www.notion.so/Final-IDL-AIF-Professional-3488ff32f8cf80a58358dd4fa2361b5a' },
-  { name: 'Final Multimodal AIF Professional', assignee: 'bbfcd9ba-60c0-43bf-8f95-3dcae01b571e', priority: 'P1', status: 'Next', domain: 'Multimodal', due: '2026-04-21', url: 'https://www.notion.so/Final-Multimodal-AIF-Professional-3488ff32f8cf809ab7fbd825574a1600' },
-  { name: 'Event AIF Program Professional Level 1', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P1', status: 'Next', domain: 'Tjitra', due: '2026-04-22', url: 'https://www.notion.so/Event-AIF-Program-Professional-Level-1-3428ff32f8cf80a78026c5109221d6ca' },
-  { name: 'Event Bootcamp', assignee: '4b515780-3208-493a-a95e-1584c9f376ec', priority: 'P2', status: 'Next', domain: 'Event', due: '2026-04-22', url: 'https://www.notion.so/Event-Bootcamp-3478ff32f8cf80f0ab7aeb0840019f95' },
-  { name: 'Event Level 1 LSL 1', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P1', status: 'Next', domain: 'IWDemy', due: '2026-04-22', url: 'https://www.notion.so/Event-Level-1-LSL-1-3478ff32f8cf8086a9efe6e1fd32507c' },
-  { name: 'Event AIF Program Leaders Level 2 Day 2', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P2', status: 'Doing', domain: 'Tjitra', due: '2026-04-25', url: 'https://www.notion.so/Event-AIF-Program-Leaders-Level-2-Day-2-3478ff32f8cf808fbd01e3ab166e9a99' },
-  { name: 'Final persona dan intent Open Claw - Agentic AI Workflow', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P2', status: 'Next', domain: 'IWDemy', due: '2026-04-26', url: 'https://www.notion.so/Final-persona-dan-intent-Open-Claw-Agentic-AI-Workflow-3378ff32f8cf80df897af5051ce9aa2c' },
-  { name: 'Final MD files 4 Gallery Walk', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P1', status: 'Next', domain: 'IWDemy', due: '2026-04-26', url: 'https://www.notion.so/Final-MD-files-4-Gallery-Walk-6aafcae85fdf4422baef58c2f22c7b8d' },
-  { name: 'Finish AHDO Registration', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P3', status: 'Next', domain: 'Tjitra', due: '2026-04-26', url: 'https://www.notion.so/Finish-AHDO-Registration-0531adac70344e16ae8b0c717897a479' },
-  { name: 'Final Website IWDemy', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P2', status: 'Next', domain: 'IWDemy', due: '2026-04-26', url: 'https://www.notion.so/Final-Website-IWDemy-aa0306da677b4c87b0748afa7ffade09' },
-  { name: 'Final Proposal Leadership Development MRA', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P1', status: 'Next', domain: 'IWDemy', due: '2026-04-26', url: 'https://www.notion.so/Final-Proposal-Leadership-Development-MRA-3438ff32f8cf803dbec0c03388ff911f' },
-  { name: 'Event AIF Program Professional Level 1', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P1', status: 'Next', domain: 'Tjitra', due: '2026-04-29', url: 'https://www.notion.so/Event-AIF-Program-Professional-Level-1-3438ff32f8cf809ca2afe2696be1b719' },
-  { name: 'Event Level 1 LSL 2', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P2', status: 'Next', domain: 'IWDemy', due: '2026-04-29', url: 'https://www.notion.so/Event-Level-1-LSL-2-3478ff32f8cf805f9dedc11b76e1c2ca' },
-  { name: 'Training Aloy AI Workshop AIF', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P2', status: 'Next', domain: 'IWDemy', due: '2026-05-04', url: 'https://www.notion.so/Training-Aloy-AI-Workshop-AIF-3428ff32f8cf80c28752d59b037242a9' },
-  { name: 'Training Aloy SinaD', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P2', status: 'Next', domain: 'IWDemy', due: '2026-05-04', url: 'https://www.notion.so/Training-Aloy-SinaD-33d8ff32f8cf80e3b3d7c1fba49892c5' },
-  { name: 'Event AIF Program Professional Level 2', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P2', status: 'Next', domain: 'IWDemy', due: '2026-05-06', url: 'https://www.notion.so/Event-AIF-Program-Professional-Level-2-3488ff32f8cf8099bb24fc04eecab444' },
-  { name: 'Closing Delto OKR', assignee: '4ee75f0d-4dc7-483f-8b3b-a0965365c77a', priority: 'P1', status: 'Next', domain: 'Tjitra', due: null, url: 'https://www.notion.so/Closing-Delto-OKR-32b8ff32f8cf80949512dc580ac8036f' },
+  // ── YANTI ─────────────────────────────────────────────────────────────────────
+  { assignee:'yanti', name:'Finish AHDO Registration', priority:'P1', status:'Next', domain:'Tjitra', due:'2026-04-30', url:'https://app.notion.com/p/0531adac70344e16ae8b0c717897a479' },
+  { assignee:'yanti', name:'Finalisasi Action Plan dari Meeting Minutes', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-05-01', url:'https://app.notion.com/p/3528ff32f8cf8065869efd82252fad05' },
+  { assignee:'yanti', name:'Final AIF Lv 3 MD Guideline', priority:'P3', status:'Doing', domain:'IWDemy', due:'2026-05-01', url:'https://app.notion.com/p/3528ff32f8cf80669901e0e080137827' },
+  { assignee:'yanti', name:'Final Proposal Inhouse Ciputra', priority:'P1', status:'Doing', domain:'IWDemy', due:'2026-05-02', url:'https://app.notion.com/p/34b8ff32f8cf80368134eb4b6a5a3c87' },
+  { assignee:'yanti', name:'Present BCU 🏁', priority:'P1', status:'Next', domain:'Tjitra', due:'2026-05-03', url:'https://app.notion.com/p/3528ff32f8cf80009199d6920648d7d5' },
+  { assignee:'yanti', name:'Present PCU', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-05-03', url:'https://app.notion.com/p/3528ff32f8cf80cb95cfe0d8daaa9eec' },
+  { assignee:'yanti', name:'Final Content Calendar Mei 2026', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-05-03', url:'https://app.notion.com/p/dd6a1c037ccd4d0cacf876eda126d29c' },
+  { assignee:'yanti', name:'Final MD files 4 Gallery Walk', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-05-03', url:'https://app.notion.com/p/6aafcae85fdf4422baef58c2f22c7b8d' },
+  { assignee:'yanti', name:'Final persona dan intent Open Claw', priority:'P3', status:'Next', domain:'IWDemy', due:'2026-05-03', url:'https://app.notion.com/p/3378ff32f8cf80df897af5051ce9aa2c' },
+  { assignee:'yanti', name:'Final Proposal Leadership Development MRA', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-05-03', url:'https://app.notion.com/p/3438ff32f8cf803dbec0c03388ff911f' },
+  { assignee:'yanti', name:'Finalisasi Revisi Materi AIF L2 M1', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-05-06', url:'https://app.notion.com/p/34d8ff32f8cf80188ebfd9eaf4919678' },
+  { assignee:'yanti', name:'FU IFP Metra, Temasek, Ciputra', priority:'P2', status:'Doing', domain:'IWDemy', due:'2026-05-09', url:'https://app.notion.com/p/734a70bb0086468e8bff99a17f9679b1' },
+  { assignee:'yanti', name:'Final Website IWDemy', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-05-10', url:'https://app.notion.com/p/aa0306da677b4c87b0748afa7ffade09' },
+  { assignee:'yanti', name:'Final Compro IWDemy', priority:'Hold', status:'Waiting', domain:'IWDemy', due:null, url:'https://app.notion.com/p/c27e663de07c4c6994f10ec41285e0ab' },
+  { assignee:'yanti', name:'Final Tjitra Value Handbook', priority:'Hold', status:'Waiting', domain:'Tjitra', due:null, url:'https://app.notion.com/p/6064d680fd074b2ca6ce784843584261' },
+  { assignee:'yanti', name:'Pengaturan GitHub IWDemy', priority:'Hold', status:'Waiting', domain:'IWDemy', due:null, url:'https://app.notion.com/p/ef9c8b0badfd4641b23add3bb23679ab' },
+  { assignee:'yanti', name:'Final prompt Senior Talent Advisor dan buat assessment criteria jelas', priority:'Hold', status:'Waiting', domain:'IWDemy', due:null, url:'https://app.notion.com/p/fd7e8e68e73f4941ba8cbbd80ef2c98a' },
+  { assignee:'yanti', name:'Final Tjitra Identity untuk Jobstreet', priority:'Hold', status:'Waiting', domain:'Tjitra', due:null, url:'https://app.notion.com/p/e90b5b488f6441108f8d66ba35ffc482' },
+  { assignee:'yanti', name:'Final all JD untuk Recruitment', priority:'Hold', status:'Waiting', domain:'IWDemy', due:null, url:'https://app.notion.com/p/06e9c74f73744bb98030cf0c7baba1a9' },
+  { assignee:'yanti', name:'Final signature e-certificate PC26', priority:'Hold', status:'Waiting', domain:'IWDemy', due:null, url:'https://app.notion.com/p/c887d57ea69249b6a6e2e6a847c8e278' },
+  // ── TIM ──────────────────────────────────────────────────────────────────────
+  { assignee:'juli', name:'Revisi Prompt Data Base', priority:'P1', status:'Doing', domain:'IWDemy', due:'2026-04-30', url:'https://app.notion.com/p/3518ff32f8cf8047bdd8da5378a0ff25' },
+  { assignee:'juli', name:'Buat Agentic AI Workflow OpenClaw untuk social media', priority:'P1', status:'Doing', domain:'IWDemy', due:'2026-05-04', url:'https://app.notion.com/p/34b8ff32f8cf80a79dc9ee3e1165efdf' },
+  { assignee:'juli', name:'Integrasi Dashboard Task Management ke DEA', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-05-04', url:'https://app.notion.com/p/34b8ff32f8cf80db8264f233102812de' },
+  { assignee:'meliana', name:'Gems / Opal Surat Penawaran Returnstar', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-04-30', url:'https://app.notion.com/p/34f8ff32f8cf8048a490c5c7cf04f40a' },
+  { assignee:'meliana', name:'Final SPT Tahunan PT Sinau 2025', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-04-30', url:'https://app.notion.com/p/34f8ff32f8cf8006ad62f0b0faedb710' },
+  { assignee:'meliana', name:'Final Surat Penawaran YPPI', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-05-04', url:'https://app.notion.com/p/3528ff32f8cf80b4b5add877b844ea77' },
+  { assignee:'meliana', name:'Email Pak Yuli Info Produk', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-05-04', url:'https://app.notion.com/p/3528ff32f8cf801c9270e988610179ee' },
+  { assignee:'meliana', name:'Google Contact_CRM Update dan Check', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-05-08', url:'https://app.notion.com/p/34f8ff32f8cf80678a3cc4bc120fd98d' },
+  { assignee:'meliana', name:'Stock Inventory IQ', priority:'P3', status:'Next', domain:'IWDemy', due:'2026-05-08', url:'https://app.notion.com/p/34f8ff32f8cf806fb804f6d8de3c2e7f' },
+  { assignee:'meliana', name:'Review SPT Sinau 2025', priority:'P2', status:'Doing', domain:'IWDemy', due:null, url:'https://app.notion.com/p/3528ff32f8cf80c6ba94e4d91c58d25f' },
+  { assignee:'meliana', name:'Surat Penawaran Pak Ryandi Irawan TE1410D dan Ex Display', priority:'P2', status:'Doing', domain:'IWDemy', due:null, url:'https://app.notion.com/p/3528ff32f8cf804a898ad24b672c3b57' },
+  { assignee:'meliana', name:'Finalisasi SPT Badan Budi & Syntegra 2025', priority:'P2', status:'Doing', domain:'IWDemy', due:null, url:'https://app.notion.com/p/34f8ff32f8cf8050b83ff044acb63001' },
+  { assignee:'meliana', name:'Registrasi dashboard pendaftaran', priority:'P2', status:'Next', domain:'IWDemy', due:null, url:'https://app.notion.com/p/34c8ff32f8cf801dae07fac608cc3d45' },
+  { assignee:'anita', name:'Final SPT Badan PT Syntegra', priority:'P1', status:'Doing', domain:'IWDemy', due:'2026-04-29', url:'https://app.notion.com/p/3528ff32f8cf80e581abe291673a9f7b' },
+  { assignee:'anita', name:'Final SPT Badan PT Budi', priority:'P1', status:'Doing', domain:'IWDemy', due:'2026-04-29', url:'https://app.notion.com/p/34f8ff32f8cf80f58273fad6942f678a' },
+  { assignee:'anita', name:'Review SPT PT Sinau', priority:'P1', status:'Doing', domain:'IWDemy', due:'2026-04-30', url:'https://app.notion.com/p/3528ff32f8cf8057b2f6cbcfcae9d747' },
+  { assignee:'anita', name:'Payroll Activity', priority:'P1', status:'Doing', domain:'IWDemy', due:'2026-04-30', url:'https://app.notion.com/p/3528ff32f8cf80309944fa7496a939e5' },
+  { assignee:'anita', name:'Belajar untuk persiapan website', priority:'P2', status:'Next', domain:'IWDemy', due:null, url:'https://app.notion.com/p/34b8ff32f8cf80df8d71fa3ad878cc55' },
+  { assignee:'stephen', name:'Buat website member.sinau.tech', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-04-29', url:'https://app.notion.com/p/34b8ff32f8cf8024a2f4f4fcb98fb130' },
+  { assignee:'stephen', name:'Perbaikan website sinau.tech', priority:'P1', status:'Doing', domain:'IWDemy', due:'2026-05-06', url:'https://app.notion.com/p/34b8ff32f8cf807085d0f583c0686082' },
 ];
-const SYNC_TIME = '2026-04-21T02:29:53';
+const SYNC_TIME = '2026-05-01T08:30:00';
 // AUTO:END — NOTION SYNC DATA
-// ─────────────────────────────────────────────
 
-// ── CONFIG ──────────────────────────────────
+// ── CONFIG ────────────────────────────────────────────────────
 const PERSONS = [
-  { key:'kristina', label:'Kristina', initials:'KR', role:'manager' },
-  { key:'juli',     label:'Juli',     initials:'JL', domain:'Local AI' },
-  { key:'meliana',  label:'Meliana',  initials:'ML', domain:'IDL' },
-  { key:'anita',    label:'Anita',    initials:'AN', domain:'Event' },
-  { key:'stephen',  label:'Stephen',  initials:'ST', domain:'Multimodal' },
+  { key:'yanti', label:'Yanti', initials:'YA', fullName:'Kristina Aryanti',
+    iam:{
+      grateful:{icon:'🌱',type:'grateful',title:'Grateful for',
+        items:['Myself & my health','Home and work','Family & friends','My bank account','My journey to becoming']},
+      feelbest:{icon:'🏛',type:'feelbest',title:'Feel best for',
+        items:['Fulfillment in work','Abundance in life and business','Secure in financial situation','Joy with spouse & kids','Peace with myself']},
+      blessed:{icon:'👑',type:'blessed',title:'Miraculously blessed',
+        items:['15M in 2026','5 containers IQ + EGOO','300 monthly SocMed','Winning attitude team with 1 vision','Unexpected income']}
+    }
+  },
+  { key:'juli',    label:'Juli',    initials:'JL', fullName:'Juli',    iam:null },
+  { key:'meliana', label:'Meliana', initials:'ML', fullName:'Meliana', iam:null },
+  { key:'anita',   label:'Anita',   initials:'AN', fullName:'Anita',   iam:null },
+  { key:'stephen', label:'Stephen', initials:'ST', fullName:'Stephen', iam:null },
 ];
 
-const TODAY = new Date();
-TODAY.setHours(0,0,0,0);
-const TOMORROW = new Date(TODAY); TOMORROW.setDate(TODAY.getDate()+1);
-const END_OF_WEEK = new Date(TODAY); END_OF_WEEK.setDate(TODAY.getDate()+7);
+const QUOTES = [
+  {q:'For I know the plans I have for you — plans to prosper you and not to harm you.',a:'Jeremiah 29:11'},
+  {q:'The best way to predict the future is to create it.',a:'Peter Drucker'},
+  {q:'Trust in the Lord with all your heart and lean not on your own understanding.',a:'Proverbs 3:5'},
+  {q:'Leadership is not about being in charge — it is about taking care of those in your charge.',a:'Simon Sinek'},
+  {q:'Commit to the Lord whatever you do, and He will establish your plans.',a:'Proverbs 16:3'},
+  {q:'I can do all things through Christ who strengthens me.',a:'Philippians 4:13'},
+  {q:'Vision without execution is hallucination.',a:'Thomas Edison'},
+  {q:'Be strong and courageous. Do not be afraid; do not be discouraged.',a:'Joshua 1:9'},
+  {q:'Culture eats strategy for breakfast.',a:'Peter Drucker'},
+  {q:'You do not rise to the level of your goals — you fall to the level of your systems.',a:'James Clear'},
+  {q:'Whatever you do, work at it with all your heart, as working for the Lord.',a:'Colossians 3:23'},
+  {q:'Focus is saying no to a hundred good ideas.',a:'Steve Jobs'},
+  {q:'Delight yourself in the Lord, and He will give you the desires of your heart.',a:'Psalm 37:4'},
+  {q:'Simplicity is the ultimate sophistication.',a:'Leonardo da Vinci'},
+  {q:'Efficiency is doing things right; effectiveness is doing the right things.',a:'Peter Drucker'},
+  {q:'And we know that in all things God works for the good of those who love Him.',a:'Romans 8:28'},
+  {q:'Hard choices, easy life. Easy choices, hard life.',a:'Jerzy Gregorek'},
+  {q:'Be still, and know that I am God.',a:'Psalm 46:10'},
+  {q:'Clarity precedes mastery.',a:'Robin Sharma'},
+  {q:'No weapon forged against you will prevail.',a:'Isaiah 54:17'},
+  {q:'Give thanks in all circumstances; for this is God\'s will for you.',a:'1 Thessalonians 5:18'},
+  {q:'A leader is a dealer in hope.',a:'Napoleon Bonaparte'},
+  {q:'The only way to do great work is to love what you do.',a:'Steve Jobs'},
+  {q:'If you want to go fast, go alone. If you want to go far, go together.',a:'African Proverb'},
+  {q:'The Lord will fight for you; you need only to be still.',a:'Exodus 14:14'},
+];
 
-// ── HELPERS ─────────────────────────────────
-function tasksByPerson(personKey) {
-  const uid = USERS[personKey];
-  return TASKS.filter(t => t.assignee === uid || t.assignee === personKey);
+// ── HELPERS ────────────────────────────────────────────────────
+const NOW=new Date();NOW.setHours(0,0,0,0);
+function du(d){if(!d)return null;const x=new Date(d);x.setHours(0,0,0,0);return Math.ceil((x-NOW)/864e5);}
+function cdInfo(df){
+  if(df===null)return{cls:'nodue',txt:'—'};
+  if(df<0)return{cls:'overdue',txt:Math.abs(df)+'d telat'};
+  if(df===0)return{cls:'today',txt:'TODAY'};
+  if(df===1)return{cls:'tomorrow',txt:'BESOK'};
+  return{cls:'days',txt:df+'d lagi'};
+}
+function pTag(p){
+  const lp=(p||'').toLowerCase();
+  if(lp==='p1')return['P1','tag-p1'];
+  if(lp==='p2')return['P2','tag-p2'];
+  if(lp==='p3')return['P3','tag-p3'];
+  return['Hold','tag-hold'];
+}
+function sTag(s){
+  const ls=(s||'').toLowerCase();
+  if(ls==='doing')return['● Doing','tag-doing'];
+  if(ls==='next')return['○ Next','tag-next'];
+  return['◌ Waiting','tag-waiting'];
+}
+function isMilestone(n){return(n||'').includes('🏁');}
+function getPersonTasks(key){return TASKS.filter(t=>t.assignee===key);}
+function getZone(t){
+  const d=du(t.due);
+  if(d===null)return'queue';
+  if(d<0)return'overdue';
+  if(d===0)return'today';
+  if(d<=7)return'week';
+  return'queue';
 }
 
-function dueColumn(task) {
-  if (!task.due) return 'menunggu';
-  const d = new Date(task.due); d.setHours(0,0,0,0);
-  if (d < TODAY) return 'haini'; // overdue → treat as urgent today
-  if (d.getTime() === TODAY.getTime()) return 'haini';
-  if (d.getTime() === TOMORROW.getTime()) return 'besok';
-  if (d <= END_OF_WEEK) return 'minggu';
-  return 'menunggu';
+// ── TASK CARD ────────────────────────────────────────────────────
+function tcHTML(t){
+  const df=du(t.due);
+  const cd=cdInfo(df);
+  const[pL,pC]=pTag(t.priority);
+  const[sL,sC]=sTag(t.status);
+  const priCls=(t.priority||'').toLowerCase();
+  const nameStr=t.url?`<a href="${t.url}" target="_blank">${t.name}</a>`:t.name;
+  const ms=isMilestone(t.name)?`<span class="tag tag-ms">🏁 Milestone</span>`:'';
+  const ovBadge=df!==null&&df<0?`<span class="tag tag-ov">OVERDUE</span>`:'';
+  return `<div class="tc ${priCls}">
+    <div class="tc-r1">
+      <div class="tc-name">${nameStr}</div>
+      <div class="tc-cd ${cd.cls}">${cd.txt}</div>
+    </div>
+    <div class="tc-tags">
+      <span class="tag ${pC}">${pL}</span>
+      <span class="tag ${sC}">${sL}</span>
+      ${t.domain?`<span class="tag tag-domain">${t.domain}`+`</span>`:''}
+      ${ms}${ovBadge}
+    </div>
+  </div>`;
 }
 
-function priorityCol(task) {
-  const p = (task.priority || '').toLowerCase();
-  if (p.includes('p1') || p.includes('high') || p.includes('tinggi')) return 'p1';
-  if (p.includes('p2') || p.includes('med')) return 'p2';
-  return 'p3';
+// ── URGENCY ZONES ────────────────────────────────────────────────
+function renderZones(key){
+  const tasks=getPersonTasks(key);
+  const Z={overdue:[],today:[],week:[],queue:[]};
+  tasks.forEach(t=>Z[getZone(t)].push(t));
+  const pOrd={P1:0,P2:1,P3:2,Hold:3};
+  const byDue=(a,b)=>{const da=du(a.due)??9999,db=du(b.due)??9999;return da-db;};
+  const byPri=(a,b)=>(pOrd[a.priority]??2)-(pOrd[b.priority]??2);
+  Z.overdue.sort(byDue);Z.today.sort(byPri);Z.week.sort(byDue);Z.queue.sort(byPri);
+  const defs=[
+    {k:'overdue',cls:'zone-overdue',lbl:'Overdue',show:Z.overdue.length>0},
+    {k:'today',cls:'zone-today',lbl:'Hari Ini',show:true},
+    {k:'week',cls:'zone-week',lbl:'Minggu Ini',show:true},
+    {k:'queue',cls:'zone-queue',lbl:'Antrian',show:true},
+  ];
+  return defs.filter(z=>z.show).map(z=>`<div class="zone ${z.cls}">
+    <div class="zone-hdr"><div class="zdot"></div><span class="zlbl">${z.lbl}</span><span class="zct">${Z[z.k].length}</span></div>
+    ${Z[z.k].length===0?`<div class="zempty">Tidak ada task di zona ini.</div>`:Z[z.k].map(tcHTML).join('')}
+  </div>`).join('');
 }
 
-function priorityTag(p) {
-  const lp = (p||'').toLowerCase();
-  if (lp.includes('p1')||lp.includes('high')||lp.includes('tinggi')) return ['P1','tag-priority-p1'];
-  if (lp.includes('p2')||lp.includes('med')) return ['P2','tag-priority-p2'];
-  return ['P3','tag-priority-p3'];
+// ── COCKPIT ────────────────────────────────────────────────────
+function renderCockpit(tasks){
+  const ov=tasks.filter(t=>{const d=du(t.due);return d!==null&&d<0;}).length;
+  const td=tasks.filter(t=>du(t.due)===0).length;
+  const do_=tasks.filter(t=>(t.status||'').toLowerCase()==='doing').length;
+  return `<div class="cockpit">
+    <div class="chip"><span class="chip-num">${tasks.length}</span><span class="chip-lbl">tasks</span></div>
+    <div class="chip c-ov"><span class="chip-num">${ov}</span><span class="chip-lbl">overdue</span></div>
+    <div class="chip c-td"><span class="chip-num">${td}</span><span class="chip-lbl">hari ini</span></div>
+    <div class="chip c-do"><span class="chip-num">${do_}</span><span class="chip-lbl">doing</span></div>
+  </div>`;
 }
 
-function statusTag(s) {
-  const ls = (s||'').toLowerCase();
-  if (ls.includes('doing')||ls.includes('progress')||ls.includes('berjalan')) return ['● Doing','tag-status-doing'];
-  if (ls.includes('next')||ls.includes('rencana')||ls.includes('todo')) return ['○ Next','tag-status-next'];
-  if (ls.includes('done')||ls.includes('selesai')) return ['✓ Done','tag-status-done'];
-  return ['◌ Waiting','tag-status-waiting'];
-}
-
-function fmtDue(task) {
-  if (!task.due) return null;
-  const d = new Date(task.due); d.setHours(0,0,0,0);
-  const diff = Math.round((d-TODAY)/(1000*60*60*24));
-  if (diff < 0) return [`Telat ${Math.abs(diff)}h`, 'tag-overdue'];
-  if (diff === 0) return ['Hari ini', 'tag-due'];
-  if (diff === 1) return ['Besok', 'tag-due'];
-  return [`+${diff} hari`, 'tag-due'];
-}
-
-function nameOf(uid) {
-  for (const [k,v] of Object.entries(USERS)) {
-    if (v === uid || k === uid) return k.charAt(0).toUpperCase()+k.slice(1);
-  }
-  return '?';
-}
-
-// ── NARRATIVE ───────────────────────────────
-function buildNarrative(personKey, tasks) {
-  const name = PERSONS.find(p=>p.key===personKey)?.label || personKey;
-  const total = tasks.length;
-  if (total === 0) return `${name} belum memiliki task aktif hari ini. Saatnya merencanakan langkah berikutnya.`;
-
-  const doing = tasks.filter(t=>(t.status||'').toLowerCase().includes('doing')||(t.status||'').toLowerCase().includes('progress'));
-  const dueToday = tasks.filter(t=>dueColumn(t)==='haini');
-  const p1 = tasks.filter(t=>priorityCol(t)==='p1');
-
-  let story = '';
-  if (personKey === 'kristina') {
-    // Manager narrative
-    story = `Tim memiliki ${total} task aktif. `;
-    if (p1.length > 0) story += `Terdapat ${p1.length} task P1 yang perlu perhatian segera: ${p1.slice(0,2).map(t=>'"'+t.name+'"').join(', ')}${p1.length>2?' dan lainnya':''}. `;
-    if (dueToday.length > 0) story += `${dueToday.length} task jatuh tempo hari ini.`;
-    else story += `Tidak ada task yang jatuh tempo hari ini.`;
-  } else {
-    const domain = PERSONS.find(p=>p.key===personKey)?.domain || '';
-    story = `${name} mengelola ${total} task aktif di area ${domain}. `;
-    if (doing.length > 0) story += `Sedang dikerjakan: ${doing.slice(0,2).map(t=>'"'+t.name+'"').join(' dan ')}${doing.length>2?' (dan lainnya)':''}. `;
-    if (dueToday.length > 0) story += `${dueToday.length} item perlu diselesaikan hari ini.`;
-    else if (total > 0) story += `Tidak ada deadline hari ini — fokus pada pipeline berikutnya.`;
-  }
-  return story.trim();
-}
-
-// ── CARD HTML ───────────────────────────────
-function cardHTML(task, showAssignee) {
-  const [pLabel, pClass] = priorityTag(task.priority);
-  const [sLabel, sClass] = statusTag(task.status);
-  const due = fmtDue(task);
-  const notionLink = task.url
-    ? `<a class="card-notion-link" href="${task.url}" target="_blank" title="Buka di Notion">↗</a>`
-    : '';
-  return `
-    <div class="kanban-card">
-      <div class="card-top">
-        <div class="card-name">${task.name}</div>
-        ${notionLink}
+// ── I AM ────────────────────────────────────────────────────
+function renderIAM(iam){
+  if(!iam)return'';
+  const cards=['grateful','feelbest','blessed'].map(k=>{
+    const c=iam[k];
+    return`<div class="iam-card ${c.type}" onclick="this.classList.toggle('open')">
+      <div class="iam-hdr">
+        <span class="iam-icon">${c.icon}</span>
+        <span class="iam-title">${c.title}</span>
+        <span class="iam-chev">▼</span>
       </div>
-      <div class="card-tags">
-        <span class="tag ${pClass}">${pLabel}</span>
-        <span class="tag ${sClass}">${sLabel}</span>
-        ${task.domain ? `<span class="tag tag-domain">${task.domain}</span>` : ''}
-        ${due ? `<span class="tag ${due[1]}">${due[0]}</span>` : ''}
-        ${showAssignee && task.assignee ? `<span class="tag tag-assignee">${nameOf(task.assignee)}</span>` : ''}
-      </div>
+      <div class="iam-body"><ul class="iam-list">${c.items.map(i=>`<li>${i}</li>`).join('')}</ul></div>
     </div>`;
+  }).join('');
+  return`<div class="iam-section"><div class="iam-label">I Am</div><div class="iam-grid">${cards}</div></div>`;
 }
 
-// ── TIMELINE KANBAN (team members) ──────────
-function renderTimeline(personKey) {
-  const tasks = tasksByPerson(personKey);
-  const cols = {haini:[],besok:[],minggu:[],menunggu:[]};
-  tasks.forEach(t => cols[dueColumn(t)].push(t));
+// ── INIT ────────────────────────────────────────────────────
+const params=new URLSearchParams(window.location.search);
+const personParam=params.get('person');
+const isPersonal=!!(personParam&&personParam!=='all');
+const activePerson=isPersonal?PERSONS.find(p=>p.key===personParam):null;
+const hdrArea=document.getElementById('hdrArea');
+const tabsEl=document.getElementById('personTabs');
+const viewsEl=document.getElementById('personViews');
+const NOW_RAW=new Date();
+const doy=Math.floor((NOW_RAW-new Date(NOW_RAW.getFullYear(),0,0))/864e5);
+const q=QUOTES[doy%QUOTES.length];
+const dateLbl=NOW_RAW.toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 
-  const colDef = [
-    {key:'haini',   cls:'col-haini',   icon:'🔥', title:'Hari Ini'},
-    {key:'besok',   cls:'col-besok',   icon:'⚡', title:'Besok'},
-    {key:'minggu',  cls:'col-minggu',  icon:'📅', title:'Minggu Ini'},
-    {key:'menunggu',cls:'col-menunggu',icon:'🕐', title:'Menunggu'},
-  ];
-
-  const narrative = buildNarrative(personKey, tasks);
-  const stats = {
-    total: tasks.length,
-    doing: tasks.filter(t=>(t.status||'').toLowerCase().includes('doing')||(t.status||'').toLowerCase().includes('progress')).length,
-    dueToday: cols.haini.length,
-  };
-
-  let html = `
-    <div class="narrative-card">
-      <div class="narrative-header">
-        <span class="narrative-icon">📖</span>
-        <span class="narrative-title">Cerita Hari Ini</span>
-      </div>
-      <div class="narrative-text">${narrative}</div>
-      <div class="narrative-stats">
-        <div class="stat-chip"><span class="stat-num">${stats.total}</span> Total Task</div>
-        <div class="stat-chip"><span class="stat-num">${stats.doing}</span> Sedang Dikerjakan</div>
-        <div class="stat-chip"><span class="stat-num">${stats.dueToday}</span> Hari Ini</div>
-      </div>
+if(isPersonal&&activePerson){
+  const tasks=getPersonTasks(activePerson.key);
+  hdrArea.innerHTML=`
+    <div class="hdr">
+      <div class="hdr-name">Halo, <span>${activePerson.label}</span> 👋</div>
+      <div class="hdr-sub">${dateLbl} · Command Centre</div>
     </div>
-    <div class="kanban-board timeline">`;
-
-  colDef.forEach(c => {
-    const items = cols[c.key];
-    html += `
-      <div class="kanban-col ${c.cls}">
-        <div class="col-header">
-          <div class="col-header-left">
-            <span class="col-icon">${c.icon}</span>
-            <span class="col-title">${c.title}</span>
-          </div>
-          <span class="col-badge">${items.length}</span>
-        </div>
-        <div class="col-cards">
-          ${items.length === 0 ? '<div class="col-empty">Kosong</div>' : items.map(t=>cardHTML(t,false)).join('')}
-        </div>
-      </div>`;
-  });
-
-  html += `</div>`;
-  return html;
-}
-
-// ── PRIORITY COMMAND BOARD (Kristina) ───────
-function renderPriorityBoard() {
-  // Show ALL tasks for manager view
-  const tasks = TASKS.filter(t=>t.status && !(t.status||'').toLowerCase().includes('done'));
-  const cols = {p1:[],p2:[],p3:[]};
-  tasks.forEach(t => cols[priorityCol(t)].push(t));
-
-  const colDef = [
-    {key:'p1', cls:'col-p1', icon:'🎯', title:'P1 — Kritis'},
-    {key:'p2', cls:'col-p2', icon:'⚡', title:'P2 — Penting'},
-    {key:'p3', cls:'col-p3', icon:'🌿', title:'P3 — Pipeline'},
-  ];
-
-  const narrative = buildNarrative('kristina', tasks);
-  const stats = {
-    total: tasks.length,
-    p1: cols.p1.length,
-    dueToday: tasks.filter(t=>dueColumn(t)==='haini').length,
-  };
-
-  let html = `
-    <div class="narrative-card">
-      <div class="narrative-header">
-        <span class="narrative-icon">🧭</span>
-        <span class="narrative-title">Command View — Tim IWDemy</span>
-      </div>
-      <div class="narrative-text">${narrative}</div>
-      <div class="narrative-stats">
-        <div class="stat-chip"><span class="stat-num">${stats.total}</span> Task Aktif</div>
-        <div class="stat-chip"><span class="stat-num">${stats.p1}</span> P1 Kritis</div>
-        <div class="stat-chip"><span class="stat-num">${stats.dueToday}</span> Due Hari Ini</div>
-      </div>
-    </div>
-    <div class="kanban-board priority">`;
-
-  colDef.forEach(c => {
-    const items = cols[c.key];
-    html += `
-      <div class="kanban-col ${c.cls}">
-        <div class="col-header">
-          <div class="col-header-left">
-            <span class="col-icon">${c.icon}</span>
-            <span class="col-title">${c.title}</span>
-          </div>
-          <span class="col-badge">${items.length}</span>
-        </div>
-        <div class="col-cards">
-          ${items.length === 0 ? '<div class="col-empty">Bersih 👌</div>' : items.map(t=>cardHTML(t,true)).join('')}
-        </div>
-      </div>`;
-  });
-
-  html += `</div>`;
-  return html;
-}
-
-// ── MAIN RENDER ─────────────────────────────
-function countP1(personKey) {
-  const tasks = personKey === 'kristina'
-    ? TASKS.filter(t=>!(t.status||'').toLowerCase().includes('done'))
-    : tasksByPerson(personKey);
-  return tasks.filter(t=>priorityCol(t)==='p1').length;
-}
-
-function countTasks(personKey) {
-  if (personKey === 'kristina') return TASKS.filter(t=>!(t.status||'').toLowerCase().includes('done')).length;
-  return tasksByPerson(personKey).length;
-}
-
-function render() {
-  // Header date
-  const opts = {weekday:'long',day:'numeric',month:'long',year:'numeric'};
-  document.getElementById('headerDate').textContent = TODAY.toLocaleDateString('id-ID',opts);
-
-  // Build tabs
-  const tabsEl = document.getElementById('personTabs');
-  const viewsEl = document.getElementById('personViews');
-  tabsEl.innerHTML = '';
-  viewsEl.innerHTML = '';
-
-  PERSONS.forEach(p => {
-    const n = countTasks(p.key);
-    const p1 = countP1(p.key);
-
-    // Tab
-    const btn = document.createElement('button');
-    btn.className = 'tab-btn';
-    btn.dataset.person = p.key;
-    btn.innerHTML = `
-      <span class="tab-avatar">${p.initials}</span>
-      ${p.label}
-      <span class="tab-count">${n}</span>
-      ${p1 > 0 ? '<span class="p1-dot"></span>' : ''}`;
-    btn.addEventListener('click', () => switchTo(p.key));
+    ${renderCockpit(tasks)}
+    <div class="quote-bar"><div class="q-accent"></div><div>
+      <div class="q-text">&ldquo;${q.q}&rdquo;</div>
+      <span class="q-author">— ${q.a}</span>
+    </div></div>
+    ${renderIAM(activePerson.iam)}`;
+  viewsEl.innerHTML=renderZones(activePerson.key);
+} else {
+  const totalAll=TASKS.length;
+  const ovAll=TASKS.filter(t=>{const d=du(t.due);return d!==null&&d<0;}).length;
+  hdrArea.innerHTML=`<div class="admin-hdr">
+    <div class="admin-title">Dashboard Personal</div>
+    <div class="admin-sub">${totalAll} tasks aktif · ${ovAll} overdue · ${dateLbl}</div>
+  </div>`;
+  tabsEl.style.display='flex';
+  PERSONS.forEach((p,i)=>{
+    const tasks=getPersonTasks(p.key);
+    const hasOv=tasks.some(t=>{const d=du(t.due);return d!==null&&d<0;});
+    const btn=document.createElement('button');
+    btn.className='tab-btn'+(i===0?' active':'');
+    btn.dataset.key=p.key;
+    btn.innerHTML=`<div class="tab-av">${p.initials}</div>${p.label}<span class="tab-ct">${tasks.length}</span>${hasOv?'<div class="tab-dot"></div>':''}`;
+    btn.onclick=()=>{
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.person-view').forEach(v=>v.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('pv-'+p.key).classList.add('active');
+    };
     tabsEl.appendChild(btn);
-
-    // View container
-    const div = document.createElement('div');
-    div.className = 'person-view';
-    div.id = `view-${p.key}`;
-    div.innerHTML = p.key === 'kristina' ? renderPriorityBoard() : renderTimeline(p.key);
+    const div=document.createElement('div');
+    div.className='person-view'+(i===0?' active':'');
+    div.id='pv-'+p.key;
+    div.innerHTML=renderCockpit(tasks)+renderZones(p.key);
     viewsEl.appendChild(div);
   });
-
-  // Sync bar
-  const st = new Date(SYNC_TIME);
-  document.getElementById('syncBar').textContent = `Data diperbarui: ${st.toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'})} pukul ${st.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'})} WIB`;
-
-  // Activate from hash or default
-  const hash = location.hash.replace('#','');
-  const valid = PERSONS.find(p=>p.key===hash);
-  switchTo(valid ? hash : PERSONS[0].key);
 }
 
-function switchTo(personKey) {
-  document.querySelectorAll('.tab-btn').forEach(b => {
-    b.classList.toggle('active', b.dataset.person === personKey);
-  });
-  document.querySelectorAll('.person-view').forEach(v => {
-    v.classList.toggle('active', v.id === `view-${personKey}`);
-  });
-  history.replaceState(null,'',`#${personKey}`);
+const syncEl=document.getElementById('syncBar');
+if(SYNC_TIME&&SYNC_TIME!=='PLACEHOLDER'){
+  const st=new Date(SYNC_TIME);
+  syncEl.textContent='Sync terakhir: '+st.toLocaleDateString('id-ID',{weekday:'short',day:'numeric',month:'short'})+' '+st.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'})+' WIB';
+} else {
+  syncEl.textContent='Data belum disinkronkan.';
 }
-
-render();
 </script>
 </body>
 </html>
