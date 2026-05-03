@@ -178,10 +178,10 @@ html,body{height:100%;overflow:hidden;font-family:'Carlito','Calibri',Arial,sans
   <iframe id="f-personal" class="dash-frame active"
     src="./dashboard-personal--v1.html?embed=1"
     title="Personal"></iframe>
-  <iframe id="f-tim" class="dash-frame" src=""
+  <iframe id="f-tim" class="dash-frame"
     data-src="./dashboard-tim--v1.html?embed=1"
     title="Tim"></iframe>
-  <iframe id="f-overview" class="dash-frame" src=""
+  <iframe id="f-overview" class="dash-frame"
     data-src="./dashboard-overview--v1.html?embed=1"
     title="Overview"></iframe>
 </div>
@@ -253,9 +253,10 @@ tabBtns.forEach(function(btn){
     frames.forEach(function(f){
       var isTarget = f.id === 'f-' + activeTab;
       f.classList.toggle('active', isTarget);
-      // Lazy-load Tim and Overview
-      if(isTarget && !f.src && f.dataset.src){
+      // Lazy-load Tim and Overview (use data-loaded flag, not f.src check)
+      if(isTarget && f.dataset.src && !f.dataset.loaded){
         f.src = f.dataset.src;
+        f.dataset.loaded = '1';
       }
       // Personal: always use current person selection
       if(isTarget && f.id === 'f-personal'){
