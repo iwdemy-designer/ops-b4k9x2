@@ -233,6 +233,11 @@ body{font-family:'Carlito','Inter',sans-serif;background:var(--fog);color:var(--
 .bd-ilink{font-size:9px;font-weight:600;color:var(--blue);text-decoration:none;opacity:0;transition:opacity .15s;display:block;margin-top:3px}
 .bd-item:hover .bd-ilink{opacity:.7}
 .bd-empty{font-size:10px;color:rgba(0,0,0,.18);padding:4px 0}
+.bd-age{font-size:9px;font-weight:700;padding:1px 6px;border-radius:3px;margin-top:4px;display:inline-block}
+.bd-age-fresh{background:rgba(27,128,64,.10);color:#1B8040}
+.bd-age-mid{background:rgba(252,181,40,.18);color:#8A6200}
+.bd-age-warn{background:rgba(208,106,0,.12);color:#B35900}
+.bd-age-old{background:rgba(102,0,0,.10);color:#660000}
 
 /* FOOTER */
 .footer{background:var(--blue);padding:20px 52px;margin-top:48px;position:relative;z-index:1}
@@ -583,43 +588,43 @@ window.OV_SYNC = '2026-05-03 18:40 WIB';
     <div class="bd-stages">
       <div class="bd-stage">
         <div class="bd-sh">Acquisition <span>10</span></div>
-        <div class="bd-item">
+        <div class="bd-item" data-since="2026-03-15">
           <div class="bd-iname">AIF CIMB</div>
           <div class="bd-imeta"><span class="bd-idot dot-tj"></span>CIMB Niaga · Tjitra</div>
         </div>
-        <div class="bd-item">
+        <div class="bd-item" data-since="2026-04-01">
           <div class="bd-iname">AIF PCU</div>
           <div class="bd-imeta"><span class="bd-idot dot-tj"></span>Pertamina Corporate University · Tjitra</div>
         </div>
-        <div class="bd-item">
+        <div class="bd-item" data-since="2026-04-01">
           <div class="bd-iname">AIF IKT</div>
           <div class="bd-imeta"><span class="bd-idot dot-tj"></span>Tjitra</div>
         </div>
-        <div class="bd-item">
+        <div class="bd-item" data-since="2026-04-05">
           <div class="bd-iname">AIF Ciputra</div>
           <div class="bd-imeta"><span class="bd-idot dot-tj"></span>Tjitra</div>
         </div>
-        <div class="bd-item">
+        <div class="bd-item" data-since="2026-04-05">
           <div class="bd-iname">AIF OrangTua Group</div>
           <div class="bd-imeta"><span class="bd-idot dot-tj"></span>OrangTua Group · Tjitra</div>
         </div>
-        <div class="bd-item">
+        <div class="bd-item" data-since="2026-04-20">
           <div class="bd-iname">Leadership Development MRA</div>
           <div class="bd-imeta"><span class="bd-idot dot-tj"></span>MRA · Tjitra</div>
         </div>
-        <div class="bd-item">
+        <div class="bd-item" data-since="2026-03-20">
           <div class="bd-iname">AIF Mulia</div>
           <div class="bd-imeta"><span class="bd-idot dot-tj"></span>Mulia · Tjitra</div>
         </div>
-        <div class="bd-item">
+        <div class="bd-item" data-since="2026-04-10">
           <div class="bd-iname">AIF Bumi Cahaya Unggul</div>
           <div class="bd-imeta"><span class="bd-idot dot-tj"></span>Bumi Cahaya Unggul · Tjitra</div>
         </div>
-        <div class="bd-item">
+        <div class="bd-item" data-since="2026-04-10">
           <div class="bd-iname">IFP Bumi Cahaya Unggul</div>
           <div class="bd-imeta"><span class="bd-idot dot-tj"></span>Bumi Cahaya Unggul · Tjitra</div>
         </div>
-        <div class="bd-item">
+        <div class="bd-item" data-since="2026-05-03">
           <div class="bd-iname">IFP+Egoo SD Maria Bintang Laut</div>
           <div class="bd-imeta"><span class="bd-idot dot-tj"></span>SD Maria Bintang Laut · Tjitra</div>
         </div>
@@ -630,7 +635,7 @@ window.OV_SYNC = '2026-05-03 18:40 WIB';
       </div>
       <div class="bd-stage">
         <div class="bd-sh">Negotiation <span>1</span></div>
-        <div class="bd-item">
+        <div class="bd-item" data-since="2026-03-01">
           <div class="bd-iname">AIF Telkom Metra</div>
           <div class="bd-imeta"><span class="bd-idot dot-tj"></span>Telkom Metra · Tjitra</div>
         </div>
@@ -1006,6 +1011,25 @@ if (new URLSearchParams(location.search).get('embed') === '1' || window.self !==
   var _ticker = document.querySelector('.ticker-wrap');
   if (_ticker) _ticker.style.display = 'none';
 }
+
+// ── BD PIPELINE AGE INDICATOR ──────────────────────────────────────────────
+(function(){
+  var today=new Date();today.setHours(0,0,0,0);
+  document.querySelectorAll('.bd-item[data-since]').forEach(function(el){
+    var since=new Date(el.dataset.since);since.setHours(0,0,0,0);
+    var days=Math.round((today-since)/864e5);
+    var cls,lbl;
+    if(days===0){cls='bd-age-fresh';lbl='Baru';}
+    else if(days<14){cls='bd-age-fresh';lbl=days+'h';}
+    else if(days<30){cls='bd-age-mid';lbl=days+'h';}
+    else if(days<60){cls='bd-age-warn';lbl=days+'h';}
+    else{cls='bd-age-old';lbl=days+'h ⚠';}
+    var badge=document.createElement('div');
+    badge.className='bd-age '+cls;
+    badge.textContent=lbl;
+    el.appendChild(badge);
+  });
+})();
 </script>
 </body>
 </html>
