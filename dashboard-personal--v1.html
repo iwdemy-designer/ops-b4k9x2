@@ -57,18 +57,23 @@ a{color:inherit;text-decoration:none}
 .nav-date{font-size:11px;color:var(--t3);padding:5px 12px;border-radius:7px;background:rgba(30,28,24,.06);font-weight:600}
 
 /* HERO */
-.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--mustard-s);border:1px solid rgba(252,181,40,.22);padding:4px 12px;border-radius:999px;font-family:var(--fd);font-size:10px;font-weight:700;color:var(--blue);letter-spacing:.07em;text-transform:uppercase;margin-bottom:10px}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--mustard-s);border:1px solid rgba(252,181,40,.22);padding:3px 11px;border-radius:999px;font-family:var(--fd);font-size:10px;font-weight:700;color:var(--blue);letter-spacing:.07em;text-transform:uppercase;margin-bottom:8px}
 .eyebrow-dot{width:5px;height:5px;background:var(--mustard);border-radius:50%}
-.hero-bar{width:36px;height:3px;background:var(--mustard);border-radius:2px;margin-top:12px;margin-bottom:18px}
 
 /* HEADER */
-.hdr{padding:32px 0 0}
-.hdr-name{font-family:var(--fd);font-size:clamp(22px,3vw,30px);font-weight:800;letter-spacing:-1px;color:var(--t1);line-height:1.15;margin-bottom:4px}
+.hdr{padding:20px 0 0}
+.hdr-name{font-family:var(--fd);font-size:clamp(22px,3vw,30px);font-weight:800;letter-spacing:-1px;color:var(--t1);line-height:1.15;margin-bottom:3px}
 .hdr-name span{color:var(--mustard-d)}
-.hdr-sub{font-size:12px;color:var(--t3);letter-spacing:.3px}
-.admin-hdr{padding:32px 0 0}
-.admin-title{font-family:var(--fd);font-size:22px;font-weight:800;letter-spacing:-.8px;color:var(--t1);margin-bottom:3px}
-.admin-sub{font-size:12px;color:var(--t3)}
+.hdr-sub{font-size:11px;color:var(--t3);letter-spacing:.2px;margin-bottom:0}
+.admin-hdr{padding:20px 0 0}
+.admin-title{font-family:var(--fd);font-size:22px;font-weight:800;letter-spacing:-.8px;color:var(--t1);margin-bottom:2px}
+.admin-sub{font-size:11px;color:var(--t3)}
+
+/* STATS STRIP */
+.stats-strip{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:8px 0 16px;font-size:12px;color:var(--t2)}
+.stats-strip strong{font-family:var(--fd);font-weight:800;font-size:15px;line-height:1;margin-right:1px}
+.ss-ov strong{color:var(--red)}.ss-td strong{color:var(--orange)}.ss-do strong{color:var(--green)}
+.ss-sep{color:var(--t3);font-size:10px;user-select:none}
 
 /* COCKPIT */
 .cockpit{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
@@ -118,7 +123,7 @@ a{color:inherit;text-decoration:none}
 .person-view{display:none}.person-view.active{display:block}
 
 /* ZONES */
-.zone{margin-bottom:20px}
+.zone{margin-bottom:14px}
 .zone-hdr{display:flex;align-items:center;gap:9px;margin-bottom:10px}
 .zdot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 .zone-overdue .zdot{background:var(--red)}
@@ -133,7 +138,7 @@ a{color:inherit;text-decoration:none}
 .zempty{font-size:12px;color:var(--t3);font-style:italic;padding:6px 0}
 
 /* TASK CARD */
-.tc{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;margin-bottom:7px;position:relative;box-shadow:var(--sh);transition:box-shadow .18s;overflow:hidden}
+.tc{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:10px 14px;margin-bottom:6px;position:relative;box-shadow:var(--sh);transition:box-shadow .18s;overflow:hidden}
 .tc:hover{box-shadow:var(--sh2)}
 .tc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
 .tc.p1::before{background:var(--orange)}
@@ -357,14 +362,12 @@ function getZone(t){
 var SHOW_CP = false; // set true for Yanti's view
 const PORD={P1:0,P2:1,P3:2,Hold:3};
 function cpBarHTML(cp){
-  // Show placeholder bar when cp:null so Yanti sees the feature exists
   if(cp===null||cp===undefined){
     return`<div class="cp-wrap">
       <div class="cp-row">
         <div class="cp-bar"><div class="cp-fill" style="width:0%;background:rgba(30,28,24,.10)"></div></div>
         <span class="cp-pct" style="color:var(--t3)">–%</span>
       </div>
-      <div class="cp-label">Cowork progress · belum ada data</div>
     </div>`;
   }
   const cls=cp>=70?'hi':cp>=30?'md':'lo';
@@ -373,7 +376,6 @@ function cpBarHTML(cp){
       <div class="cp-bar"><div class="cp-fill ${cls}" style="width:${cp}%"></div></div>
       <span class="cp-pct ${cls}">${cp}%</span>
     </div>
-    <div class="cp-label">Cowork progress</div>
   </div>`;
 }
 function tcHTML(t){
@@ -453,17 +455,17 @@ function renderFocus(key){
   return`<div class="zone">${hdr}${cards}</div>${moreLink}`;
 }
 
-// ── COCKPIT ────────────────────────────────────────────────────
-function renderCockpit(tasks){
+// ── STATS STRIP ────────────────────────────────────────────────────
+function renderStatsStrip(tasks){
   const ov=tasks.filter(t=>{const d=du(t.due);return d!==null&&d<0;}).length;
   const td=tasks.filter(t=>du(t.due)===0).length;
   const do_=tasks.filter(t=>(t.status||'').toLowerCase()==='doing').length;
-  return `<div class="cockpit">
-    <div class="chip"><span class="chip-num">${tasks.length}</span><span class="chip-lbl">tasks</span></div>
-    <div class="chip c-ov"><span class="chip-num">${ov}</span><span class="chip-lbl">overdue</span></div>
-    <div class="chip c-td"><span class="chip-num">${td}</span><span class="chip-lbl">hari ini</span></div>
-    <div class="chip c-do"><span class="chip-num">${do_}</span><span class="chip-lbl">doing</span></div>
-  </div>`;
+  const parts=[];
+  if(ov>0) parts.push(`<span class="ss-ov"><strong>${ov}</strong> overdue</span><span class="ss-sep">·</span>`);
+  parts.push(`<span class="ss-td"><strong>${td}</strong> hari ini</span>`);
+  parts.push(`<span class="ss-sep">·</span><span class="ss-do"><strong>${do_}</strong> doing</span>`);
+  parts.push(`<span class="ss-sep">·</span><span><strong>${tasks.length}</strong> total</span>`);
+  return`<div class="stats-strip">${parts.join('')}</div>`;
 }
 
 // ── I AM ────────────────────────────────────────────────────
@@ -508,15 +510,11 @@ if(isPersonal&&activePerson){
       <div class="hero-eyebrow"><span class="eyebrow-dot"></span>Personal Command Centre</div>
       <div class="hdr-name">Halo, <span>${activePerson.label}</span> 👋</div>
       <div class="hdr-sub">${dateLbl}</div>
-      <div class="hero-bar"></div>
     </div>
-    ${renderCockpit(tasks)}
-    <div class="quote-bar"><div class="q-accent"></div><div>
-      <div class="q-text">&ldquo;${q.q}&rdquo;</div>
-      <span class="q-author">— ${q.a}</span>
-    </div></div>
-    ${renderIAM(activePerson.iam)}`;
-  viewsEl.innerHTML=activePerson.key==='yanti'?renderFocus(activePerson.key):renderZones(activePerson.key);
+    ${renderStatsStrip(tasks)}`;
+  const mainContent=activePerson.key==='yanti'?renderFocus(activePerson.key):renderZones(activePerson.key);
+  const iamContent=renderIAM(activePerson.iam);
+  viewsEl.innerHTML=mainContent+(iamContent?`<div style="margin-top:20px">${iamContent}</div>`:'')
 } else {
   const totalAll=TASKS.length;
   const ovAll=TASKS.filter(t=>{const d=du(t.due);return d!==null&&d<0;}).length;
@@ -531,13 +529,9 @@ if(isPersonal&&activePerson){
   hdrArea.innerHTML=`<div class="admin-hdr">
     <div class="hero-eyebrow"><span class="eyebrow-dot"></span>Personal Command Centre</div>
     <div class="admin-title">Dashboard Personal</div>
-    <div class="admin-sub">${totalAll} tasks aktif · ${ovAll} overdue · ${dateLbl}</div>
-    <div class="hero-bar"></div>
+    <div class="admin-sub">${dateLbl}</div>
   </div>
-  <div class="quote-bar"><div class="q-accent"></div><div>
-    <div class="q-text">&ldquo;${q.q}&rdquo;</div>
-    <span class="q-author">— ${q.a}</span>
-  </div></div>
+  ${renderStatsStrip(TASKS)}
   ${renderIAM(TJITRA_IAM)}`;
   tabsEl.style.display='flex';
   PERSONS.forEach((p,i)=>{
@@ -557,7 +551,7 @@ if(isPersonal&&activePerson){
     const div=document.createElement('div');
     div.className='person-view'+(i===0?' active':'');
     div.id='pv-'+p.key;
-    div.innerHTML=renderCockpit(tasks)+renderZones(p.key);
+    div.innerHTML=renderStatsStrip(tasks)+renderZones(p.key);
     viewsEl.appendChild(div);
   });
 }

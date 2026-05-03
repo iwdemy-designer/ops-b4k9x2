@@ -99,25 +99,14 @@ body{font-family:'Carlito','Inter',sans-serif;background:var(--fog);color:var(--
 .person-list{display:flex;flex-direction:column;gap:10px;margin-bottom:48px}
 .person-row{background:rgba(255,255,255,.72);backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);border-radius:var(--rlg);border:1px solid rgba(255,255,255,.7);box-shadow:0 3px 12px rgba(0,0,0,.05),0 1px 2px rgba(255,255,255,.8) inset;transition:box-shadow .2s;overflow:visible}
 .person-row:hover{box-shadow:0 6px 24px rgba(0,0,0,.09)}
-.pr-header{display:grid;grid-template-columns:36px 170px 1fr 130px 80px;align-items:center;gap:14px;padding:16px 22px;position:sticky;top:58px;z-index:10;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:var(--rlg) var(--rlg) 0 0;border-bottom:1px solid rgba(0,0,0,.07);box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.pr-header{display:grid;grid-template-columns:36px 1fr auto;align-items:center;gap:14px;padding:13px 18px;position:sticky;top:58px;z-index:10;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:var(--rlg) var(--rlg) 0 0;border-bottom:1px solid rgba(0,0,0,.07);box-shadow:0 2px 8px rgba(0,0,0,.05)}
 .pr-emoji{font-size:20px;line-height:1;text-align:center}
 .pr-identity{min-width:0}
 .pr-name{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:800;color:var(--ink)}
 .pr-domain{font-size:10px;color:var(--grey);margin-top:1px}
-.pr-load-wrap{display:flex;flex-direction:column;gap:4px}
-.pr-load-label{display:flex;justify-content:space-between;align-items:center}
-.pr-load-txt{font-size:10px;color:var(--grey)}
-.pr-bar-bg{height:5px;background:rgba(0,0,0,.07);border-radius:999px;overflow:hidden}
-.pr-bar-fill{height:100%;border-radius:999px;background:var(--blue);transition:width .8s ease}
-.pr-bar-fill.pb-high{background:var(--orange)}
-.pr-bar-fill.pb-ok{background:var(--green)}
 .pr-stats{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end}
 .pr-stat-item{font-size:10px;color:var(--grey);white-space:nowrap}
 .pr-stat-item strong{color:var(--ink);font-weight:700}
-.pr-badge{font-size:9px;font-weight:700;padding:3px 8px;border-radius:4px;white-space:nowrap}
-.pr-badge.pb-high{background:var(--orange-08);color:var(--orange)}
-.pr-badge.pb-ok{background:var(--green-08);color:var(--green)}
-.pr-badge.pb-low{background:rgba(0,0,0,.04);color:var(--grey)}
 /* EXPANDED TASK LIST */
 .pr-tasks{display:block;border-top:1px solid rgba(0,0,0,.06);padding:4px 0 12px}
 .pt-item{display:flex;align-items:center;gap:10px;padding:9px 22px;border-bottom:1px solid rgba(0,0,0,.04);border-left:3px solid transparent;transition:background .12s}
@@ -401,18 +390,11 @@ function renderMilestones(){
 // ── PERSON ROWS ──
 function renderPersonRows(){
   const container=document.getElementById('personRoot');
-  const MAX_TASKS=26; // yanti's count for normalization
-
   const rows=PERSONS.map(person=>{
     const myTasks=TASKS.filter(t=>t.assignee===person.key&&isActive(t));
     const doingCount=myTasks.filter(t=>{const s=(t.status||'').toLowerCase();return s.includes('progress')||s.includes('doing');}).length;
     const p1Count=myTasks.filter(t=>(t.priority||'').toLowerCase().includes('p1')).length;
     const total=myTasks.length;
-    const pct=Math.round((total/MAX_TASKS)*100);
-    const loadClass=total>=15?'pb-high':total>=5?'pb-ok':'';
-    const badgeClass=total>=15?'pb-high':total>=5?'pb-ok':'pb-low';
-    const badgeLabel=total>=15?'High':total>=5?'OK':'Low';
-    const barClass=total>=15?'pb-high':total>=5?'pb-ok':'';
 
     // Sort tasks: doing first, then P1, then by due date
     const sorted=[...myTasks].sort((a,b)=>{
@@ -465,19 +447,13 @@ function renderPersonRows(){
           <div class="pr-name">${person.label}</div>
           <div class="pr-domain">${person.domain}</div>
         </div>
-        <div class="pr-load-wrap">
-          <div class="pr-load-label">
-            <span class="pr-load-txt">${total} task aktif</span>
-            <span class="pr-load-txt">${pct}%</span>
-          </div>
-          <div class="pr-bar-bg"><div class="pr-bar-fill ${barClass}" style="width:${pct}%"></div></div>
-        </div>
         <div class="pr-stats">
+          <span class="pr-stat-item"><strong>${total}</strong> task</span>
+          <span class="pr-stat-item">·</span>
           <span class="pr-stat-item"><strong>${doingCount}</strong> Doing</span>
           <span class="pr-stat-item">·</span>
           <span class="pr-stat-item"><strong>${p1Count}</strong> P1</span>
         </div>
-        <span class="pr-badge ${badgeClass}">${badgeLabel}</span>
       </div>
       <div class="pr-tasks">
         ${taskItems}${hiddenHtml}${emptyHtml}
