@@ -90,25 +90,6 @@ a{color:inherit;text-decoration:none}
 .q-text{font-family:var(--fd);font-size:12.5px;font-style:italic;color:var(--t2);line-height:1.55}
 .q-author{display:block;font-style:normal;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3);margin-top:4px}
 
-/* I AM */
-.iam-section{margin-bottom:22px}
-.iam-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--mustard-d);margin-bottom:10px}
-.iam-grid{display:flex;gap:8px;flex-wrap:wrap}
-.iam-card{flex:1 1 calc(33.33% - 6px);min-width:175px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;cursor:pointer;box-shadow:var(--sh);overflow:hidden}
-.iam-card.grateful{background:rgba(46,125,82,.04);border-color:rgba(46,125,82,.14)}
-.iam-card.feelbest{background:rgba(0,82,135,.04);border-color:rgba(0,82,135,.12)}
-.iam-card.blessed{background:var(--mustard-s);border-color:rgba(252,181,40,.20)}
-.iam-hdr{display:flex;align-items:center;gap:7px}
-.iam-icon{font-size:15px;flex-shrink:0}
-.iam-title{font-family:var(--fd);font-size:11.5px;font-weight:700;color:var(--t1);flex:1}
-.iam-chev{font-size:9px;color:var(--t3);transition:transform .22s;flex-shrink:0}
-.iam-card.open .iam-chev{transform:rotate(180deg)}
-.iam-body{max-height:0;overflow:hidden;transition:max-height .28s ease}
-.iam-card.open .iam-body{max-height:180px}
-.iam-card.open .iam-hdr{margin-bottom:9px}
-.iam-list{list-style:none}
-.iam-list li{font-size:11px;color:var(--t2);line-height:1.65;padding-left:13px;position:relative}
-.iam-list li::before{content:'·';position:absolute;left:2px;color:var(--t3);font-weight:700}
 
 /* TABS */
 .person-tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px}
@@ -220,7 +201,7 @@ a{color:inherit;text-decoration:none}
 .focus-link span{flex:1}
 .focus-link-arr{font-size:14px;color:var(--t3)}
 
-@media(max-width:540px){.iam-card{flex:1 1 100%}.cockpit{gap:6px}.chip{padding:5px 12px}}
+@media(max-width:540px){.cockpit{gap:6px}.chip{padding:5px 12px}}
 </style>
 </head>
 <body>
@@ -312,7 +293,7 @@ const TASKS = [
 const SYNC_TIME = '2026-05-03 18:40 WIB';
 // AUTO:END — NOTION SYNC DATA
 
-// ── DONE TASKS (last 7 days) — update manual saat sync ─────────
+// AUTO:START — DONE TASKS SYNC
 const DONE_TASKS = [
   { assignee:'yanti', name:'AIF Instagram Strategy', priority:'P1', domain:'IWDemy', due:'2026-05-03', url:'https://app.notion.com/p/3538ff32f8cf81a28567e7a3a14b329a' },
   { assignee:'yanti', name:'Final Mobile version Website aifirst26', priority:'P1', domain:'IWDemy', due:'2026-04-30', url:'https://app.notion.com/p/3528ff32f8cf809fb95bda892e438039' },
@@ -327,6 +308,7 @@ const DONE_TASKS = [
   { assignee:'anita', name:'Payroll TSS Umi', priority:'P1', domain:'IWDemy', due:'2026-04-28', url:'https://app.notion.com/p/3508ff32f8cf8044aeb4cc38a898e672' },
   { assignee:'anita', name:'Siapkan materi GW IDL', priority:'P1', domain:'IWDemy', due:'2026-04-28', url:'https://app.notion.com/p/34b8ff32f8cf804c8f5acef78b2babae' },
 ];
+// AUTO:END — DONE TASKS SYNC
 
 // ── CONFIG ────────────────────────────────────────────────────
 const PERSONS = [
@@ -514,21 +496,12 @@ function renderStatsStrip(tasks){
   return`<div class="stats-strip">${parts.join('')}</div>`;
 }
 
-// ── I AM ────────────────────────────────────────────────────
-function renderIAM(iam){
-  if(!iam)return'';
-  const cards=['grateful','feelbest','blessed'].map(k=>{
-    const c=iam[k];
-    return`<div class="iam-card ${c.type}" onclick="this.classList.toggle('open')">
-      <div class="iam-hdr">
-        <span class="iam-icon">${c.icon}</span>
-        <span class="iam-title">${c.title}</span>
-        <span class="iam-chev">▼</span>
-      </div>
-      <div class="iam-body"><ul class="iam-list">${c.items.map(i=>`<li>${i}</li>`).join('')}</ul></div>
-    </div>`;
-  }).join('');
-  return`<div class="iam-section"><div class="iam-label">I Am</div><div class="iam-grid">${cards}</div></div>`;
+// ── VALUE QUOTE ────────────────────────────────────────────────────
+function renderQuote(){
+  return`<div class="quote-bar">
+    <div class="q-accent"></div>
+    <div class="q-text">"${q.q}"<span class="q-author">${q.a}</span></div>
+  </div>`;
 }
 
 // ── VELOCITY CHART ────────────────────────────────────────────────────
@@ -605,29 +578,19 @@ if(isPersonal&&activePerson){
       <div class="hdr-name">Halo, <span>${activePerson.label}</span> 👋</div>
       <div class="hdr-sub">${dateLbl}</div>
     </div>
-    ${renderStatsStrip(tasks)}`;
+    ${renderStatsStrip(tasks)}
+    ${renderQuote()}`;
   const mainContent=activePerson.key==='yanti'?renderFocus(activePerson.key):renderZones(activePerson.key);
   const selesaiContent=renderSelesai(activePerson.key);
-  const iamContent=renderIAM(activePerson.iam);
-  viewsEl.innerHTML=mainContent+selesaiContent+(iamContent?`<div style="margin-top:20px">${iamContent}</div>`:'')
+  viewsEl.innerHTML=mainContent+selesaiContent;
 } else {
-  const totalAll=TASKS.length;
-  const ovAll=TASKS.filter(t=>{const d=du(t.due);return d!==null&&d<0;}).length;
-  const TJITRA_IAM={
-    grateful:{icon:'🌱',type:'grateful',title:'Grateful for',
-      items:['Myself & my health','Home and work','Family & friends','My bank account','My journey to becoming']},
-    feelbest:{icon:'🏛',type:'feelbest',title:'Feel best for',
-      items:['Fulfillment in work','Abundance in life and business','Secure in financial situation','Joy with spouse & kids','Peace with myself']},
-    blessed:{icon:'👑',type:'blessed',title:'Miraculously blessed',
-      items:['15M in 2026','5 containers IQ + EGOO','300 monthly SocMed','Winning attitude team with 1 vision','Unexpected income']}
-  };
   hdrArea.innerHTML=`<div class="admin-hdr">
     <div class="hero-eyebrow"><span class="eyebrow-dot"></span>Personal Command Centre</div>
     <div class="admin-title">Dashboard Personal</div>
     <div class="admin-sub">${dateLbl}</div>
   </div>
   ${renderStatsStrip(TASKS)}
-  ${renderIAM(TJITRA_IAM)}`;
+  ${renderQuote()}`;
   tabsEl.style.display='flex';
   PERSONS.forEach((p,i)=>{
     const tasks=getPersonTasks(p.key);
