@@ -87,7 +87,7 @@ a{color:inherit;text-decoration:none}
 /* QUOTE */
 .quote-bar{display:flex;gap:12px;align-items:stretch;margin-bottom:22px;padding:13px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
 .q-accent{width:2px;background:var(--mustard);border-radius:1px;flex-shrink:0}
-.q-text{font-family:var(--fd);font-size:12.5px;font-style:italic;color:var(--t2);line-height:1.55}
+.q-text{font-family:var(--fd);font-size:12.5px;color:var(--t2);line-height:1.55}
 .q-author{display:block;font-style:normal;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3);margin-top:4px}
 
 
@@ -150,17 +150,23 @@ a{color:inherit;text-decoration:none}
 .tag-ms{background:rgba(252,181,40,.15);color:var(--mustard-d)}
 .tag-ov{background:var(--red-s);color:var(--red);font-weight:700}
 
-/* CP PROGRESS */
-.cp-wrap{margin-top:8px}
-.cp-row{display:flex;align-items:center;gap:8px}
-.cp-bar{flex:1;height:3px;background:rgba(30,28,24,.09);border-radius:2px;overflow:hidden}
-.cp-fill{height:100%;border-radius:2px;transition:width .4s ease}
-.cp-fill.hi{background:var(--green)}
-.cp-fill.md{background:var(--mustard)}
-.cp-fill.lo{background:rgba(30,28,24,.22)}
-.cp-pct{font-family:var(--fd);font-size:10px;font-weight:700;color:var(--t3);flex-shrink:0;min-width:28px;text-align:right}
-.cp-pct.hi{color:var(--green)}.cp-pct.md{color:var(--mustard-d)}.cp-pct.lo{color:var(--t3)}
-.cp-label{font-size:9px;color:var(--t3);letter-spacing:.5px;text-transform:uppercase;margin-top:2px}
+/* TIME BANNER */
+.time-banner{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding:10px 14px;border-radius:var(--r);border-left:3px solid;font-size:12px;color:var(--t2)}
+.time-banner.banner-morning{background:rgba(252,181,40,.08);border-color:var(--mustard)}
+.time-banner.banner-midday{background:rgba(0,82,135,.07);border-color:var(--blue)}
+.time-banner.banner-wrap{background:rgba(208,106,0,.07);border-color:var(--orange)}
+.time-banner.banner-review{background:rgba(27,128,64,.07);border-color:var(--green)}
+.tb-icon{font-size:14px;flex-shrink:0}
+.tb-msg{line-height:1.4}
+
+/* MY TODAY */
+.myt-section{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;margin-bottom:16px;box-shadow:var(--sh)}
+.myt-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
+.myt-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.myt-num{font-family:var(--fd);font-size:11px;font-weight:800;color:var(--t3);width:14px;flex-shrink:0;text-align:center}
+.myt-input{flex:1;border:none;border-bottom:1px solid var(--border);background:transparent;font-family:var(--fb);font-size:13px;color:var(--t1);padding:3px 0;outline:none;transition:border-color .15s}
+.myt-input:focus{border-color:var(--mustard)}
+.myt-input::placeholder{color:var(--t3)}
 
 /* SELESAI MINGGU INI */
 .zone-selesai .zdot{background:var(--green)}
@@ -387,25 +393,7 @@ function getZone(t){
 }
 
 // ── TASK CARD ────────────────────────────────────────────────────
-var SHOW_CP = true; // show for all
 const PORD={P1:0,P2:1,P3:2,Hold:3};
-function cpBarHTML(cp){
-  if(cp===null||cp===undefined){
-    return`<div class="cp-wrap">
-      <div class="cp-row">
-        <div class="cp-bar"><div class="cp-fill" style="width:0%;background:rgba(30,28,24,.10)"></div></div>
-        <span class="cp-pct" style="color:var(--t3)">–%</span>
-      </div>
-    </div>`;
-  }
-  const cls=cp>=70?'hi':cp>=30?'md':'lo';
-  return`<div class="cp-wrap">
-    <div class="cp-row">
-      <div class="cp-bar"><div class="cp-fill ${cls}" style="width:${cp}%"></div></div>
-      <span class="cp-pct ${cls}">${cp}%</span>
-    </div>
-  </div>`;
-}
 function tcHTML(t){
   const df=du(t.due);
   const cd=cdInfo(df);
@@ -426,8 +414,49 @@ function tcHTML(t){
       ${t.domain?`<span class="tag tag-domain">${t.domain}`+`</span>`:''}
       ${ms}${ovBadge}
     </div>
-    ${SHOW_CP?cpBarHTML(t.cp):''}
   </div>`;
+}
+
+// ── TIME BANNER ────────────────────────────────────────────────────
+function renderTimeBanner(){
+  const now=new Date();
+  const hm=now.getHours()*60+now.getMinutes();
+  const dow=now.getDay();
+  if(dow===5&&hm>=960)
+    return`<div class="time-banner banner-review"><span class="tb-icon">📋</span><span class="tb-msg">Jumat sore — review <strong>Selesai Minggu Ini</strong> dan tandai selesai di Notion sebelum weekend.</span></div>`;
+  if(hm>=360&&hm<540)
+    return`<div class="time-banner banner-morning"><span class="tb-icon">🌅</span><span class="tb-msg">Selamat pagi! Isi 3 prioritas hari ini di bawah sebelum mulai bekerja.</span></div>`;
+  if(hm>=690&&hm<780)
+    return`<div class="time-banner banner-midday"><span class="tb-icon">⏱</span><span class="tb-msg">Mid-day check — sudah update progress di Notion hari ini?</span></div>`;
+  if(hm>=900&&hm<1020)
+    return`<div class="time-banner banner-wrap"><span class="tb-icon">🔔</span><span class="tb-msg">Hampir selesai! Cek task overdue dan update status sebelum menutup hari.</span></div>`;
+  return'';
+}
+
+// ── MY TODAY ────────────────────────────────────────────────────
+function renderMyToday(key){
+  const dateKey=new Date().toISOString().slice(0,10);
+  const lsKey='mytoday-'+key+'-'+dateKey;
+  const saved=JSON.parse(localStorage.getItem(lsKey)||'[]');
+  const rows=[0,1,2].map(i=>`<div class="myt-row">
+    <span class="myt-num">${i+1}</span>
+    <input class="myt-input" data-idx="${i}" placeholder="Prioritas ${i+1}..." value="${(saved[i]||'').replace(/"/g,'&quot;')}">
+  </div>`).join('');
+  return`<div class="myt-section">
+    <div class="myt-label">Fokus Hari Ini</div>
+    <div class="myt-form" data-lskey="${lsKey}">${rows}</div>
+  </div>`;
+}
+function attachMyTodayListeners(){
+  const form=document.querySelector('.myt-form');
+  if(!form)return;
+  const lsKey=form.dataset.lskey;
+  form.querySelectorAll('.myt-input').forEach(inp=>{
+    inp.addEventListener('input',()=>{
+      const vals=[...form.querySelectorAll('.myt-input')].map(i=>i.value);
+      localStorage.setItem(lsKey,JSON.stringify(vals));
+    });
+  });
 }
 
 // ── URGENCY ZONES — untuk team members ────────────────────────────────────────
@@ -582,7 +611,8 @@ if(isPersonal&&activePerson){
     ${renderQuote()}`;
   const mainContent=activePerson.key==='yanti'?renderFocus(activePerson.key):renderZones(activePerson.key);
   const selesaiContent=renderSelesai(activePerson.key);
-  viewsEl.innerHTML=mainContent+selesaiContent;
+  viewsEl.innerHTML=renderTimeBanner()+renderMyToday(activePerson.key)+mainContent+selesaiContent;
+  attachMyTodayListeners();
 } else {
   hdrArea.innerHTML=`<div class="admin-hdr">
     <div class="hero-eyebrow"><span class="eyebrow-dot"></span>Personal Command Centre</div>
