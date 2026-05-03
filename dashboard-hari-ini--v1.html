@@ -132,8 +132,23 @@ body{font-family:'Carlito','Inter',sans-serif;background:var(--fog);color:var(--
 .tag-proj{background:var(--maroon-08);color:var(--maroon)}
 .tag-proj-iw{background:var(--blue-08);color:var(--blue)}
 .tag-due{background:var(--blue-08);color:var(--blue)}
-.tag-overdue{background:var(--red-08);color:var(--red)}
+.tag-overdue{background:var(--red-08);color:var(--red);font-weight:700}
+.tag-overdue-warn{background:#fff0e6;color:#b85c00;font-weight:800;letter-spacing:.2px}
+.tag-overdue-kritis{background:#fde8e8;color:#8b1a1a;font-weight:800;letter-spacing:.3px}
 .col-empty{text-align:center;padding:20px 10px;color:var(--grey);font-size:.78rem;font-style:italic}
+
+/* CP BAR IN CARD */
+.card-cp{margin-top:8px}
+.card-cp-row{display:flex;align-items:center;gap:6px}
+.card-cp-bar{flex:1;height:3px;background:rgba(0,0,0,.08);border-radius:2px;overflow:hidden}
+.card-cp-fill{height:100%;border-radius:2px;transition:width .4s}
+.card-cp-fill.hi{background:#1B8040}.card-cp-fill.md{background:#FCB528}.card-cp-fill.lo{background:rgba(0,0,0,.18)}
+.card-cp-pct{font-size:9px;font-weight:700;color:rgba(0,0,0,.38);flex-shrink:0;min-width:24px;text-align:right}
+.card-cp-pct.hi{color:#1B8040}.card-cp-pct.md{color:#8A6200}
+
+/* OVERDUE CARD ESCALATION */
+.kanban-card.ov-warn{border-left:3px solid #D06A00}
+.kanban-card.ov-kritis{border-left:3px solid #C0392B;background:rgba(192,57,43,.03)}
 
 /* MILESTONE STRIP */
 .milestone-strip{background:var(--white);border-radius:var(--rlg);box-shadow:var(--sm);padding:14px 18px;margin-bottom:18px;display:none}
@@ -383,10 +398,15 @@ function fmtDue(t) {
   if(!t.due) return null;
   const d=new Date(t.due); d.setHours(0,0,0,0);
   const diff=Math.round((d-TODAY)/(1000*60*60*24));
-  if(diff<0) return [`Telat ${Math.abs(diff)}h`,'tag-overdue'];
-  if(diff===0) return ['Hari ini','tag-due'];
-  if(diff===1) return ['Besok','tag-due'];
-  return [`+${diff} hari`,'tag-due'];
+  if(diff<0){
+    const abs=Math.abs(diff);
+    if(abs>7)  return [`⚠ Telat ${abs}h`,'tag-overdue-kritis','ov-kritis'];
+    if(abs>3)  return [`Telat ${abs}h`,  'tag-overdue-warn',  'ov-warn'];
+    return             [`Telat ${abs}h`, 'tag-overdue',        ''];
+  }
+  if(diff===0) return ['Hari ini','tag-due',''];
+  if(diff===1) return ['Besok','tag-due',''];
+  return [`+${diff} hari`,'tag-due',''];
 }
 
 function domainTag(dom) {
@@ -395,12 +415,20 @@ function domainTag(dom) {
   return `<span class="tag ${iw?'tag-proj-iw':'tag-proj'}">${dom}</span>`;
 }
 
+function cpBarCard(cp){
+  if(cp===null||cp===undefined) return '';
+  const cls=cp>=70?'hi':cp>=30?'md':'lo';
+  const pctCls=cp>=70?'hi':cp>=30?'md':'';
+  return `<div class="card-cp"><div class="card-cp-row"><div class="card-cp-bar"><div class="card-cp-fill ${cls}" style="width:${cp}%"></div></div><span class="card-cp-pct ${pctCls}">${cp}%</span></div></div>`;
+}
+
 function cardHTML(t) {
   const [pL,pC]=priorityTag(t.priority);
   const [sL,sC]=statusTag(t.status);
   const due=fmtDue(t);
+  const ovCls=due?due[2]:'';
   const link=t.url?`<a class="card-notion-link" href="${t.url}" target="_blank" title="Buka di Notion">↗</a>`:'';
-  return `<div class="kanban-card">
+  return `<div class="kanban-card${ovCls?' '+ovCls:''}">
     <div class="card-top"><div class="card-name">${t.name}</div>${link}</div>
     <div class="card-tags">
       <span class="tag ${pC}">${pL}</span>
@@ -408,6 +436,7 @@ function cardHTML(t) {
       ${domainTag(t.domain)}
       ${due?`<span class="tag ${due[1]}">${due[0]}</span>`:''}
     </div>
+    ${cpBarCard(t.cp)}
   </div>`;
 }
 
@@ -416,24 +445,44 @@ function buildNarrative(tasks, person) {
   const total = tasks.length;
   const pConfig = PERSONS.find(p=>p.key===person);
   const label = pConfig ? pConfig.label : person;
-  if(total===0) return `Tidak ada task aktif untuk ${label} saat ini.`;
-  if(pConfig && pConfig.mode==='exec') {
-    const overdue = tasks.filter(t=>yColOf(t)==='terlambat');
-    const today = tasks.filter(t=>yColOf(t)==='hari-ini');
-    const p1 = tasks.filter(t=>(t.priority||'').toLowerCase().includes('p1'));
-    let s = `${label} — ${total} task aktif. `;
-    if(overdue.length>0) s+=`${overdue.length} task sudah lewat deadline. `;
-    if(today.length>0) s+=`${today.length} task jatuh tempo hari ini. `;
-    if(p1.length>0) s+=`${p1.length} task P1 perlu perhatian.`;
-    return s.trim();
-  } else {
-    const today = tasks.filter(t=>tColOf(t)==='hari-ini');
-    const p1 = tasks.filter(t=>(t.priority||'').toLowerCase().includes('p1'));
-    let s = `${label} punya ${total} task aktif. `;
-    if(today.length>0) s+=`${today.length} task due hari ini atau sudah lewat. `;
-    if(p1.length>0) s+=`${p1.length} task P1 perlu perhatian.`;
-    return s.trim();
+  if(total===0) return `Tidak ada task aktif untuk ${label} saat ini. 🎉`;
+
+  const getDiff=t=>{if(!t.due)return null;const d=new Date(t.due);d.setHours(0,0,0,0);return Math.round((d-TODAY)/(1000*60*60*24));};
+  const overdue    = tasks.filter(t=>{const d=getDiff(t);return d!==null&&d<0;});
+  const overdueP1  = overdue.filter(t=>(t.priority||'').toLowerCase()==='p1');
+  const kritisOv   = overdue.filter(t=>{const d=getDiff(t);return d!==null&&Math.abs(d)>7;});
+  const today      = tasks.filter(t=>getDiff(t)===0);
+  const nearDone   = tasks.filter(t=>t.cp!=null&&t.cp>=80&&(t.status||'').toLowerCase().includes('doing'));
+  const doing      = tasks.filter(t=>(t.status||'').toLowerCase().includes('doing'));
+
+  const lines=[];
+
+  // 1. Kritis overdue (>7 hari)
+  if(kritisOv.length>0){
+    lines.push(`⚠ <strong>${kritisOv.length} task telat lebih dari seminggu</strong> — perlu eskalasi segera.`);
   }
+  // 2. Overdue P1
+  if(overdueP1.length>0&&kritisOv.filter(t=>(t.priority||'').toLowerCase()==='p1').length<overdueP1.length){
+    lines.push(`<strong>${overdueP1.length} task P1 lewat deadline</strong> — prioritas utama hari ini.`);
+  } else if(overdue.length>0&&kritisOv.length===0){
+    lines.push(`${overdue.length} task lewat deadline — selesaikan dulu sebelum yang baru.`);
+  }
+  // 3. Near-done (CP ≥ 80)
+  if(nearDone.length>0){
+    const names=nearDone.slice(0,2).map(t=>`<em>${t.name.replace(' 🏁','')}</em> (${t.cp}%)`).join(' & ');
+    lines.push(`${names} tinggal finishing — selesaikan hari ini.`);
+  }
+  // 4. Due hari ini
+  if(today.length>0&&lines.length<3){
+    lines.push(`${today.length} task jatuh tempo hari ini.`);
+  }
+  // 5. Fallback
+  if(lines.length===0){
+    if(doing.length>0) lines.push(`${doing.length} task sedang berjalan — pastikan semua on track.`);
+    else lines.push(`${total} task aktif, tidak ada yang due hari ini.`);
+  }
+
+  return lines.join(' ');
 }
 
 // ── MILESTONE HELPERS ───────────────────────

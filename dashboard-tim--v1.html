@@ -112,9 +112,20 @@ body{font-family:'Carlito','Inter',sans-serif;background:var(--fog);color:var(--
 .pt-item{display:flex;align-items:center;gap:10px;padding:9px 22px;border-bottom:1px solid rgba(0,0,0,.04);border-left:3px solid transparent;transition:background .12s}
 .pt-item:last-child{border-bottom:none}
 .pt-item:hover{background:rgba(0,82,135,.03)}
-.pt-item.item-overdue{border-left-color:var(--maroon);background:rgba(102,0,0,.045)}
-.pt-item.item-overdue:hover{background:rgba(102,0,0,.07)}
-.pt-badge-overdue{font-size:8px;font-weight:700;padding:2px 5px;border-radius:3px;background:var(--maroon);color:#fff;flex-shrink:0;letter-spacing:.04em;text-transform:uppercase}
+.pt-item.item-overdue{border-left-color:var(--orange);background:rgba(208,106,0,.04)}
+.pt-item.item-overdue:hover{background:rgba(208,106,0,.07)}
+.pt-item.item-kritis{border-left-color:var(--maroon)!important;background:rgba(102,0,0,.045)!important}
+.pt-item.item-kritis:hover{background:rgba(102,0,0,.07)!important}
+.pt-badge-overdue{font-size:8px;font-weight:700;padding:2px 5px;border-radius:3px;background:var(--orange);color:#fff;flex-shrink:0;letter-spacing:.04em;text-transform:uppercase}
+.pt-badge-kritis{font-size:8px;font-weight:700;padding:2px 5px;border-radius:3px;background:var(--maroon);color:#fff;flex-shrink:0;letter-spacing:.04em;text-transform:uppercase}
+
+/* CP BAR IN TIM */
+.pt-cp{display:flex;align-items:center;gap:5px;margin-left:auto;flex-shrink:0}
+.pt-cp-bar{width:44px;height:3px;background:rgba(0,0,0,.09);border-radius:2px;overflow:hidden}
+.pt-cp-fill{height:100%;border-radius:2px}
+.pt-cp-fill.hi{background:#1B8040}.pt-cp-fill.md{background:#FCB528}.pt-cp-fill.lo{background:rgba(0,0,0,.18)}
+.pt-cp-pct{font-size:9px;font-weight:700;color:rgba(0,0,0,.35);width:24px;text-align:right}
+.pt-cp-pct.hi{color:#1B8040}.pt-cp-pct.md{color:#8A6200}
 .pt-pri{font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px;flex-shrink:0}
 .pt-p1{background:var(--maroon-08);color:var(--maroon)}
 .pt-p2{background:var(--orange-08);color:var(--orange)}
@@ -420,11 +431,18 @@ function renderPersonRows(){
       const dueLbl=fmtDue(t.due);
       const dueCls=df===null?'':(df<0?'due-overdue':df===0?'due-today':'');
       const isOverdue=df!==null&&df<0;
-      return `<div class="pt-item${isOverdue?' item-overdue':''}">
+      const isKritis=isOverdue&&Math.abs(df)>7;
+      const rowCls=isKritis?' item-kritis':isOverdue?' item-overdue':'';
+      const cp=t.cp;
+      const cpCls=cp>=70?'hi':cp>=30?'md':'lo';
+      const cpPctCls=cp>=70?'hi':cp>=30?'md':'';
+      const cpHtml=cp!=null?`<div class="pt-cp"><div class="pt-cp-bar"><div class="pt-cp-fill ${cpCls}" style="width:${cp}%"></div></div><span class="pt-cp-pct ${cpPctCls}">${cp}%</span></div>`:'';
+      return `<div class="pt-item${rowCls}">
         <span class="pt-pri ${priCls}">${t.priority||'P–'}</span>
         <span class="pt-status ${statCls}">${statLbl}</span>
         <span class="pt-name">${t.name.replace('🏁','🏁 ').trim()}</span>
-        ${isOverdue?`<span class="pt-badge-overdue">Overdue</span>`:''}
+        ${isKritis?`<span class="pt-badge-kritis">⚠ Kritis</span>`:isOverdue?`<span class="pt-badge-overdue">Overdue</span>`:''}
+        ${cpHtml}
         ${dueLbl?`<span class="pt-due ${dueCls}">${dueLbl}</span>`:''}
         ${t.url?`<a class="pt-link" href="${t.url}" target="_blank" rel="noopener">Notion →</a>`:''}
       </div>`;

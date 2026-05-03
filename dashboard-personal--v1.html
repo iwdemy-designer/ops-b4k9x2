@@ -149,7 +149,9 @@ a{color:inherit;text-decoration:none}
 .tc-name{font-family:var(--fd);font-size:13.5px;font-weight:700;letter-spacing:-.2px;line-height:1.3;flex:1;color:var(--t1)}
 .tc-name a:hover{color:var(--mustard-d)}
 .tc-cd{font-family:var(--fd);font-size:11px;font-weight:700;padding:3px 10px;border-radius:5px;white-space:nowrap;flex-shrink:0}
-.tc-cd.overdue{background:var(--red-s);color:var(--red)}
+.tc-cd.overdue{background:var(--red-s);color:var(--red);font-weight:700}
+.tc-cd.overdue-warn{background:#fff0e6;color:#b85c00;font-weight:800}
+.tc-cd.overdue-kritis{background:#fde8e8;color:#8b1a1a;font-weight:800;letter-spacing:.2px}
 .tc-cd.today{background:var(--orange-s);color:var(--orange)}
 .tc-cd.tomorrow{background:var(--green-s);color:var(--green)}
 .tc-cd.days{background:rgba(30,28,24,.06);color:var(--t2)}
@@ -178,6 +180,15 @@ a{color:inherit;text-decoration:none}
 .cp-pct{font-family:var(--fd);font-size:10px;font-weight:700;color:var(--t3);flex-shrink:0;min-width:28px;text-align:right}
 .cp-pct.hi{color:var(--green)}.cp-pct.md{color:var(--mustard-d)}.cp-pct.lo{color:var(--t3)}
 .cp-label{font-size:9px;color:var(--t3);letter-spacing:.5px;text-transform:uppercase;margin-top:2px}
+
+/* SELESAI MINGGU INI */
+.zone-selesai .zdot{background:var(--green)}
+.zone-selesai .zlbl{color:var(--green)}
+.tc-done{background:rgba(27,128,64,.04);border:1px solid rgba(27,128,64,.14);border-radius:var(--r);padding:8px 14px;margin-bottom:5px;display:flex;align-items:center;gap:10px}
+.tc-done-check{font-size:12px;flex-shrink:0}
+.tc-done-name{font-size:12.5px;color:var(--t2);flex:1;line-height:1.35;text-decoration:none}
+.tc-done-name:hover{color:var(--green)}
+.tc-done-domain{font-size:9.5px;font-weight:600;padding:2px 7px;border-radius:4px;background:rgba(27,128,64,.10);color:var(--green);flex-shrink:0}
 
 /* SYNC + FOOTER */
 .sync-bar{text-align:center;font-size:11px;color:var(--t3);margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
@@ -245,46 +256,61 @@ a{color:inherit;text-decoration:none}
 <script>
 // AUTO:START — NOTION SYNC DATA
 const TASKS = [
-  // ── YANTI ─────────────────────────────────────────────────────────────────────
-  { assignee:'yanti', name:'Finalisasi Action Plan dari Meeting Minutes', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-05-01', url:'https://www.notion.so/3528ff32f8cf8065869efd82252fad05', cp:null },
-  { assignee:'yanti', name:'Present PCU', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-05-03', url:'https://www.notion.so/3528ff32f8cf80cb95cfe0d8daaa9eec', cp:null },
-  { assignee:'yanti', name:'Final MD files 4 Gallery Walk', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-05-03', url:'https://www.notion.so/6aafcae85fdf4422baef58c2f22c7b8d', cp:null },
-  { assignee:'yanti', name:'Build Cowork Infrastructure (Claude OS)', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-05-04', url:'https://www.notion.so/3538ff32f8cf81e88bcad8a1346b94cf', cp:45 },
-  { assignee:'yanti', name:'Present BCU 🏁', priority:'P1', status:'Doing', domain:'Tjitra', due:'2026-05-04', url:'https://www.notion.so/3528ff32f8cf80009199d6920648d7d5', cp:null },
-  { assignee:'yanti', name:'Final Content Calendar Mei 2026', priority:'P1', status:'Doing', domain:'IWDemy', due:'2026-05-04', url:'https://www.notion.so/dd6a1c037ccd4d0cacf876eda126d29c', cp:null },
-  { assignee:'yanti', name:'Final Proposal Inhouse Ciputra', priority:'P1', status:'Doing', domain:'IWDemy', due:'2026-05-04', url:'https://www.notion.so/34b8ff32f8cf80368134eb4b6a5a3c87', cp:92 },
-  { assignee:'yanti', name:'AIF Pro L2D1M2 Prompting', priority:'P2', status:'Doing', domain:'IWDemy', due:'2026-05-05', url:'https://www.notion.so/3558ff32f8cf8034a57eddeb326c28a6', cp:null },
-  { assignee:'yanti', name:'Finalisasi Prompt 1.0 untuk Personalized AI 🏁', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-05-05', url:'https://www.notion.so/3538ff32f8cf80bf94f3e9cd1d8291d9', cp:null },
-  { assignee:'yanti', name:'Finalisasi Revisi Materi AIF L2 M1', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-05-06', url:'https://www.notion.so/34d8ff32f8cf80188ebfd9eaf4919678', cp:50 },
-  { assignee:'yanti', name:'Final Proposal Leadership Development MRA', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-05-10', url:'https://www.notion.so/3438ff32f8cf803dbec0c03388ff911f', cp:null },
-  { assignee:'yanti', name:'Final persona dan intent Open Claw', priority:'P3', status:'Next', domain:'IWDemy', due:'2026-05-10', url:'https://www.notion.so/3378ff32f8cf80df897af5051ce9aa2c', cp:15 },
-  { assignee:'yanti', name:'Final Materi SinaD 5', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-05-17', url:'https://www.notion.so/3548ff32f8cf8073b27fc32319125fa1', cp:null },
-  { assignee:'yanti', name:'Final Compro IWDemy', priority:'Hold', status:'Waiting', domain:'IWDemy', due:null, url:'https://www.notion.so/c27e663de07c4c6994f10ec41285e0ab', cp:null },
-  { assignee:'yanti', name:'Final Tjitra Value Handbook', priority:'Hold', status:'Waiting', domain:'Tjitra', due:null, url:'https://www.notion.so/6064d680fd074b2ca6ce784843584261', cp:null },
-  // ── TIM ──────────────────────────────────────────────────────────────────────
-  { assignee:'juli', name:'Revisi Prompt Data Base', priority:'P1', status:'Doing', domain:'IWDemy', due:'2026-04-30', url:'https://www.notion.so/3518ff32f8cf8047bdd8da5378a0ff25', cp:null },
-  { assignee:'juli', name:'Integrasi Dashboard Task Management ke DEA', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-05-04', url:'https://www.notion.so/34b8ff32f8cf80db8264f233102812de', cp:null },
-  { assignee:'juli', name:'Buat Agentic AI Workflow OpenClaw untuk social media', priority:'P1', status:'Doing', domain:'IWDemy', due:'2026-05-04', url:'https://www.notion.so/34b8ff32f8cf80a79dc9ee3e1165efdf', cp:null },
-  { assignee:'meliana', name:'Gems / Opal Surat Penawaran Returnstar', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-04-30', url:'https://www.notion.so/34f8ff32f8cf8048a490c5c7cf04f40a', cp:null },
-  { assignee:'meliana', name:'Final SPT Tahunan PT Sinau 2025', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-04-30', url:'https://www.notion.so/34f8ff32f8cf8006ad62f0b0faedb710', cp:null },
-  { assignee:'meliana', name:'Email Pak Yuli Info Produk ', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-05-04', url:'https://www.notion.so/3528ff32f8cf801c9270e988610179ee', cp:null },
-  { assignee:'meliana', name:'Final Surat Penawaran YPPI', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-05-04', url:'https://www.notion.so/3528ff32f8cf80b4b5add877b844ea77', cp:null },
-  { assignee:'meliana', name:'Google Contact_CRM Update dan Check', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-05-08', url:'https://www.notion.so/34f8ff32f8cf80678a3cc4bc120fd98d', cp:null },
-  { assignee:'meliana', name:'Stock Inventory IQ', priority:'P3', status:'Next', domain:'IWDemy', due:'2026-05-08', url:'https://www.notion.so/34f8ff32f8cf806fb804f6d8de3c2e7f', cp:null },
-  { assignee:'meliana', name:'Registrasi dashboard pendaftaran', priority:'P2', status:'Next', domain:'IWDemy', due:null, url:'https://www.notion.so/34c8ff32f8cf801dae07fac608cc3d45', cp:null },
-  { assignee:'meliana', name:'Review SPT Sinau 2025', priority:'P2', status:'Doing', domain:'IWDemy', due:null, url:'https://www.notion.so/3528ff32f8cf80c6ba94e4d91c58d25f', cp:null },
-  { assignee:'meliana', name:'Surat Penawaran_Pak Ryandi Irawan_TE1410D dan Ex Display', priority:'P2', status:'Doing', domain:'IWDemy', due:null, url:'https://www.notion.so/3528ff32f8cf804a898ad24b672c3b57', cp:null },
-  { assignee:'meliana', name:'Finalisasi SPT Badan Budi & Syntegra 2025', priority:'P2', status:'Doing', domain:'IWDemy', due:null, url:'https://www.notion.so/34f8ff32f8cf8050b83ff044acb63001', cp:null },
-  { assignee:'anita', name:'Final SPT Badan PT Syntegra', priority:'P1', status:'Doing', domain:'IWDemy', due:'2026-04-29', url:'https://www.notion.so/3528ff32f8cf80e581abe291673a9f7b', cp:null },
-  { assignee:'anita', name:'Final SPT Badan PT Budi', priority:'P1', status:'Doing', domain:'IWDemy', due:'2026-04-29', url:'https://www.notion.so/34f8ff32f8cf80f58273fad6942f678a', cp:null },
-  { assignee:'anita', name:'Review SPT PT Sinau', priority:'P1', status:'Doing', domain:'IWDemy', due:'2026-04-30', url:'https://www.notion.so/3528ff32f8cf8057b2f6cbcfcae9d747', cp:null },
-  { assignee:'anita', name:'Payroll Activity', priority:'P1', status:'Doing', domain:'IWDemy', due:'2026-04-30', url:'https://www.notion.so/3528ff32f8cf80309944fa7496a939e5', cp:null },
-  { assignee:'anita', name:'Belajar untuk persiapan website', priority:'P2', status:'Next', domain:'IWDemy', due:null, url:'https://www.notion.so/34b8ff32f8cf80df8d71fa3ad878cc55', cp:null },
-  { assignee:'stephen', name:'Buat website member.sinau.tech', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-04-29', url:'https://www.notion.so/34b8ff32f8cf8024a2f4f4fcb98fb130', cp:null },
-  { assignee:'stephen', name:'Perbaikan website sinau.tech', priority:'P1', status:'Doing', domain:'IWDemy', due:'2026-05-06', url:'https://www.notion.so/34b8ff32f8cf807085d0f583c0686082', cp:null },
+  { assignee:'yanti', name:'Finalisasi Action Plan dari Meeting Minutes', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-05-01', url:'https://app.notion.com/p/3528ff32f8cf8065869efd82252fad05', cp:null },
+  { assignee:'yanti', name:'QUICK TASK', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-05-04', url:'https://app.notion.com/p/3558ff32f8cf80fcbd15d00da5d6f9a6', cp:null },
+  { assignee:'yanti', name:'Present PCU', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-05-04', url:'https://app.notion.com/p/3528ff32f8cf80cb95cfe0d8daaa9eec', cp:null },
+  { assignee:'yanti', name:'Present BCU 🏁', priority:'P1', status:'Doing', domain:'Tjitra', due:'2026-05-04', url:'https://app.notion.com/p/3528ff32f8cf80009199d6920648d7d5', cp:null },
+  { assignee:'yanti', name:'Final Content Calendar Mei 2026', priority:'P1', status:'Doing', domain:'IWDemy', due:'2026-05-04', url:'https://app.notion.com/p/dd6a1c037ccd4d0cacf876eda126d29c', cp:null },
+  { assignee:'yanti', name:'Final Proposal Inhouse Ciputra', priority:'P1', status:'Doing', domain:'IWDemy', due:'2026-05-04', url:'https://app.notion.com/p/34b8ff32f8cf80368134eb4b6a5a3c87', cp:92 },
+  { assignee:'yanti', name:'AIF Pro L2D2 Writing', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-05-05', url:'https://app.notion.com/p/3558ff32f8cf80fe8351e7fa35d09386', cp:null },
+  { assignee:'yanti', name:'AIF Pro L2D1M2 Prompting', priority:'P2', status:'Doing', domain:'IWDemy', due:'2026-05-05', url:'https://app.notion.com/p/3558ff32f8cf8034a57eddeb326c28a6', cp:40 },
+  { assignee:'yanti', name:'Build Cowork Infrastructure (Claude OS)', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-05-10', url:'https://app.notion.com/p/3538ff32f8cf81e88bcad8a1346b94cf', cp:45 },
+  { assignee:'yanti', name:'Final Proposal Leadership Development MRA', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-05-10', url:'https://app.notion.com/p/3438ff32f8cf803dbec0c03388ff911f', cp:null },
+  { assignee:'yanti', name:'Final persona dan intent Open Claw', priority:'P3', status:'Next', domain:'IWDemy', due:'2026-05-10', url:'https://app.notion.com/p/3378ff32f8cf80df897af5051ce9aa2c', cp:15 },
+  { assignee:'yanti', name:'Final Materi SinaD 5', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-05-17', url:'https://app.notion.com/p/3548ff32f8cf8073b27fc32319125fa1', cp:null },
+  { assignee:'yanti', name:'Final MD files 4 Gallery Walk', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-05-17', url:'https://app.notion.com/p/6aafcae85fdf4422baef58c2f22c7b8d', cp:null },
+  { assignee:'yanti', name:'Final Compro IWDemy', priority:'Hold', status:'Waiting', domain:'IWDemy', due:null, url:'https://app.notion.com/p/c27e663de07c4c6994f10ec41285e0ab', cp:null },
+  { assignee:'yanti', name:'Final Tjitra Value Handbook', priority:'Hold', status:'Waiting', domain:'Tjitra', due:null, url:'https://app.notion.com/p/6064d680fd074b2ca6ce784843584261', cp:null },
+  { assignee:'juli', name:'Revisi Prompt Data Base', priority:'P1', status:'Doing', domain:'IWDemy', due:'2026-04-30', url:'https://app.notion.com/p/3518ff32f8cf8047bdd8da5378a0ff25', cp:null },
+  { assignee:'juli', name:'Integrasi Dashboard Task Management ke DEA', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-05-04', url:'https://app.notion.com/p/34b8ff32f8cf80db8264f233102812de', cp:null },
+  { assignee:'juli', name:'Buat Agentic AI Workflow OpenClaw untuk social media', priority:'P1', status:'Doing', domain:'IWDemy', due:'2026-05-04', url:'https://app.notion.com/p/34b8ff32f8cf80a79dc9ee3e1165efdf', cp:null },
+  { assignee:'meliana', name:'Gems / Opal Surat Penawaran Returnstar', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-04-30', url:'https://app.notion.com/p/34f8ff32f8cf8048a490c5c7cf04f40a', cp:null },
+  { assignee:'meliana', name:'Final SPT Tahunan PT Sinau 2025', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-04-30', url:'https://app.notion.com/p/34f8ff32f8cf8006ad62f0b0faedb710', cp:null },
+  { assignee:'meliana', name:'Email Pak Yuli Info Produk ', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-05-04', url:'https://app.notion.com/p/3528ff32f8cf801c9270e988610179ee', cp:null },
+  { assignee:'meliana', name:'Final Surat Penawaran YPPI', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-05-04', url:'https://app.notion.com/p/3528ff32f8cf80b4b5add877b844ea77', cp:null },
+  { assignee:'meliana', name:'Google Contact_CRM Update dan Check', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-05-08', url:'https://app.notion.com/p/34f8ff32f8cf80678a3cc4bc120fd98d', cp:null },
+  { assignee:'meliana', name:'Stock Inventory IQ', priority:'P3', status:'Next', domain:'IWDemy', due:'2026-05-08', url:'https://app.notion.com/p/34f8ff32f8cf806fb804f6d8de3c2e7f', cp:null },
+  { assignee:'meliana', name:'Registrasi dashboard pendaftaran', priority:'P2', status:'Next', domain:'IWDemy', due:null, url:'https://app.notion.com/p/34c8ff32f8cf801dae07fac608cc3d45', cp:null },
+  { assignee:'meliana', name:'Review SPT Sinau 2025', priority:'P2', status:'Doing', domain:'IWDemy', due:null, url:'https://app.notion.com/p/3528ff32f8cf80c6ba94e4d91c58d25f', cp:null },
+  { assignee:'meliana', name:'Surat Penawaran_Pak Ryandi Irawan_TE1410D dan Ex Display', priority:'P2', status:'Doing', domain:'IWDemy', due:null, url:'https://app.notion.com/p/3528ff32f8cf804a898ad24b672c3b57', cp:null },
+  { assignee:'meliana', name:'Finalisasi SPT Badan Budi & Syntegra 2025', priority:'P2', status:'Doing', domain:'IWDemy', due:null, url:'https://app.notion.com/p/34f8ff32f8cf8050b83ff044acb63001', cp:null },
+  { assignee:'anita', name:'Final SPT Badan PT Syntegra', priority:'P1', status:'Doing', domain:'IWDemy', due:'2026-04-29', url:'https://app.notion.com/p/3528ff32f8cf80e581abe291673a9f7b', cp:null },
+  { assignee:'anita', name:'Final SPT Badan PT Budi', priority:'P1', status:'Doing', domain:'IWDemy', due:'2026-04-29', url:'https://app.notion.com/p/34f8ff32f8cf80f58273fad6942f678a', cp:null },
+  { assignee:'anita', name:'Review SPT PT Sinau', priority:'P1', status:'Doing', domain:'IWDemy', due:'2026-04-30', url:'https://app.notion.com/p/3528ff32f8cf8057b2f6cbcfcae9d747', cp:null },
+  { assignee:'anita', name:'Payroll Activity', priority:'P1', status:'Doing', domain:'IWDemy', due:'2026-04-30', url:'https://app.notion.com/p/3528ff32f8cf80309944fa7496a939e5', cp:null },
+  { assignee:'anita', name:'Belajar untuk persiapan website', priority:'P2', status:'Next', domain:'IWDemy', due:null, url:'https://app.notion.com/p/34b8ff32f8cf80df8d71fa3ad878cc55', cp:null },
+  { assignee:'stephen', name:'Buat website member.sinau.tech', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-04-29', url:'https://app.notion.com/p/34b8ff32f8cf8024a2f4f4fcb98fb130', cp:null },
+  { assignee:'stephen', name:'Perbaikan website sinau.tech', priority:'P1', status:'Doing', domain:'IWDemy', due:'2026-05-06', url:'https://app.notion.com/p/34b8ff32f8cf807085d0f583c0686082', cp:null },
 ];
-const SYNC_TIME = '2026-05-03T10:05:37Z';
+const SYNC_TIME = '2026-05-03 18:40 WIB';
 // AUTO:END — NOTION SYNC DATA
+
+// ── DONE TASKS (last 7 days) — update manual saat sync ─────────
+const DONE_TASKS = [
+  { assignee:'yanti', name:'AIF Instagram Strategy', priority:'P1', domain:'IWDemy', due:'2026-05-03', url:'https://app.notion.com/p/3538ff32f8cf81a28567e7a3a14b329a' },
+  { assignee:'yanti', name:'Final Mobile version Website aifirst26', priority:'P1', domain:'IWDemy', due:'2026-04-30', url:'https://app.notion.com/p/3528ff32f8cf809fb95bda892e438039' },
+  { assignee:'yanti', name:'Final Check HTML Artifact', priority:'P1', domain:'IWDemy', due:'2026-04-30', url:'https://app.notion.com/p/3528ff32f8cf808fae76cb84563a9058' },
+  { assignee:'yanti', name:'Final activity report | Mulia', priority:'P1', domain:'Tjitra', due:'2026-04-30', url:'https://app.notion.com/p/bebb0a9ad3984da59e2720f0c0315360' },
+  { assignee:'yanti', name:'Final AIF Lv 3 MD Guideline', priority:'P3', domain:'IWDemy', due:'2026-05-01', url:'https://app.notion.com/p/3528ff32f8cf80669901e0e080137827' },
+  { assignee:'yanti', name:'Final website aifirst26.iwdemy.com', priority:'P1', domain:'IWDemy', due:'2026-04-29', url:'https://app.notion.com/p/3488ff32f8cf80b19a05ca8482e9d070' },
+  { assignee:'yanti', name:'Final Mulia Presentation & Artifact', priority:'P1', domain:'IWDemy', due:'2026-04-26', url:'https://app.notion.com/p/34a8ff32f8cf803d9afbfe9a25af5f12' },
+  { assignee:'meliana', name:'Konfirmasi Peserta Connect AIF', priority:'P1', domain:'IWDemy', due:'2026-04-27', url:'https://app.notion.com/p/34e8ff32f8cf80cc8aadddc05f2b2d6d' },
+  { assignee:'meliana', name:'Siapkan materi DEA AIF Level 1', priority:'P1', domain:'IWDemy', due:'2026-04-28', url:'https://app.notion.com/p/34e8ff32f8cf80dd8e30e82c34782b55' },
+  { assignee:'anita', name:'Proses Payroll Activity', priority:'P1', domain:'IWDemy', due:'2026-04-27', url:'https://app.notion.com/p/34f8ff32f8cf80a599e9f30260bd88ea' },
+  { assignee:'anita', name:'Payroll TSS Umi', priority:'P1', domain:'IWDemy', due:'2026-04-28', url:'https://app.notion.com/p/3508ff32f8cf8044aeb4cc38a898e672' },
+  { assignee:'anita', name:'Siapkan materi GW IDL', priority:'P1', domain:'IWDemy', due:'2026-04-28', url:'https://app.notion.com/p/34b8ff32f8cf804c8f5acef78b2babae' },
+  { assignee:'anita', name:'Dokumen dan koordinasi brio', priority:'P1', domain:'IWDemy', due:'2026-04-20', url:'https://app.notion.com/p/3508ff32f8cf80eaab18c1a72367dddf' },
+];
 
 // ── CONFIG ────────────────────────────────────────────────────
 const PERSONS = [
@@ -328,7 +354,12 @@ const NOW=new Date();NOW.setHours(0,0,0,0);
 function du(d){if(!d)return null;const x=new Date(d);x.setHours(0,0,0,0);return Math.ceil((x-NOW)/864e5);}
 function cdInfo(df){
   if(df===null)return{cls:'nodue',txt:'—'};
-  if(df<0)return{cls:'overdue',txt:Math.abs(df)+'d telat'};
+  if(df<0){
+    const abs=Math.abs(df);
+    if(abs>7)  return{cls:'overdue-kritis',txt:'⚠ '+abs+'d telat'};
+    if(abs>3)  return{cls:'overdue-warn',  txt:abs+'d telat'};
+    return         {cls:'overdue',         txt:abs+'d telat'};
+  }
   if(df===0)return{cls:'today',txt:'TODAY'};
   if(df===1)return{cls:'tomorrow',txt:'BESOK'};
   return{cls:'days',txt:df+'d lagi'};
@@ -358,7 +389,7 @@ function getZone(t){
 }
 
 // ── TASK CARD ────────────────────────────────────────────────────
-var SHOW_CP = false; // set true for Yanti's view
+var SHOW_CP = true; // show for all
 const PORD={P1:0,P2:1,P3:2,Hold:3};
 function cpBarHTML(cp){
   if(cp===null||cp===undefined){
@@ -484,6 +515,21 @@ function renderIAM(iam){
   return`<div class="iam-section"><div class="iam-label">I Am</div><div class="iam-grid">${cards}</div></div>`;
 }
 
+// ── SELESAI MINGGU INI ────────────────────────────────────────────────────
+function renderSelesai(key){
+  const done=DONE_TASKS.filter(t=>t.assignee===key);
+  if(!done.length) return'';
+  const rows=done.map(t=>`<div class="tc-done">
+    <span class="tc-done-check">✅</span>
+    <a class="tc-done-name" href="${t.url}" target="_blank">${t.name}</a>
+    <span class="tc-done-domain">${t.domain}</span>
+  </div>`).join('');
+  return`<div class="zone zone-selesai" style="margin-top:18px">
+    <div class="zone-hdr"><div class="zdot"></div><span class="zlbl">Selesai Minggu Ini</span><span class="zct">${done.length}</span></div>
+    ${rows}
+  </div>`;
+}
+
 // ── INIT ────────────────────────────────────────────────────
 const params=new URLSearchParams(window.location.search);
 const personParam=params.get('person');
@@ -499,7 +545,6 @@ const dateLbl=NOW_RAW.toLocaleDateString('id-ID',{weekday:'long',day:'numeric',m
 
 if(isPersonal&&activePerson){
   if(activePerson.key==='yanti'){
-    SHOW_CP=true;
     const ovLink=document.getElementById('ovLink');
     if(ovLink) ovLink.style.display='flex';
   }
@@ -512,8 +557,9 @@ if(isPersonal&&activePerson){
     </div>
     ${renderStatsStrip(tasks)}`;
   const mainContent=activePerson.key==='yanti'?renderFocus(activePerson.key):renderZones(activePerson.key);
+  const selesaiContent=renderSelesai(activePerson.key);
   const iamContent=renderIAM(activePerson.iam);
-  viewsEl.innerHTML=mainContent+(iamContent?`<div style="margin-top:20px">${iamContent}</div>`:'')
+  viewsEl.innerHTML=mainContent+selesaiContent+(iamContent?`<div style="margin-top:20px">${iamContent}</div>`:'')
 } else {
   const totalAll=TASKS.length;
   const ovAll=TASKS.filter(t=>{const d=du(t.due);return d!==null&&d<0;}).length;
@@ -550,7 +596,7 @@ if(isPersonal&&activePerson){
     const div=document.createElement('div');
     div.className='person-view'+(i===0?' active':'');
     div.id='pv-'+p.key;
-    div.innerHTML=renderStatsStrip(tasks)+renderZones(p.key);
+    div.innerHTML=renderStatsStrip(tasks)+renderZones(p.key)+renderSelesai(p.key);
     viewsEl.appendChild(div);
   });
 }
