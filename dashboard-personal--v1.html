@@ -145,13 +145,25 @@ a{color:inherit;text-decoration:none}
 .tag-ms{background:rgba(252,181,40,.15);color:var(--mustard-d)}
 .tag-ov{background:var(--red-s);color:var(--red);font-weight:700}
 
+/* SYNC BADGE */
+.sync-badge{display:inline-flex;align-items:center;gap:6px;font-size:10px;color:var(--t3);padding:3px 10px;border-radius:999px;background:rgba(30,28,24,.05);border:1px solid var(--border);margin-bottom:14px}
+.sync-dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0}
+.sync-badge span{font-weight:600;color:var(--t2)}
+
 /* TIME BANNER */
+@keyframes banner-pulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(252,181,40,.0);opacity:1}
+  50%{box-shadow:0 0 0 5px rgba(252,181,40,.18);opacity:.88}
+}
+@keyframes icon-bounce{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
 .time-banner{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding:10px 14px;border-radius:var(--r);border-left:3px solid;font-size:12px;color:var(--t2)}
 .time-banner.banner-morning{background:rgba(252,181,40,.08);border-color:var(--mustard)}
 .time-banner.banner-midday{background:rgba(0,82,135,.07);border-color:var(--blue)}
 .time-banner.banner-wrap{background:rgba(208,106,0,.07);border-color:var(--orange)}
 .time-banner.banner-review{background:rgba(27,128,64,.07);border-color:var(--green)}
-.tb-icon{font-size:14px;flex-shrink:0}
+.time-banner.pulse{animation:banner-pulse 1.4s ease-in-out infinite}
+.time-banner.pulse .tb-icon{display:inline-block;animation:icon-bounce 1.4s ease-in-out infinite}
+.tb-icon{font-size:15px;flex-shrink:0}
 .tb-msg{line-height:1.4}
 
 /* MY TODAY */
@@ -412,19 +424,36 @@ function tcHTML(t){
   </div>`;
 }
 
+// ── SYNC BADGE ────────────────────────────────────────────────────
+function renderSyncBadge(){
+  if(!SYNC_TIME||SYNC_TIME==='PLACEHOLDER') return'<div class="sync-badge"><span class="sync-dot" style="background:var(--t3)"></span>Belum tersinkronisasi</div>';
+  const st=new Date(SYNC_TIME);
+  const lbl=st.toLocaleDateString('id-ID',{weekday:'short',day:'numeric',month:'short'})+' '+st.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'})+' WIB';
+  return`<div class="sync-badge"><span class="sync-dot"></span>Data per <span>${lbl}</span></div>`;
+}
+
 // ── TIME BANNER ────────────────────────────────────────────────────
 function renderTimeBanner(){
   const now=new Date();
-  const hm=now.getHours()*60+now.getMinutes();
-  const dow=now.getDay();
-  if(dow===5&&hm>=960)
-    return`<div class="time-banner banner-review"><span class="tb-icon">📋</span><span class="tb-msg">Jumat sore — review <strong>Selesai Minggu Ini</strong> dan tandai selesai di Notion sebelum weekend.</span></div>`;
-  if(hm>=360&&hm<540)
-    return`<div class="time-banner banner-morning"><span class="tb-icon">🌅</span><span class="tb-msg">Selamat pagi! Isi 3 prioritas hari ini di bawah sebelum mulai bekerja.</span></div>`;
-  if(hm>=690&&hm<780)
-    return`<div class="time-banner banner-midday"><span class="tb-icon">⏱</span><span class="tb-msg">Mid-day check — sudah update progress di Notion hari ini?</span></div>`;
-  if(hm>=900&&hm<1020)
-    return`<div class="time-banner banner-wrap"><span class="tb-icon">🔔</span><span class="tb-msg">Hampir selesai! Cek task overdue dan update status sebelum menutup hari.</span></div>`;
+  const h=now.getHours();
+  const m=now.getMinutes();
+  const hm=h*60+m;
+  const dow=now.getDay(); // 0=Sun,5=Fri
+  // Target times: 08:00, 11:00, 13:00, 17:30 — window ±25 menit
+  const W=25;
+  const BELLS=[
+    {t:8*60,   icon:'🌅',cls:'banner-morning',msg:'Waktunya mulai! Update Notion dan isi 3 prioritas hari ini.'},
+    {t:11*60,  icon:'⏱', cls:'banner-midday', msg:'Sudah update progress task di Notion pagi ini?'},
+    {t:13*60,  icon:'✅', cls:'banner-midday', msg:'Setelah makan siang — tandai task yang sudah selesai di Notion.'},
+    {t:17*60+30,icon:'🔔',cls:'banner-wrap',  msg:'Hampir selesai! Cek overdue dan update status sebelum tutup hari.'},
+  ];
+  // Jumat sore override
+  if(dow===5&&hm>=17*60+15&&hm<=18*60+30)
+    return`<div class="time-banner banner-review pulse"><span class="tb-icon">📋</span><span class="tb-msg">Jumat sore — review <strong>Selesai Minggu Ini</strong> dan tandai selesai di Notion sebelum weekend.</span></div>`;
+  for(const b of BELLS){
+    if(hm>=b.t-W&&hm<=b.t+W)
+      return`<div class="time-banner ${b.cls} pulse"><span class="tb-icon">${b.icon}</span><span class="tb-msg">${b.msg}</span></div>`;
+  }
   return'';
 }
 
@@ -595,7 +624,8 @@ if(isPersonal&&activePerson){
       <div class="hdr-name">Halo, <span>${activePerson.label}</span> 👋</div>
       <div class="hdr-sub">${dateLbl}</div>
     </div>
-    ${renderStatsStrip(tasks)}`;
+    ${renderStatsStrip(tasks)}
+    ${renderSyncBadge()}`;
   const mainContent=activePerson.key==='yanti'?renderFocus(activePerson.key):renderZones(activePerson.key);
   const selesaiContent=renderSelesai(activePerson.key);
   viewsEl.innerHTML=renderTimeBanner()+renderMyToday(activePerson.key)+mainContent+selesaiContent;
@@ -606,7 +636,8 @@ if(isPersonal&&activePerson){
     <div class="admin-title">Dashboard Personal</div>
     <div class="admin-sub">${dateLbl}</div>
   </div>
-  ${renderStatsStrip(TASKS)}`;
+  ${renderStatsStrip(TASKS)}
+  ${renderSyncBadge()}`;
   tabsEl.style.display='flex';
   PERSONS.forEach((p,i)=>{
     const tasks=getPersonTasks(p.key);
