@@ -666,6 +666,15 @@ if(navDateBadge){
   navDateBadge.textContent=nd.toLocaleDateString('id-ID',{weekday:'short',day:'numeric',month:'short'});
 }
 
+// ── EMBED MODE ────────────────────────────────────────────────────
+if(new URLSearchParams(location.search).get('embed')==='1'||window.self!==window.top){
+  var _nav=document.querySelector('nav.nav');
+  if(_nav)_nav.style.display='none';
+  var _ticker=document.querySelector('.ticker-wrap');
+  if(_ticker)_ticker.style.display='none';
+  document.body.style.paddingTop='0';
+}
+
 // ── TICKER ────────────────────────────────────────────────────────
 (function initTicker(){
   const tickerEl=document.getElementById('tickerTxt');
