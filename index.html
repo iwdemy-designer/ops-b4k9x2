@@ -8,105 +8,104 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;overflow:hidden;font-family:'Carlito','Calibri',Arial,sans-serif;background:#F7F7F5}
 :root{
-  --blue:#005287;--mustard:#FCB528;--mustard-d:#8A6200;--mustard-s:rgba(252,181,40,.12);
+  --blue:#005287;--mustard:#FCB528;--mustard-d:#8A6200;
   --green:#1B8040;--t1:rgba(14,14,14,.92);--t2:rgba(30,28,24,.68);--t3:rgba(30,28,24,.45);
   --border:rgba(30,28,24,.09);--sh:0 1px 3px rgba(20,20,18,.06),0 4px 12px rgba(20,20,18,.05);
   --fd:'Montserrat','Arial Black',Arial,sans-serif;
-  --nav-h:54px;
+  --nav-h:54px;--foot-h:32px;
 }
 
 /* ── NAV SHELL ────────────────────────────────────────── */
 .shell-nav{
   position:fixed;top:0;left:0;right:0;z-index:500;
   height:var(--nav-h);
-  background:rgba(255,255,255,.92);
+  background:rgba(255,255,255,.94);
   backdrop-filter:blur(24px) saturate(180%);
   -webkit-backdrop-filter:blur(24px) saturate(180%);
   border-bottom:1px solid var(--border);
-  display:flex;align-items:center;gap:0;padding:0 20px;
+  display:flex;align-items:center;padding:0 18px;gap:0;
   box-shadow:var(--sh);
 }
-.nav-logos{display:flex;align-items:center;gap:10px;flex-shrink:0}
-.nav-logo-img{height:26px;width:auto;object-fit:contain;display:block}
-.nav-logo-div{width:1px;height:18px;background:var(--border);flex-shrink:0}
-.nav-divider{width:1px;height:28px;background:var(--border);margin:0 14px;flex-shrink:0}
+.nav-logos{display:flex;align-items:center;gap:9px;flex-shrink:0}
+.nav-logo-img{height:25px;width:auto;object-fit:contain;display:block}
+.nav-logo-div{width:1px;height:17px;background:var(--border)}
+.nav-sep{width:1px;height:26px;background:var(--border);margin:0 14px;flex-shrink:0}
 
-/* TABS */
-.nav-tabs{display:flex;gap:3px;flex:1;justify-content:center}
+/* MAIN TABS */
+.nav-tabs{display:flex;gap:2px;flex:1;justify-content:center}
 .tab-btn{
-  font-family:var(--fd);font-size:11px;font-weight:700;letter-spacing:.03em;
-  padding:7px 18px;border-radius:8px;border:none;cursor:pointer;
+  font-family:var(--fd);font-size:11px;font-weight:700;letter-spacing:.02em;
+  padding:6px 16px;border-radius:8px;border:none;cursor:pointer;
   color:var(--t3);background:transparent;transition:all .15s;
-  display:flex;align-items:center;gap:6px;
+  display:flex;align-items:center;gap:5px;
 }
 .tab-btn:hover{color:var(--blue);background:rgba(0,82,135,.06)}
-.tab-btn.active{color:var(--blue);background:var(--mustard);box-shadow:0 1px 6px rgba(252,181,40,.32)}
-.tab-icon{font-size:13px}
+.tab-btn.active{color:var(--blue);background:var(--mustard);box-shadow:0 1px 6px rgba(252,181,40,.30)}
+.tab-icon{font-size:12px;line-height:1}
 
-/* RIGHT SIDE */
-.nav-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
-.nav-date{font-size:11px;color:var(--t3);font-weight:600;padding:4px 10px;background:rgba(30,28,24,.06);border-radius:6px}
+/* PERSON PILLS */
+.person-pills{display:flex;gap:4px;align-items:center;flex-shrink:0}
+.person-pill{
+  width:30px;height:30px;border-radius:50%;border:none;cursor:pointer;
+  font-family:var(--fd);font-size:9px;font-weight:800;letter-spacing:.03em;
+  background:rgba(30,28,24,.07);color:var(--t2);
+  transition:all .15s;display:flex;align-items:center;justify-content:center;
+  position:relative;
+}
+.person-pill:hover{background:rgba(0,82,135,.12);color:var(--blue);transform:scale(1.08)}
+.person-pill.active{background:var(--blue);color:#fff;box-shadow:0 2px 8px rgba(0,82,135,.28)}
+.person-pill.has-ov{box-shadow:0 0 0 2px #C0392B}
+/* tooltip */
+.pp-tip{
+  position:absolute;top:calc(100% + 7px);left:50%;transform:translateX(-50%);
+  background:var(--blue);color:#fff;font-size:9px;font-weight:700;
+  padding:3px 8px;border-radius:4px;white-space:nowrap;letter-spacing:.04em;
+  opacity:0;pointer-events:none;transition:opacity .12s;z-index:600;
+}
+.person-pill:hover .pp-tip{opacity:1}
+
+/* RIGHT CONTROLS */
+.nav-right{display:flex;align-items:center;gap:7px;flex-shrink:0}
 .btn-notion{
-  display:flex;align-items:center;gap:6px;
+  display:flex;align-items:center;gap:5px;
   font-family:var(--fd);font-size:10px;font-weight:700;letter-spacing:.04em;
-  padding:6px 13px;border-radius:7px;border:1.5px solid rgba(0,82,135,.18);
+  padding:5px 12px;border-radius:7px;
+  border:1.5px solid rgba(0,82,135,.18);
   background:rgba(0,82,135,.05);color:var(--blue);
-  text-decoration:none;cursor:pointer;transition:all .15s;white-space:nowrap;
+  text-decoration:none;transition:all .15s;white-space:nowrap;
 }
 .btn-notion:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
-.btn-notion svg{width:13px;height:13px;flex-shrink:0}
+.btn-notion svg{width:12px;height:12px;flex-shrink:0}
 
 /* ── IFRAME CONTAINER ────────────────────────────────── */
-.frame-wrap{
-  position:fixed;
-  top:var(--nav-h);left:0;right:0;bottom:0;
-}
-.dash-frame{
-  width:100%;height:100%;
-  border:none;display:none;
-  background:#F7F7F5;
-}
+.frame-wrap{position:fixed;top:var(--nav-h);left:0;right:0;bottom:var(--foot-h)}
+.dash-frame{width:100%;height:100%;border:none;display:none;background:#F7F7F5}
 .dash-frame.active{display:block}
 
 /* ── FOOTER BAR ──────────────────────────────────────── */
 .shell-footer{
   position:fixed;bottom:0;left:0;right:0;z-index:500;
-  height:32px;
-  background:rgba(0,82,135,.96);
-  backdrop-filter:blur(8px);
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 20px;
+  height:var(--foot-h);
+  background:rgba(0,82,135,.96);backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:space-between;padding:0 18px;
 }
-.footer-left{font-size:10px;color:rgba(255,255,255,.55);letter-spacing:.5px;font-family:var(--fd);font-weight:600}
-.footer-right{display:flex;align-items:center;gap:12px}
-.footer-sync{font-size:10px;color:rgba(255,255,255,.45)}
+.footer-left{font-size:10px;color:rgba(255,255,255,.50);letter-spacing:.5px;font-family:var(--fd);font-weight:600}
+.footer-right{display:flex;align-items:center;gap:10px}
+.footer-sync{font-size:10px;color:rgba(255,255,255,.38)}
 .btn-gemini{
   display:flex;align-items:center;gap:5px;
-  font-family:var(--fd);font-size:10px;font-weight:700;
+  font-family:var(--fd);font-size:10px;font-weight:700;letter-spacing:.03em;
   padding:4px 11px;border-radius:5px;
-  background:rgba(252,181,40,.18);color:var(--mustard);
-  text-decoration:none;transition:all .15s;border:1px solid rgba(252,181,40,.25);
-  letter-spacing:.03em;
+  background:rgba(252,181,40,.15);color:var(--mustard);
+  text-decoration:none;transition:all .15s;border:1px solid rgba(252,181,40,.22);
 }
 .btn-gemini:hover{background:var(--mustard);color:var(--blue)}
-.btn-gemini svg{width:12px;height:12px}
-
-/* FOOTER OFFSET on frames */
-.frame-wrap{bottom:32px}
-
-/* ── LOADING STATE ────────────────────────────────────── */
-.frame-loader{
-  position:absolute;inset:0;
-  display:flex;align-items:center;justify-content:center;
-  background:#F7F7F5;font-size:13px;color:var(--t3);
-  pointer-events:none;opacity:0;transition:opacity .3s;
-}
-.frame-loader.show{opacity:1}
+.btn-gemini svg{width:11px;height:11px}
 </style>
 </head>
 <body>
 
-<!-- ── SHELL NAV ─────────────────────────────────────────────── -->
+<!-- ── NAV ───────────────────────────────────────────────────── -->
 <nav class="shell-nav">
 
   <div class="nav-logos">
@@ -115,8 +114,9 @@ html,body{height:100%;overflow:hidden;font-family:'Carlito','Calibri',Arial,sans
     <img class="nav-logo-img" src="./logo-tjitra.jpg" alt="Tjitra">
   </div>
 
-  <div class="nav-divider"></div>
+  <div class="nav-sep"></div>
 
+  <!-- MAIN TABS -->
   <div class="nav-tabs">
     <button class="tab-btn active" data-tab="personal">
       <span class="tab-icon">👤</span>Personal
@@ -129,30 +129,59 @@ html,body{height:100%;overflow:hidden;font-family:'Carlito','Calibri',Arial,sans
     </button>
   </div>
 
-  <div class="nav-divider"></div>
+  <div class="nav-sep"></div>
 
+  <!-- PERSON PILLS -->
+  <div class="person-pills" id="personPills">
+    <div class="person-pill" data-person="" title="">
+      <span>ALL</span>
+      <span class="pp-tip">Semua orang</span>
+    </div>
+    <div class="person-pill" data-person="yanti">
+      <span>YA</span>
+      <span class="pp-tip">Kristina Aryanti</span>
+    </div>
+    <div class="person-pill" data-person="juli">
+      <span>JL</span>
+      <span class="pp-tip">Juli</span>
+    </div>
+    <div class="person-pill" data-person="meliana">
+      <span>ML</span>
+      <span class="pp-tip">Meliana</span>
+    </div>
+    <div class="person-pill" data-person="anita">
+      <span>AN</span>
+      <span class="pp-tip">Anita</span>
+    </div>
+    <div class="person-pill" data-person="stephen">
+      <span>ST</span>
+      <span class="pp-tip">Stephen</span>
+    </div>
+  </div>
+
+  <div class="nav-sep"></div>
+
+  <!-- RIGHT -->
   <div class="nav-right">
-    <div class="nav-date" id="navDate"></div>
-    <a class="btn-notion" href="https://www.notion.so/a8cadc66cb544be68c896feaba03d85b" target="_blank" title="Buka Notion Tasks">
+    <a class="btn-notion" href="https://www.notion.so/a8cadc66cb544be68c896feaba03d85b" target="_blank">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 9h6M9 12h6M9 15h4"/>
       </svg>
       Notion
     </a>
   </div>
+
 </nav>
 
-<!-- ── IFRAME FRAMES ─────────────────────────────────────────── -->
+<!-- ── IFRAMES ────────────────────────────────────────────────── -->
 <div class="frame-wrap">
   <iframe id="f-personal" class="dash-frame active"
     src="./dashboard-personal--v1.html?embed=1"
-    title="Personal Command Centre"></iframe>
-  <iframe id="f-tim" class="dash-frame"
-    src=""
+    title="Personal"></iframe>
+  <iframe id="f-tim" class="dash-frame" src=""
     data-src="./dashboard-tim--v1.html?embed=1"
-    title="Dashboard Tim"></iframe>
-  <iframe id="f-overview" class="dash-frame"
-    src=""
+    title="Tim"></iframe>
+  <iframe id="f-overview" class="dash-frame" src=""
     data-src="./dashboard-overview--v1.html?embed=1"
     title="Overview"></iframe>
 </div>
@@ -162,7 +191,7 @@ html,body{height:100%;overflow:hidden;font-family:'Carlito','Calibri',Arial,sans
   <div class="footer-left">IWDemy · Tjitra &amp; Associates · Command Centre</div>
   <div class="footer-right">
     <span class="footer-sync" id="footerSync"></span>
-    <a class="btn-gemini" href="https://gemini.google.com" target="_blank" title="Buka Gemini AI">
+    <a class="btn-gemini" href="https://gemini.google.com" target="_blank">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
       </svg>
@@ -172,52 +201,98 @@ html,body{height:100%;overflow:hidden;font-family:'Carlito','Calibri',Arial,sans
 </footer>
 
 <script>
-// ── DATE BADGE ──────────────────────────────────────────────────
-const nd=new Date();
-document.getElementById('navDate').textContent=nd.toLocaleDateString('id-ID',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+// ── CONFIG ────────────────────────────────────────────────────────
+var PERSONS = {
+  '':      {label:'Semua', url:'./dashboard-personal--v1.html?embed=1'},
+  yanti:   {label:'Kristina Aryanti', url:'./dashboard-personal--v1.html?person=yanti&embed=1'},
+  juli:    {label:'Juli',    url:'./dashboard-personal--v1.html?person=juli&embed=1'},
+  meliana: {label:'Meliana', url:'./dashboard-personal--v1.html?person=meliana&embed=1'},
+  anita:   {label:'Anita',   url:'./dashboard-personal--v1.html?person=anita&embed=1'},
+  stephen: {label:'Stephen', url:'./dashboard-personal--v1.html?person=stephen&embed=1'},
+};
 
-// Footer sync time (pulled from personal iframe after load)
-document.getElementById('f-personal').addEventListener('load',function(){
+// ── STATE ─────────────────────────────────────────────────────────
+var activeTab  = 'personal';
+var activePerson = localStorage.getItem('cc-person') || '';
+
+// ── PERSON PILLS ─────────────────────────────────────────────────
+var pills = document.querySelectorAll('.person-pill');
+
+function setActivePerson(key, reload){
+  activePerson = key;
+  localStorage.setItem('cc-person', key);
+
+  // Update pill UI
+  pills.forEach(function(p){ p.classList.toggle('active', p.dataset.person === key); });
+
+  // Reload Personal iframe if it's active
+  if(activeTab === 'personal' || reload){
+    var frame = document.getElementById('f-personal');
+    frame.src = PERSONS[key].url;
+  }
+}
+
+pills.forEach(function(pill){
+  pill.addEventListener('click', function(){
+    setActivePerson(this.dataset.person, true);
+  });
+});
+
+// ── TAB SWITCHING ─────────────────────────────────────────────────
+var tabBtns = document.querySelectorAll('.tab-btn');
+var frames  = document.querySelectorAll('.dash-frame');
+
+tabBtns.forEach(function(btn){
+  btn.addEventListener('click', function(){
+    activeTab = btn.dataset.tab;
+    sessionStorage.setItem('cc-tab', activeTab);
+
+    tabBtns.forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+
+    frames.forEach(function(f){
+      var isTarget = f.id === 'f-' + activeTab;
+      f.classList.toggle('active', isTarget);
+      // Lazy-load Tim and Overview
+      if(isTarget && !f.src && f.dataset.src){
+        f.src = f.dataset.src;
+      }
+      // Personal: always use current person selection
+      if(isTarget && f.id === 'f-personal'){
+        var wanted = PERSONS[activePerson].url;
+        if(f.src !== wanted && !f.src.includes(wanted.split('?')[0].split('/').pop())){
+          f.src = wanted;
+        }
+      }
+    });
+  });
+});
+
+// ── FOOTER SYNC TIME ─────────────────────────────────────────────
+document.getElementById('f-personal').addEventListener('load', function(){
   try{
-    const iDoc=this.contentDocument||this.contentWindow.document;
-    const syncBar=iDoc.getElementById('syncBar');
-    if(syncBar&&syncBar.textContent){
-      document.getElementById('footerSync').textContent=syncBar.textContent.trim();
+    var iDoc = this.contentDocument || this.contentWindow.document;
+    var syncBar = iDoc.getElementById('syncBar');
+    if(syncBar && syncBar.textContent){
+      document.getElementById('footerSync').textContent = syncBar.textContent.trim();
     }
   }catch(e){}
 });
 
-// ── TAB SWITCHING ───────────────────────────────────────────────
-const tabs=document.querySelectorAll('.tab-btn');
-const frames=document.querySelectorAll('.dash-frame');
+// ── RESTORE STATE ON LOAD ─────────────────────────────────────────
+(function init(){
+  // Set person pills
+  pills.forEach(function(p){ p.classList.toggle('active', p.dataset.person === activePerson); });
 
-tabs.forEach(function(btn){
-  btn.addEventListener('click',function(){
-    const key=btn.dataset.tab;
+  // Load Personal with correct person from the start
+  if(activePerson){
+    document.getElementById('f-personal').src = PERSONS[activePerson].url;
+  }
 
-    // Active tab styling
-    tabs.forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-
-    // Show/hide frames; lazy-load on first switch
-    frames.forEach(function(f){
-      const isTarget=f.id==='f-'+key;
-      f.classList.toggle('active',isTarget);
-      if(isTarget&&!f.src&&f.dataset.src){
-        f.src=f.dataset.src;
-      }
-    });
-
-    // Persist active tab in sessionStorage
-    sessionStorage.setItem('cc-tab',key);
-  });
-});
-
-// Restore last active tab
-(function(){
-  const saved=sessionStorage.getItem('cc-tab');
-  if(saved&&saved!=='personal'){
-    const btn=document.querySelector('[data-tab="'+saved+'"]');
+  // Restore tab
+  var savedTab = sessionStorage.getItem('cc-tab');
+  if(savedTab && savedTab !== 'personal'){
+    var btn = document.querySelector('[data-tab="' + savedTab + '"]');
     if(btn) btn.click();
   }
 })();

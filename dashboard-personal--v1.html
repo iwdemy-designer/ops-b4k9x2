@@ -568,7 +568,7 @@ function renderVelocity(key){
 function renderSelesai(key){
   const done=DONE_TASKS.filter(t=>t.assignee===key);
   if(!done.length) return'';
-  const vc=renderVelocity(key);
+  const vc=key==='yanti'?renderVelocity(key):'';
   const rows=done.map(t=>`<div class="tc-done">
     <span class="tc-done-check">✅</span>
     <a class="tc-done-name" href="${t.url}" target="_blank">${t.name}</a>
