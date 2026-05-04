@@ -204,6 +204,13 @@ body{font-family:'Carlito','Inter',sans-serif;background:var(--fog);color:var(--
 .ms-countdown.cd-none{background:rgba(0,0,0,.06);color:var(--grey)}
 .ms-chip{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;font-size:11px;font-weight:600;cursor:default;transition:transform .15s}
 
+
+/* ── WEEK SCOPE FILTER ─────────────────────────────────────────── */
+.pr-oos{font-size:10px;color:var(--grey);padding:8px 22px 10px;font-style:italic;border-top:1px solid rgba(0,0,0,.04)}
+.pr-oos a{color:var(--blue);text-decoration:none;font-style:normal;font-weight:600}
+.pr-oos a:hover{text-decoration:underline}
+.week-label{font-size:9px;font-weight:700;color:var(--blue);background:var(--blue-08);border:1px solid rgba(0,82,135,.12);padding:2px 8px;border-radius:4px;margin-left:6px;letter-spacing:.04em}
+
 </style>
 </head>
 <body>
@@ -274,7 +281,7 @@ body{font-family:'Carlito','Inter',sans-serif;background:var(--fog);color:var(--
   </div>
 
   <!-- PERSON ROWS -->
-  <div class="sec-label"><span class="si">👥</span> Beban Kerja Tim</div>
+  <div class="sec-label"><span class="si">👥</span> Beban Kerja Tim <span class="week-label" id="weekLabelEl"></span></div>
   <div class="person-list" id="personRoot"></div>
 
 </main>
@@ -474,8 +481,12 @@ function renderMilestones(){
 // ── PERSON ROWS ──
 function renderPersonRows(){
   const container=document.getElementById('personRoot');
+  const {mon:wMon,sun:wSun}=getWeekBounds();
+  const wLabel=wMon.toLocaleDateString('id-ID',{day:'numeric',month:'short'})+' – '+wSun.toLocaleDateString('id-ID',{day:'numeric',month:'short'});
   const rows=PERSONS.map(person=>{
-    const myTasks=TASKS.filter(t=>t.assignee===person.key&&isActive(t));
+    const allMyTasks=TASKS.filter(t=>t.assignee===person.key&&isActive(t));
+    const myTasks=allMyTasks.filter(t=>inWeekScope(t,wMon,wSun));
+    const outOfScopeCount=allMyTasks.length-myTasks.length;
     const doingCount=myTasks.filter(t=>{const s=(t.status||'').toLowerCase();return s.includes('progress')||s.includes('doing');}).length;
     const p1Count=myTasks.filter(t=>(t.priority||'').toLowerCase().includes('p1')).length;
     const total=myTasks.length;
@@ -535,12 +546,13 @@ function renderPersonRows(){
       <div class="pt-hidden" id="hid-${person.key}">${hidden.map(renderTaskRow).join('')}</div>
       <div class="pt-more"><button class="pt-more-btn" onclick="expandTasks('hid-${person.key}',this)">+ ${hidden.length} task lagi</button></div>`:'';
 
-    const emptyHtml=total===0?'<div class="pt-more">Belum ada task aktif</div>':'';
+    const emptyHtml=total===0?`<div class="pt-more">${outOfScopeCount>0?`Tidak ada task minggu ini — ${outOfScopeCount} task dijadwalkan minggu depan atau lebih`:'Belum ada task aktif'}</div>`:'';
+    const oosHtml=total>0&&outOfScopeCount>0?`<div class="pr-oos">+ ${outOfScopeCount} task di luar minggu ini tidak ditampilkan</div>`:'';
 
     const allCounts=PERSONS.map(pp=>TASKS.filter(t=>t.assignee===pp.key&&isActive(t)).length);
     const maxCount=Math.max(...allCounts,1);
-    const loadPct=Math.round((total/maxCount)*100);
-    const hasOverdue=myTasks.some(t=>{const d=daysFrom(t.due);return d!==null&&d<0;});
+    const loadPct=Math.round((allMyTasks.length/maxCount)*100);
+    const hasOverdue=allMyTasks.some(t=>{const d=daysFrom(t.due);return d!==null&&d<0;});
     const loadCls=hasOverdue?'load-hi':loadPct>=80?'load-mid':'load-ok';
     return `<div class="person-row">
       <div class="pr-header">
@@ -550,7 +562,7 @@ function renderPersonRows(){
           <div class="pr-domain">${person.domain}</div>
         </div>
         <div class="pr-stats">
-          <span class="pr-stat-item"><strong>${total}</strong> task</span>
+          <span class="pr-stat-item"><strong>${total}</strong> task minggu ini</span>
           <span class="pr-stat-item">·</span>
           <span class="pr-stat-item"><strong>${doingCount}</strong> Doing</span>
           <span class="pr-stat-item">·</span>
@@ -558,7 +570,7 @@ function renderPersonRows(){
         </div>
       </div>
       <div class="pr-tasks">
-        ${taskItems}${hiddenHtml}${emptyHtml}
+        ${taskItems}${hiddenHtml}${emptyHtml}${oosHtml}
       </div>
     </div>`;
   }).join('');
@@ -660,6 +672,7 @@ renderStats();
 renderHealthScore();
 renderMilestones();
 renderPersonRows();
+(function(){const{mon,sun}=getWeekBounds();const el=document.getElementById('weekLabelEl');if(el)el.textContent=mon.toLocaleDateString('id-ID',{day:'numeric',month:'short'})+' – '+sun.toLocaleDateString('id-ID',{day:'numeric',month:'short'});})();
 renderFooter();
 // Hide nav + ticker when embedded (via ?embed=1 param OR iframe detection)
 function expandTasks(hidId, btn){
