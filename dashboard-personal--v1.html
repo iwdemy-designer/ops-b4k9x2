@@ -494,7 +494,12 @@ function renderZones(key){
   tasks.forEach(t=>Z[getZone(t)].push(t));
   const byDue=(a,b)=>{const da=du(a.due)??9999,db=du(b.due)??9999;return da-db;};
   const byPri=(a,b)=>(PORD[a.priority]??2)-(PORD[b.priority]??2);
-  Z.overdue.sort(byDue);Z.today.sort(byPri);Z.week.sort(byDue);Z.queue.sort(byPri);
+  const byMs=(a,b)=>(isMilestone(b.name)?1:0)-(isMilestone(a.name)?1:0);
+  // Milestone naik ke atas tiap zona, lalu sort normal
+  Z.overdue.sort((a,b)=>byMs(a,b)||byDue(a,b));
+  Z.today.sort((a,b)=>byMs(a,b)||byPri(a,b));
+  Z.week.sort((a,b)=>byMs(a,b)||byDue(a,b));
+  Z.queue.sort((a,b)=>byMs(a,b)||byPri(a,b));
   const defs=[
     {k:'overdue',cls:'zone-overdue',lbl:'Overdue',show:Z.overdue.length>0},
     {k:'today',cls:'zone-today',lbl:'Hari Ini',show:true},
@@ -512,14 +517,17 @@ function renderFocus(key){
   const tasks=getPersonTasks(key);
   const byDue=(a,b)=>{const da=du(a.due)??9999,db=du(b.due)??9999;return da-db;};
   const byPri=(a,b)=>(PORD[a.priority]??2)-(PORD[b.priority]??2);
+  const isDoing=t=>(t.status||'').toLowerCase()==='doing';
+  // Milestone Doing — selalu naik ke atas pool, apapun due date-nya
+  const msDoing=tasks.filter(t=>isMilestone(t.name)&&isDoing(t)).sort(byDue);
   const overdue=tasks.filter(t=>{const d=du(t.due);return d!==null&&d<0;}).sort(byDue);
   const today=tasks.filter(t=>du(t.due)===0).sort(byPri);
   const weekP1=tasks.filter(t=>{const d=du(t.due);return d!==null&&d>0&&d<=7&&(t.priority||'').toLowerCase()==='p1';}).sort(byDue);
-  const doing=tasks.filter(t=>(t.status||'').toLowerCase()==='doing'&&du(t.due)===null).sort(byPri);
-  // Build priority pool: overdue → today → this-week P1 → doing no-due
+  const doing=tasks.filter(t=>isDoing(t)&&du(t.due)===null).sort(byPri);
+  // Build priority pool: milestone+doing → overdue → today → this-week P1 → doing no-due
   const seen=new Set();
   const pool=[];
-  [...overdue,...today,...weekP1,...doing].forEach(t=>{
+  [...msDoing,...overdue,...today,...weekP1,...doing].forEach(t=>{
     if(!seen.has(t.name)){seen.add(t.name);pool.push(t);}
   });
   const top=pool.slice(0,6);
