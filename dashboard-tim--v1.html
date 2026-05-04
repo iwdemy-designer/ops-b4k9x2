@@ -218,10 +218,10 @@ body{font-family:'Carlito','Inter',sans-serif;background:var(--fog);color:var(--
   <!-- HERO -->
   <section class="hero">
     <div class="hero-eyebrow"><div class="eyebrow-dot"></div><span>Tim · IWDemy & Tjitra</span></div>
-    <h1 class="hero-title" id="heroTitle">Tim sedang jalan.</h1>
+    <h1 class="hero-title" id="heroTitle">—</h1>
     <p class="hero-sub">
-      <strong>Satu tugas: tidak ada yang tertahan terlalu lama.</strong>
-      Lima orang, satu tampilan. Siapa yang paling terbebani, siapa yang butuh input dari kamu, dan apa yang perlu didorong minggu ini.
+      <strong id="heroTip"></strong>
+      Lima orang, satu tampilan. Lihat siapa yang butuh dibantu, siapa yang bisa dibantu, dan apa yang harus bergerak hari ini.
     </p>
     <div class="hero-bar"></div>
   </section>
@@ -516,15 +516,34 @@ document.getElementById('ticker-label').textContent=m0.org;
 setInterval(rotateTicker,4500);
 
 // ── HERO ──
+const TIM_TIPS=[
+  {title:'Satu task selesai sepenuhnya lebih berharga dari tiga yang setengah jadi.',tip:'P1 dulu, selalu — bukan yang paling mudah, tapi yang paling penting.'},
+  {title:'Tim yang kuat bukan yang paling sibuk — yang paling saling backup.',tip:'Kalau ada yang overdue di kolom orang lain, tanya bisa dibantu apa.'},
+  {title:'Progres kecil setiap hari mengalahkan sprint besar yang jarang terjadi.',tip:'Update Notion hari ini, sebelum hari berakhir. Satu kebiasaan kecil, dampak besar.'},
+  {title:'Clarity beats certainty — kalau belum jelas, tanya dulu jangan asumsi.',tip:'Task di Waiting terlalu lama? Ping yang ditunggu, atau eskalasi ke Yanti.'},
+  {title:'Doing berarti fokus. Jangan buka front baru sebelum yang lama selesai.',tip:'Cek kolom Doing milikmu — apakah benar sedang dikerjakan hari ini?'},
+  {title:'Kepercayaan tim dibangun dari konsistensi kecil yang berulang.',tip:'Tandai selesai di Notion hari yang sama. Jangan tumpuk untuk nanti.'},
+  {title:'Kalau semua terasa urgent, berarti belum ada yang benar-benar prioritas.',tip:'Satu task overdue harus selesai sebelum mulai yang baru.'},
+  {title:'Energi tim ditentukan oleh yang paling fokus, bukan yang paling sibuk.',tip:'15 menit pertama hari ini — tentukan satu hal yang wajib selesai.'},
+  {title:'Stuck lebih dari 30 menit? Waiting, minta bantuan, atau ambil jeda.',tip:'Jangan diam-diam stuck. Tim ada untuk backup.'},
+  {title:'Deliverable bukan effort — fokuslah pada apa yang selesai.',tip:'Meeting produktif dimulai dari peserta yang baca task mereka sebelum masuk ruangan.'},
+  {title:'Satu minggu yang fokus bisa mengubah satu kuartal.',tip:'Jumat sore — cek Selesai Minggu Ini dan update Notion sebelum tutup.'},
+  {title:'Tim ini sudah lewati yang lebih berat. Hari ini pasti bisa.',tip:'Overdue bukan kegagalan — itu data. Selesaikan satu per satu, tidak panik.'},
+  {title:'Mulai dari mana saja — yang penting mulai.',tip:'Task terbesar dimulai dari langkah pertama yang paling kecil.'},
+  {title:'Produktif bukan soal jam kerja — soal task yang benar-benar selesai.',tip:'Kalau ragu harus mulai dari mana, pilih yang paling lama ditunda.'},
+  {title:'Kolaborasi terbaik dimulai dari transparansi status.',tip:'Update progress task sebelum ping orang lain untuk meeting.'},
+  {title:'Kecepatan tim bukan ditentukan yang tercepat, tapi yang paling tidak tertahan.',tip:'Siapa di tim yang butuh input dari kamu hari ini? Bereskan itu dulu.'},
+  {title:'Rencana yang baik adalah yang fleksibel — bukan yang paling lengkap.',tip:'Task tiba-tiba berubah? Update Notion, beri tahu tim, lanjut.'},
+  {title:'Satu kata terkuat dalam eksekusi: selesai.',tip:'Done dan marked done di Notion. Dua hal berbeda — lakukan keduanya.'},
+  {title:'Tim yang baik tidak menunggu sempurna — mereka bergerak dan memperbaiki.',tip:'Ship sesuatu hari ini, meskipun kecil. Progres nyata mengalahkan rencana.'},
+  {title:'Hari ini adalah kesempatan untuk menggerakkan satu hal yang paling penting.',tip:'Tentukan satu task yang kalau selesai hari ini, hari ini berarti.'},
+];
 function renderHero(){
-  const d=new Date();
-  const h=d.getHours();
-  let greeting='';
-  if(h<10) greeting='Selamat pagi, Yanti.';
-  else if(h<15) greeting='Selamat siang, Yanti.';
-  else if(h<18) greeting='Selamat sore, Yanti.';
-  else greeting='Selamat malam, Yanti.';
-  document.getElementById('heroTitle').textContent='Tim sedang jalan. '+greeting;
+  const doy=Math.floor((new Date()-new Date(new Date().getFullYear(),0,0))/864e5);
+  const tip=TIM_TIPS[doy%TIM_TIPS.length];
+  document.getElementById('heroTitle').textContent=tip.title;
+  const tipEl=document.getElementById('heroTip');
+  if(tipEl) tipEl.textContent=tip.tip;
 }
 
 // ── COMMAND PALETTE ──
