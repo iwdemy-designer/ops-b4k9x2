@@ -405,13 +405,19 @@ function renderPersonRows(){
     const p1Count=myTasks.filter(t=>(t.priority||'').toLowerCase().includes('p1')).length;
     const total=myTasks.length;
 
-    // Sort tasks: doing first, then P1, then by due date
+    // Sort: milestone+doing → milestone → doing → P1 → due date
     const sorted=[...myTasks].sort((a,b)=>{
       const sa=(a.status||'').toLowerCase();
       const sb=(b.status||'').toLowerCase();
-      const ad=sa.includes('doing')||sa.includes('progress')?0:1;
-      const bd=sb.includes('doing')||sb.includes('progress')?0:1;
-      if(ad!==bd) return ad-bd;
+      const ams=isMilestone(a); const bms=isMilestone(b);
+      const ado=sa.includes('doing')||sa.includes('progress');
+      const bdo=sb.includes('doing')||sb.includes('progress');
+      // milestone+doing paling atas
+      if((ams&&ado)!==(bms&&bdo)) return (ams&&ado)?-1:1;
+      // milestone saja
+      if(ams!==bms) return ams?-1:1;
+      // doing
+      if(ado!==bdo) return ado?-1:1;
       const ap=(a.priority||'').toLowerCase();
       const bp=(b.priority||'').toLowerCase();
       if(ap!==bp) return ap<bp?-1:1;
