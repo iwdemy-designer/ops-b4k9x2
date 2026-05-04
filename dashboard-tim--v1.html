@@ -173,6 +173,37 @@ body{font-family:'Carlito','Inter',sans-serif;background:var(--fog);color:var(--
 .cmd-footer{padding:10px 18px;border-top:1px solid rgba(0,0,0,.06);font-size:10px;color:rgba(0,0,0,.35);text-align:center}
 
 :focus-visible{outline:2px solid var(--mustard);outline-offset:3px;border-radius:4px}
+
+/* ── HEALTH SCORE ──────────────────────────────────────────────── */
+.health-row{display:flex;align-items:center;gap:10px;margin-bottom:28px;padding:14px 20px;border-radius:var(--rmd);background:rgba(255,255,255,.72);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.7);box-shadow:var(--xs)}
+.health-label{font-size:10px;font-weight:700;color:var(--grey);letter-spacing:.07em;text-transform:uppercase;flex-shrink:0}
+.health-badge{display:inline-flex;align-items:center;gap:7px;padding:5px 14px;border-radius:999px;font-size:11px;font-weight:700}
+.health-badge.green{background:rgba(27,128,64,.10);color:var(--green);border:1px solid rgba(27,128,64,.18)}
+.health-badge.yellow{background:rgba(208,106,0,.10);color:var(--orange);border:1px solid rgba(208,106,0,.18)}
+.health-badge.red{background:rgba(102,0,0,.10);color:var(--maroon);border:1px solid rgba(102,0,0,.18)}
+.health-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.health-badge.green .health-dot{background:var(--green)}
+.health-badge.yellow .health-dot{background:var(--orange)}
+.health-badge.red .health-dot{background:var(--maroon)}
+.health-detail{font-size:11px;color:var(--grey);flex:1}
+.health-detail strong{color:var(--ink)}
+
+/* ── LOAD BAR PER PERSON ───────────────────────────────────────── */
+.pr-load-wrap{width:90px;height:5px;background:rgba(0,0,0,.07);border-radius:3px;overflow:hidden;flex-shrink:0}
+.pr-load-fill{height:100%;border-radius:3px;transition:width .4s ease}
+.pr-load-fill.load-ok{background:var(--green)}
+.pr-load-fill.load-mid{background:var(--orange)}
+.pr-load-fill.load-hi{background:var(--maroon)}
+.pr-load-label{font-size:9px;color:var(--grey);white-space:nowrap;flex-shrink:0}
+
+/* ── MILESTONE COUNTDOWN CHIP ──────────────────────────────────── */
+.ms-countdown{font-size:10px;font-weight:800;padding:2px 8px;border-radius:999px;white-space:nowrap;flex-shrink:0}
+.ms-countdown.cd-today{background:rgba(102,0,0,.12);color:var(--maroon)}
+.ms-countdown.cd-soon{background:rgba(208,106,0,.12);color:var(--orange)}
+.ms-countdown.cd-ok{background:rgba(27,128,64,.10);color:var(--green)}
+.ms-countdown.cd-none{background:rgba(0,0,0,.06);color:var(--grey)}
+.ms-chip{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;font-size:11px;font-weight:600;cursor:default;transition:transform .15s}
+
 </style>
 </head>
 <body>
@@ -228,6 +259,9 @@ body{font-family:'Carlito','Inter',sans-serif;background:var(--fog);color:var(--
 
   <!-- STATS ROW -->
   <div class="stats-row" id="statsRoot"></div>
+
+  <!-- HEALTH SCORE -->
+  <div id="healthRoot"></div>
 
   <!-- MILESTONE STRIP -->
   <div class="sec-label"><span class="si">🏁</span> Milestone Tim</div>
@@ -395,6 +429,31 @@ function renderStats(){
 }
 
 // ── MILESTONE STRIP ──
+function renderHealthScore(){
+  const active=TASKS.filter(isActive);
+  const overdue=active.filter(t=>{const d=daysFrom(t.due);return d!==null&&d<0;});
+  const doing=active.filter(t=>{const s=(t.status||'').toLowerCase();return s.includes('doing')||s.includes('progress');});
+  const overdueRatio=active.length?overdue.length/active.length:0;
+  let cls,icon,label,detail;
+  if(overdueRatio===0){
+    cls='green';icon='✅';label='Tim Sehat';
+    detail=`<strong>${active.length}</strong> task aktif · <strong>${doing.length}</strong> sedang dikerjakan · 0 overdue`;
+  } else if(overdueRatio<=0.2){
+    cls='yellow';icon='⚠️';label='Perlu Perhatian';
+    detail=`<strong>${overdue.length}</strong> dari ${active.length} task overdue — segera tindak lanjuti`;
+  } else {
+    cls='red';icon='🚨';label='Beban Bermasalah';
+    detail=`<strong>${overdue.length}</strong> dari ${active.length} task overdue — tim membutuhkan prioritisasi ulang`;
+  }
+  const el=document.getElementById('healthRoot');
+  if(!el) return;
+  el.innerHTML=`<div class="health-row">
+    <span class="health-label">Status Tim</span>
+    <div class="health-badge ${cls}"><span class="health-dot"></span>${icon} ${label}</div>
+    <span class="health-detail">${detail}</span>
+  </div>`;
+}
+
 function renderMilestones(){
   const ms = TASKS.filter(t=>isActive(t)&&isMilestone(t))
     .sort((a,b)=>{
@@ -410,17 +469,18 @@ function renderMilestones(){
   }
   const chips=ms.map(t=>{
     const df=daysFrom(t.due);
-    let cls='ms-none', label='';
-    if(df===null){cls='ms-none';label='';}
-    else if(df<0){cls='ms-urgent';label='Overdue';}
-    else if(df<=3){cls='ms-urgent';label=df===0?'Hari ini':df+'h';}
-    else if(df<=7){cls='ms-soon';label=df+'h';}
-    else{cls='ms-ok';label=t.due?fmtDue(t.due):'';}
+    let chipCls='ms-none', cdCls='cd-none', cdLabel='';
+    if(df===null){chipCls='ms-none';cdCls='cd-none';cdLabel='—';}
+    else if(df<0){chipCls='ms-urgent';cdCls='cd-today';cdLabel='Overdue';}
+    else if(df===0){chipCls='ms-urgent';cdCls='cd-today';cdLabel='Hari ini';}
+    else if(df===1){chipCls='ms-soon';cdCls='cd-soon';cdLabel='Besok';}
+    else if(df<=7){chipCls='ms-soon';cdCls='cd-soon';cdLabel=df+' hari lagi';}
+    else{chipCls='ms-ok';cdCls='cd-ok';cdLabel=df+' hari lagi';}
     const owner=PERSONS.find(p=>p.key===t.assignee);
     const ownerEmoji=owner?owner.emoji:'';
-    return `<div class="ms-chip ${cls}">
+    return `<div class="ms-chip ${chipCls}">
       ${ownerEmoji} <a href="${t.url}" target="_blank" rel="noopener">${t.name.replace('🏁','').trim()}</a>
-      ${label?`<span class="ms-badge">${label}</span>`:''}
+      <span class="ms-countdown ${cdCls}">${cdLabel}</span>
     </div>`;
   }).join('');
   document.getElementById('msChips').innerHTML=chips;
@@ -492,6 +552,11 @@ function renderPersonRows(){
 
     const emptyHtml=total===0?'<div class="pt-more">Belum ada task aktif</div>':'';
 
+    const allCounts=PERSONS.map(pp=>TASKS.filter(t=>t.assignee===pp.key&&isActive(t)).length);
+    const maxCount=Math.max(...allCounts,1);
+    const loadPct=Math.round((total/maxCount)*100);
+    const hasOverdue=myTasks.some(t=>{const d=daysFrom(t.due);return d!==null&&d<0;});
+    const loadCls=hasOverdue?'load-hi':loadPct>=80?'load-mid':'load-ok';
     return `<div class="person-row">
       <div class="pr-header">
         <div class="pr-emoji">${person.emoji}</div>
@@ -504,7 +569,7 @@ function renderPersonRows(){
           <span class="pr-stat-item">·</span>
           <span class="pr-stat-item"><strong>${doingCount}</strong> Doing</span>
           <span class="pr-stat-item">·</span>
-          <span class="pr-stat-item"><strong>${p1Count}</strong> P1</span>
+          <div class="pr-load-wrap" title="Beban relatif: ${loadPct}%"><div class="pr-load-fill ${loadCls}" style="width:${loadPct}%"></div></div>
         </div>
       </div>
       <div class="pr-tasks">
@@ -607,6 +672,7 @@ document.getElementById('cmdResults').innerHTML=
 renderNavDate();
 renderHero();
 renderStats();
+renderHealthScore();
 renderMilestones();
 renderPersonRows();
 renderFooter();

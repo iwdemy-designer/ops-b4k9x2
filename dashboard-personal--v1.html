@@ -220,6 +220,24 @@ a{color:inherit;text-decoration:none}
 .focus-link-arr{font-size:14px;color:var(--t3)}
 
 @media(max-width:540px){.cockpit{gap:6px}.chip{padding:5px 12px}}
+
+/* ── NARRATIVE DIGEST ─────────────────────────────────────────── */
+.digest{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;background:rgba(0,82,135,.05);border:1px solid rgba(0,82,135,.10);border-radius:var(--r);margin-top:10px;margin-bottom:4px}
+.digest-icon{font-size:15px;line-height:1;flex-shrink:0;margin-top:1px}
+.digest-text{font-size:12px;color:var(--t1);line-height:1.55}
+.digest-text strong{color:var(--blue);font-weight:700}
+.digest-text em{font-style:normal;color:var(--green);font-weight:600}
+
+/* ── TOP PRIORITY CARD ───────────────────────────────────────── */
+.top-pri{background:linear-gradient(135deg,rgba(0,82,135,.05) 0%,rgba(252,181,40,.06) 100%);border:1.5px solid rgba(0,82,135,.14);border-radius:var(--r);padding:13px 15px;margin-bottom:14px;position:relative}
+.top-pri-eyebrow{font-size:9px;font-weight:700;color:var(--blue);letter-spacing:.1em;text-transform:uppercase;margin-bottom:7px;display:flex;align-items:center;gap:6px}
+.top-pri-eyebrow::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--mustard);flex-shrink:0}
+.top-pri-name{font-size:15px;font-weight:700;color:var(--t1);line-height:1.3;margin-bottom:8px}
+.top-pri-name a{color:inherit;text-decoration:none}
+.top-pri-name a:hover{color:var(--blue);text-decoration:underline}
+.top-pri-tags{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.top-pri-reason{font-size:10px;color:var(--t3);font-style:italic;margin-top:7px}
+
 </style>
 </head>
 <body>
@@ -462,6 +480,87 @@ function tcHTML(t){
   </div>`;
 }
 
+
+// ── NARRATIVE DIGEST ─────────────────────────────────────────────
+function renderNarrative(key){
+  const tasks=getPersonTasks(key);
+  const overdue=tasks.filter(t=>{const d=du(t.due);return d!==null&&d<0;});
+  const today=tasks.filter(t=>du(t.due)===0);
+  const ms=tasks.filter(t=>isActive(t)&&isMilestone(t.name));
+  const msToday=ms.filter(t=>du(t.due)===0||du(t.due)===-1||(du(t.due)!==null&&du(t.due)<0));
+  const msSoon=ms.filter(t=>{const d=du(t.due);return d!==null&&d>=0&&d<=3;});
+  const doing=tasks.filter(t=>(t.status||'').toLowerCase()==='doing');
+  let line1='',line2='';
+  // Line 1: kondisi utama
+  if(overdue.length>0){
+    line1=`Kamu punya <strong>${overdue.length} task overdue</strong> — perlu ditindak lanjuti segera.`;
+  } else if(today.length>0){
+    line1=`<em>${today.length} task</em> jatuh tempo hari ini. Semua sedang on track.`;
+  } else if(doing.length>0){
+    line1=`<em>${doing.length} task sedang dikerjakan</em>. Tidak ada overdue — ritme bagus.`;
+  } else {
+    line1='Tidak ada overdue dan tidak ada task hari ini. Manfaatkan untuk queue minggu depan.';
+  }
+  // Line 2: rekomendasi berbasis milestone / doing
+  if(msToday.length>0){
+    const n=msToday[0].name.replace('🏁','').trim();
+    line2=`🏁 Milestone <strong>${n}</strong> jatuh tempo — jadikan ini prioritas utama hari ini.`;
+  } else if(msSoon.length>0){
+    const n=msSoon[0].name.replace('🏁','').trim();
+    const d=du(msSoon[0].due);
+    line2=`🏁 Milestone <strong>${n}</strong> ${d===0?'hari ini':d===1?'besok':d+' hari lagi'} — siapkan dari sekarang.`;
+  } else if(doing.length>0){
+    const n=doing[0].name.replace('🏁','').trim();
+    line2=`Fokus utama: selesaikan <strong>${n}</strong> yang sedang berjalan.`;
+  } else if(today.length>0){
+    const n=today[0].name.replace('🏁','').trim();
+    line2=`Mulai dari task hari ini: <strong>${n}</strong>.`;
+  } else {
+    line2='Cek queue dan ambil satu task untuk mulai dikerjakan.';
+  }
+  return`<div class="digest"><span class="digest-icon">💡</span><div class="digest-text">${line1} ${line2}</div></div>`;
+}
+
+// ── TOP PRIORITY CARD ─────────────────────────────────────────────
+function renderTopPriority(key){
+  const tasks=getPersonTasks(key);
+  const byDue=(a,b)=>{const da=du(a.due)??9999,db=du(b.due)??9999;return da-db;};
+  const byPri=(a,b)=>(PORD[a.priority]??2)-(PORD[b.priority]??2);
+  const isDoing=t=>(t.status||'').toLowerCase()==='doing';
+  const msDoing=tasks.filter(t=>isActive(t)&&isMilestone(t.name)&&isDoing(t)).sort(byDue);
+  const overdueP1=tasks.filter(t=>isActive(t)&&(du(t.due)??0)<0&&(t.priority||'')==='P1').sort(byDue);
+  const todayP1=tasks.filter(t=>isActive(t)&&du(t.due)===0&&(t.priority||'')==='P1').sort(byPri);
+  const doingTask=tasks.filter(t=>isActive(t)&&isDoing(t)).sort(byPri);
+  const overdueAny=tasks.filter(t=>isActive(t)&&(du(t.due)??0)<0).sort(byDue);
+  const todayAny=tasks.filter(t=>isActive(t)&&du(t.due)===0).sort(byPri);
+  let top=null, reason='';
+  if(msDoing.length){top=msDoing[0];reason='Milestone sedang dikerjakan';}
+  else if(overdueP1.length){top=overdueP1[0];reason='Overdue & P1 — butuh perhatian segera';}
+  else if(todayP1.length){top=todayP1[0];reason='P1 jatuh tempo hari ini';}
+  else if(doingTask.length){top=doingTask[0];reason='Task yang sedang berjalan';}
+  else if(overdueAny.length){top=overdueAny[0];reason='Task overdue — selesaikan segera';}
+  else if(todayAny.length){top=todayAny[0];reason='Task hari ini';}
+  if(!top) return '';
+  const df=du(top.due);
+  const cd=cdInfo(df);
+  const[pL,pC]=pTag(top.priority);
+  const[sL,sC]=sTag(top.status);
+  const nameHtml=top.url?`<a href="${top.url}" target="_blank">${top.name.replace('🏁','').trim()}</a>`:top.name.replace('🏁','').trim();
+  const msTag=isMilestone(top.name)?`<span class="tag tag-ms">🏁 Milestone</span>`:'';
+  return`<div class="top-pri">
+    <div class="top-pri-eyebrow">🎯 Satu Task Terpenting Sekarang</div>
+    <div class="top-pri-name">${nameHtml}</div>
+    <div class="top-pri-tags">
+      <span class="tag ${pC}">${pL}</span>
+      <span class="tag ${sC}">${sL}</span>
+      ${top.domain?`<span class="tag tag-domain">${top.domain}</span>`:''}
+      <div class="tc-cd ${cd.cls}">${cd.txt}</div>
+      ${msTag}
+    </div>
+    <div class="top-pri-reason">${reason}</div>
+  </div>`;
+}
+
 // ── SYNC BADGE ────────────────────────────────────────────────────
 function renderSyncBadge(){
   if(!SYNC_TIME||SYNC_TIME==='PLACEHOLDER') return'<div class="sync-badge"><span class="sync-dot" style="background:var(--t3)"></span>Belum tersinkronisasi</div>';
@@ -693,10 +792,11 @@ if(isPersonal&&activePerson){
       <div class="hdr-sub">${dateLbl}</div>
     </div>
     ${renderStatsStrip(tasks)}
-    ${renderSyncBadge()}`;
+    ${renderSyncBadge()}
+    ${renderNarrative(activePerson.key)}`;
   const mainContent=activePerson.key==='yanti'?renderFocus(activePerson.key):renderZones(activePerson.key);
   const selesaiContent=renderSelesai(activePerson.key);
-  viewsEl.innerHTML=renderTimeBanner()+renderMyToday(activePerson.key)+mainContent+selesaiContent;
+  viewsEl.innerHTML=renderTimeBanner()+renderMyToday(activePerson.key)+renderTopPriority(activePerson.key)+mainContent+selesaiContent;
   attachMyTodayListeners();
 } else {
   hdrArea.innerHTML=`<div class="admin-hdr">
