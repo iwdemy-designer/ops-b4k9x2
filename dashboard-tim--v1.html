@@ -421,6 +421,18 @@ function renderStats(){
 }
 
 // ── MILESTONE STRIP ──
+// H+7 SCOPE
+const H7_TODAY=(()=>{const d=new Date();d.setHours(0,0,0,0);return d;})();
+const H7_END=(()=>{const d=new Date(H7_TODAY);d.setDate(d.getDate()+7);return d;})();
+function inWeekScope(t){
+  const s=(t.status||'').toLowerCase();
+  if(s.includes('doing')||s.includes('progress')) return true;
+  if(!t.due) return false;
+  const d=new Date(t.due);d.setHours(0,0,0,0);
+  if(d<H7_TODAY) return true;
+  if(d<=H7_END) return true;
+  return false;
+}
 function renderHealthScore(){
   const active=TASKS.filter(isActive);
   const overdue=active.filter(t=>{const d=daysFrom(t.due);return d!==null&&d<0;});
@@ -481,11 +493,9 @@ function renderMilestones(){
 // ── PERSON ROWS ──
 function renderPersonRows(){
   const container=document.getElementById('personRoot');
-  const {mon:wMon,sun:wSun}=getWeekBounds();
-  const wLabel=wMon.toLocaleDateString('id-ID',{day:'numeric',month:'short'})+' – '+wSun.toLocaleDateString('id-ID',{day:'numeric',month:'short'});
   const rows=PERSONS.map(person=>{
     const allMyTasks=TASKS.filter(t=>t.assignee===person.key&&isActive(t));
-    const myTasks=allMyTasks.filter(t=>inWeekScope(t,wMon,wSun));
+    const myTasks=allMyTasks.filter(t=>inWeekScope(t));
     const outOfScopeCount=allMyTasks.length-myTasks.length;
     const doingCount=myTasks.filter(t=>{const s=(t.status||'').toLowerCase();return s.includes('progress')||s.includes('doing');}).length;
     const p1Count=myTasks.filter(t=>(t.priority||'').toLowerCase().includes('p1')).length;
@@ -672,7 +682,7 @@ renderStats();
 renderHealthScore();
 renderMilestones();
 renderPersonRows();
-(function(){const{mon,sun}=getWeekBounds();const el=document.getElementById('weekLabelEl');if(el)el.textContent=mon.toLocaleDateString('id-ID',{day:'numeric',month:'short'})+' – '+sun.toLocaleDateString('id-ID',{day:'numeric',month:'short'});})();
+(function(){const el=document.getElementById('weekLabelEl');if(el)el.textContent='H+7 · s/d '+H7_END.toLocaleDateString('id-ID',{day:'numeric',month:'short'});})();
 renderFooter();
 // Hide nav + ticker when embedded (via ?embed=1 param OR iframe detection)
 function expandTasks(hidId, btn){
