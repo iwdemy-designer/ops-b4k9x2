@@ -360,25 +360,6 @@ const DONE_TASKS = [
 const SYNC_TIME = '2026-05-04T08:43:52';
 // AUTO:END — NOTION SYNC DATA
 
-// AUTO:START — DONE TASKS SYNC
-const DONE_TASKS = [
-  { assignee:'yanti', name:'Final website aifirst26.iwdemy.com', priority:'P1', domain:'IWDemy', due:'2026-04-29', url:'https://app.notion.com/p/3488ff32f8cf80b19a05ca8482e9d070' },
-  { assignee:'yanti', name:'Final Mobile version Website aifirst26', priority:'P1', domain:'IWDemy', due:'2026-04-30', url:'https://app.notion.com/p/3528ff32f8cf809fb95bda892e438039' },
-  { assignee:'yanti', name:'Final Check HTML Artifact', priority:'P1', domain:'IWDemy', due:'2026-04-30', url:'https://app.notion.com/p/3528ff32f8cf808fae76cb84563a9058' },
-  { assignee:'yanti', name:'Final activity report | Mulia', priority:'P1', domain:'Tjitra', due:'2026-04-30', url:'https://app.notion.com/p/bebb0a9ad3984da59e2720f0c0315360' },
-  { assignee:'yanti', name:'Final AIF Lv 3 MD Guideline', priority:'P3', domain:'IWDemy', due:'2026-05-01', url:'https://app.notion.com/p/3528ff32f8cf80669901e0e080137827' },
-  { assignee:'yanti', name:'AIF Instagram Strategy', priority:'P1', domain:'IWDemy', due:'2026-05-03', url:'https://app.notion.com/p/3538ff32f8cf81a28567e7a3a14b329a' },
-  { assignee:'yanti', name:'Final Content Calendar Mei 2026', priority:'P1', domain:'IWDemy', due:'2026-05-04', url:'https://app.notion.com/p/dd6a1c037ccd4d0cacf876eda126d29c' },
-  { assignee:'meliana', name:'Konfirmasi Peserta Connect AIF', priority:'P1', domain:'IWDemy', due:'2026-04-27', url:'https://app.notion.com/p/34e8ff32f8cf80cc8aadddc05f2b2d6d' },
-  { assignee:'meliana', name:'Siapkan materi DEA AIF Level 1', priority:'P1', domain:'IWDemy', due:'2026-04-28', url:'https://app.notion.com/p/34e8ff32f8cf80dd8e30e82c34782b55' },
-  { assignee:'anita', name:'Proses Payroll Activity', priority:'P1', domain:'IWDemy', due:'2026-04-27', url:'https://app.notion.com/p/34f8ff32f8cf80a599e9f30260bd88ea' },
-  { assignee:'anita', name:'Siapkan materi GW IDL', priority:'P1', domain:'IWDemy', due:'2026-04-28', url:'https://app.notion.com/p/34b8ff32f8cf804c8f5acef78b2babae' },
-  { assignee:'anita', name:'Payroll TSS Umi', priority:'P1', domain:'IWDemy', due:'2026-04-28', url:'https://app.notion.com/p/3508ff32f8cf8044aeb4cc38a898e672' },
-  { assignee:'anita', name:'Final SPT Badan PT Budi & Pelaporan', priority:'P1', domain:'IWDemy', due:'2026-04-29', url:'https://app.notion.com/p/34f8ff32f8cf80f58273fad6942f678a' },
-  { assignee:'anita', name:'Payroll Activity', priority:'P1', domain:'IWDemy', due:'2026-04-30', url:'https://app.notion.com/p/3528ff32f8cf80309944fa7496a939e5' },
-];
-// AUTO:END — DONE TASKS SYNC
-
 // ── CONFIG ────────────────────────────────────────────────────
 const PERSONS = [
   { key:'yanti', label:'Yanti', initials:'YA', fullName:'Kristina Aryanti', iam:null },
@@ -445,6 +426,9 @@ function sTag(s){
   return['◌ Waiting','tag-waiting'];
 }
 function isMilestone(n){return(n||'').includes('🏁');}
+function isDone(t){return(t.status||'').toLowerCase()==='done';}
+function isActive(t){return !isDone(t);}
+function isDoing(t){return(t.status||'').toLowerCase()==='doing';}
 function getPersonTasks(key){return TASKS.filter(t=>t.assignee===key);}
 function getZone(t){
   const d=du(t.due);
