@@ -178,12 +178,17 @@ a{color:inherit;text-decoration:none}
 /* SELESAI MINGGU INI */
 .zone-selesai .zdot{background:var(--green)}
 .zone-selesai .zlbl{color:var(--green)}
+.zone-selesai>.zone-hdr{cursor:pointer;user-select:none}
+.zone-selesai>.zone-hdr .chev{font-size:8px;color:var(--t3);margin-left:auto;display:inline-block;transition:transform .22s}
+.zone-selesai.collapsed>.zone-hdr .chev{transform:rotate(-90deg)}
+.selesai-body{overflow:hidden;transition:max-height .3s ease,opacity .2s ease;opacity:1}
+.zone-selesai.collapsed .selesai-body{max-height:0!important;opacity:0;pointer-events:none}
 .tc-done{background:rgba(27,128,64,.04);border:1px solid rgba(27,128,64,.14);border-radius:var(--r);padding:8px 14px;margin-bottom:5px;display:flex;align-items:center;gap:10px}
 .tc-done-check{font-size:12px;flex-shrink:0}
 .tc-done-name{font-size:12.5px;color:var(--t2);flex:1;line-height:1.35;text-decoration:none}
 .tc-done-name:hover{color:var(--green)}
 .tc-done-domain{font-size:9.5px;font-weight:600;padding:2px 7px;border-radius:4px;background:rgba(27,128,64,.10);color:var(--green);flex-shrink:0}
-.tc-done-who{font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:4px;background:rgba(0,82,135,.09);color:var(--blue);flex-shrink:0}
+.selesai-person-hdr{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin:10px 0 6px;padding-left:2px}
 
 /* VELOCITY CHART */
 .vc-wrap{background:rgba(27,128,64,.04);border:1px solid rgba(27,128,64,.14);border-radius:var(--r);padding:10px 14px 8px;margin-bottom:12px}
@@ -468,7 +473,7 @@ function renderMyToday(key){
     <input class="myt-input" data-idx="${i}" placeholder="Prioritas ${i+1}..." value="${(saved[i]||'').replace(/"/g,'&quot;')}">
   </div>`).join('');
   return`<div class="myt-section">
-    <div class="myt-label">Fokus Hari Ini</div>
+    <div class="myt-label">Fokus Sekarang</div>
     <div class="myt-form" data-lskey="${lsKey}">${rows}</div>
   </div>`;
 }
@@ -523,7 +528,7 @@ function renderFocus(key){
   const totalActive=tasks.filter(t=>(t.priority||'').toLowerCase()!=='hold').length;
   const hdr=`<div class="zone-hdr">
     <div class="zdot" style="background:var(--mustard)"></div>
-    <span class="zlbl">Focus Sekarang</span>
+    <span class="zlbl">Fokus Hari Ini</span>
     <span class="zct">${top.length} terpenting · ${totalActive} aktif total</span>
   </div>`;
   const cards=top.length===0
@@ -587,22 +592,39 @@ function renderVelocity(src, title){
 }
 
 // ── SELESAI MINGGU INI ────────────────────────────────────────────────────
+const PERSON_ORDER=['yanti','juli','meliana','anita','stephen'];
 function renderSelesai(key){
   const isLeader=key==='yanti';
-  // Leader melihat output seluruh tim; anggota melihat miliknya sendiri
   const done=isLeader?DONE_TASKS:DONE_TASKS.filter(t=>t.assignee===key);
   if(!done.length) return'';
   const vcTitle=isLeader?'Output Tim · 7 Hari':'Selesai · 7 Hari';
   const vc=isLeader?renderVelocity(done,vcTitle):'';
-  const rows=done.map(t=>`<div class="tc-done">
-    <span class="tc-done-check">✅</span>
-    <a class="tc-done-name" href="${t.url}" target="_blank">${t.name}</a>
-    ${isLeader?`<span class="tc-done-who">${PERSON_LABEL[t.assignee]||t.assignee}</span>`:''}
-    <span class="tc-done-domain">${t.domain}</span>
-  </div>`).join('');
-  return`<div class="zone zone-selesai" style="margin-top:18px">
-    <div class="zone-hdr"><div class="zdot"></div><span class="zlbl">Selesai Minggu Ini</span><span class="zct">${done.length}</span></div>
-    ${vc}${rows}
+  let rows='';
+  if(isLeader){
+    // Group by person, ordered
+    PERSON_ORDER.forEach(k=>{
+      const ptasks=done.filter(t=>t.assignee===k);
+      if(!ptasks.length) return;
+      rows+=`<div class="selesai-person-hdr">${PERSON_LABEL[k]||k}</div>`;
+      rows+=ptasks.map(t=>`<div class="tc-done">
+        <span class="tc-done-check">✅</span>
+        <a class="tc-done-name" href="${t.url}" target="_blank">${t.name}</a>
+        <span class="tc-done-domain">${t.domain}</span>
+      </div>`).join('');
+    });
+  } else {
+    rows=done.map(t=>`<div class="tc-done">
+      <span class="tc-done-check">✅</span>
+      <a class="tc-done-name" href="${t.url}" target="_blank">${t.name}</a>
+      <span class="tc-done-domain">${t.domain}</span>
+    </div>`).join('');
+  }
+  const bodyH=`<div class="selesai-body" style="max-height:999px">${vc}${rows}</div>`;
+  return`<div class="zone zone-selesai collapsed" style="margin-top:18px">
+    <div class="zone-hdr" onclick="this.closest('.zone-selesai').classList.toggle('collapsed');this.closest('.zone-selesai').querySelector('.selesai-body').style.maxHeight=this.closest('.zone-selesai').classList.contains('collapsed')?'0':'999px'">
+      <div class="zdot"></div><span class="zlbl">Selesai Minggu Ini</span><span class="zct">${done.length}</span><span class="chev">▼</span>
+    </div>
+    ${bodyH}
   </div>`;
 }
 
