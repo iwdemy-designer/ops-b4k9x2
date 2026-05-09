@@ -290,20 +290,25 @@ body{font-family:'Carlito','Inter',sans-serif;background:var(--fog);color:var(--
 // AUTO:START — NOTION SYNC DATA
 const TASKS = [
   { assignee:'yanti', name:'Final Action Plan dari Meeting Minutes', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-05-08', url:'https://www.notion.so/3528ff32f8cf8065869efd82252fad05', cp:null },
-  { assignee:'yanti', name:' Online Check in Leaders Level 2  🏁', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-05-09', url:'https://www.notion.so/3558ff32f8cf80e8a14ac4dd96bdaa7d', cp:null },
+  { assignee:'yanti', name:'Finish AHDO Registration', priority:'P1', status:'Doing', domain:'Tjitra', due:'2026-05-08', url:'https://www.notion.so/0531adac70344e16ae8b0c717897a479', cp:70 },
+  { assignee:'yanti', name:' Online Check in Leaders Level 2  🏁', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-05-09', url:'https://www.notion.so/3558ff32f8cf80e8a14ac4dd96bdaa7d', cp:85 },
+  { assignee:'yanti', name:'FU IFP Metra, Temasek, Ciputra', priority:'P2', status:'Doing', domain:'IWDemy', due:'2026-05-09', url:'https://www.notion.so/734a70bb0086468e8bff99a17f9679b1', cp:10 },
+  { assignee:'yanti', name:'Final Website IWDemy', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-05-10', url:'https://www.notion.so/aa0306da677b4c87b0748afa7ffade09', cp:60 },
   { assignee:'yanti', name:'Final Modul Personalized AI', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-05-10', url:'https://www.notion.so/3558ff32f8cf80cfa8a9eb707da7f01d', cp:100 },
+  { assignee:'yanti', name:'Final persona dan intent Open Claw', priority:'P3', status:'Next', domain:'IWDemy', due:'2026-05-10', url:'https://www.notion.so/3378ff32f8cf80df897af5051ce9aa2c', cp:15 },
   { assignee:'yanti', name:'Final Materi SinaD 5', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-05-17', url:'https://www.notion.so/3548ff32f8cf8073b27fc32319125fa1', cp:75 },
   { assignee:'yanti', name:'Final DAAD Module', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-05-31', url:'https://www.notion.so/3558ff32f8cf80f89495ccf17393a9b2', cp:null },
   { assignee:'yanti', name:'[Kata kerja] [output]', priority:'P2', status:'Next', domain:'IWDemy', due:null, url:'https://www.notion.so/35a8ff32f8cf80608c17f068e8e9eade', cp:null },
   { assignee:'yanti', name:'QUICK TASK', priority:'P1', status:'Next', domain:'IWDemy', due:null, url:'https://www.notion.so/3558ff32f8cf80fcbd15d00da5d6f9a6', cp:null },
+  // ── TIM
   { assignee:'juli', name:'Integrasi Dashboard Task Management ke DEA', priority:'P1', status:'Waiting', domain:'IWDemy', due:'2026-05-04', url:'https://www.notion.so/34b8ff32f8cf80db8264f233102812de', cp:null },
   { assignee:'juli', name:'Buat Agentic AI Workflow OpenClaw untuk social media', priority:'P1', status:'Doing', domain:'IWDemy', due:'2026-05-05', url:'https://www.notion.so/34b8ff32f8cf80a79dc9ee3e1165efdf', cp:null },
   { assignee:'juli', name:'Final Gem + Prompt Database', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-05-05', url:'https://www.notion.so/3558ff32f8cf80c9b8e5e6b5545aa795', cp:null },
   { assignee:'meliana', name:'Email Pak Yuli Info Produk ', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-05-04', url:'https://www.notion.so/3528ff32f8cf801c9270e988610179ee', cp:null },
-  { assignee:'meliana', name:'Submit KA database lengkap AIF (informasi di bawah & di attachment)', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-05-08', url:'https://www.notion.so/3568ff32f8cf806d92d8fd7055731e4e', cp:null },
   { assignee:'meliana', name:'Google Contact_CRM Update dan Check', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-05-08', url:'https://www.notion.so/34f8ff32f8cf80678a3cc4bc120fd98d', cp:null },
-  { assignee:'meliana', name:'Stock Inventory IQ', priority:'P3', status:'Next', domain:'IWDemy', due:'2026-05-08', url:'https://www.notion.so/34f8ff32f8cf806fb804f6d8de3c2e7f', cp:null },
   { assignee:'meliana', name:'Gems / Opal Surat Penawaran Returnstar', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-05-08', url:'https://www.notion.so/34f8ff32f8cf8048a490c5c7cf04f40a', cp:null },
+  { assignee:'meliana', name:'Submit KA database lengkap AIF (informasi di bawah & di attachment)', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-05-08', url:'https://www.notion.so/3568ff32f8cf806d92d8fd7055731e4e', cp:null },
+  { assignee:'meliana', name:'Stock Inventory IQ', priority:'P3', status:'Next', domain:'IWDemy', due:'2026-05-08', url:'https://www.notion.so/34f8ff32f8cf806fb804f6d8de3c2e7f', cp:null },
   { assignee:'meliana', name:'Final SPT Tahunan PT Sinau 2025', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-05-29', url:'https://www.notion.so/34f8ff32f8cf8006ad62f0b0faedb710', cp:null },
   { assignee:'anita', name:'FU Pelaporan SPT Tjitra dan Umi', priority:'P1', status:'Next', domain:'IWDemy', due:'2026-04-30', url:'https://www.notion.so/3568ff32f8cf80b7877fe9db11af865e', cp:null },
   { assignee:'anita', name:'Review SPT PT Sinau', priority:'P1', status:'Doing', domain:'IWDemy', due:'2026-04-30', url:'https://www.notion.so/3528ff32f8cf8057b2f6cbcfcae9d747', cp:null },
@@ -329,7 +334,7 @@ const TASKS = [
   { assignee:'stephen', name:'Migrasi CCpanel ke Hostinger', priority:'P2', status:'Next', domain:'IWDemy', due:'2026-05-18', url:'https://www.notion.so/35a8ff32f8cf80e185dee10fc201a8e7', cp:null },
   { assignee:'stephen', name:'Improve Chatbot IQ', priority:'P2', status:'Next', domain:'IWDemy', due:null, url:'https://www.notion.so/35a8ff32f8cf80c7862be7b6ead78cf9', cp:null },
 ];
-const SYNC_TIME = '2026-05-09 08:39 WIB';
+const SYNC_TIME = '2026-05-09 11:30 WIB';
 // AUTO:END — NOTION SYNC DATA
 // ─────────────────────────────────────────────
 
