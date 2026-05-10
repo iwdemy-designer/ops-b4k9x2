@@ -224,9 +224,9 @@ body{font-family:'Carlito','Inter',sans-serif;background:var(--fog);color:var(--
 
 <!-- VALUE BAR -->
 <div class="ticker-wrap">
-  <div class="ticker-label" id="ticker-label">Values</div>
+  <div class="ticker-label" id="ticker-label">OMG !</div>
   <div class="ticker-msg">
-    <div class="ticker-text visible" id="ticker-text"></div>
+    <div class="ticker-text visible" id="ticker-text">One Mindset &amp; Goal</div>
   </div>
 </div>
 
@@ -596,24 +596,8 @@ const TICKER_MSGS = [
   {org:'Tjitra', text:'<span class="ticker-sub">Tjitra</span> · Transformasi manusia untuk organisasi yang tahan terhadap perubahan'},
   {org:'IWDemy', text:'<span class="ticker-sub">IWDemy</span> · Insight Web Academy — dari riset lapangan ke program yang bisa langsung diterapkan'},
 ];
-let tickerIdx=0;
-function rotateTicker(){
-  const el=document.getElementById('ticker-text');
-  const lb=document.getElementById('ticker-label');
-  el.classList.remove('visible'); el.classList.add('exit');
-  setTimeout(()=>{
-    tickerIdx=(tickerIdx+1)%TICKER_MSGS.length;
-    const m=TICKER_MSGS[tickerIdx];
-    el.innerHTML=m.text;
-    lb.textContent=m.org;
-    el.classList.remove('exit'); el.classList.add('enter');
-    setTimeout(()=>{el.classList.remove('enter'); el.classList.add('visible');},50);
-  },700);
-}
-const m0=TICKER_MSGS[0];
-document.getElementById('ticker-text').innerHTML=m0.text;
-document.getElementById('ticker-label').textContent=m0.org;
-setInterval(rotateTicker,4500);
+// ── OMG — One Mindset & Goal (static) ───────────────────────────
+// Label dan pesan sudah di-set di HTML — tidak perlu JS dinamis.
 
 // ── HERO ──
 const TIM_TIPS=[

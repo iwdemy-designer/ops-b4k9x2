@@ -330,6 +330,9 @@ body{line-height:1.6}
 .sl-badge{font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px;flex-shrink:0;white-space:nowrap}
 .slb-red{background:var(--maroon-08);color:var(--maroon)}
 .slb-yellow{background:var(--orange-08);color:var(--orange)}
+.sl-org-aif{background:var(--green);color:white}
+.sl-info{flex:1;display:flex;flex-direction:column;gap:1px;overflow:hidden}
+.sl-sub{font-size:10px;color:var(--grey);font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
 /* ── MILESTONE STRIP (Overview) ── */
 .ov-ms-strip{background:rgba(255,255,255,.72);backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);border-radius:var(--rlg);border:1px solid rgba(255,255,255,.6);box-shadow:0 4px 24px rgba(0,0,0,.06);padding:16px 22px;margin-bottom:28px}
@@ -366,9 +369,9 @@ body{line-height:1.6}
 
 <!-- VALUE BAR -->
 <div class="ticker-wrap">
-  <div class="ticker-label" id="ticker-label">Values</div>
+  <div class="ticker-label" id="ticker-label">OMG !</div>
   <div class="ticker-msg" id="ticker-msg">
-    <div class="ticker-text visible" id="ticker-text"></div>
+    <div class="ticker-text visible" id="ticker-text">One Mindset &amp; Goal</div>
   </div>
 </div>
 
@@ -454,25 +457,62 @@ window.OV_SYNC = '2026-05-10 18:30 WIB';
   <div class="sec-label"><span class="si">🏁</span> Event &amp; Milestone · 7 Hari</div>
   <div class="ov-ms-strip" id="ovMilestones"><div class="ov-ms-empty">Memuat...</div></div>
 
-  <!-- ONGOING PROJECT — swimlane per domain, data dari Notion Project DB -->
+  <!-- ONGOING PROJECT — swimlane per strategic layer -->
   <div class="sec-label"><span class="si">🗂</span> Ongoing Project</div>
-  <div class="swimlane-grid">
 
-    <!-- IWDemy -->
+  <!-- Zone 1: AIF Primary — full width, dominan -->
+  <div class="swimlane-grid" style="grid-template-columns:1fr;margin-bottom:12px">
     <div class="swimlane">
       <div class="sl-head">
-        <span class="sl-org-badge sl-org-iw">IWDemy</span>
-        <span class="sl-count">9 proyek</span>
+        <span class="sl-org-badge sl-org-aif">★ AIF Primary</span>
+        <span class="sl-count">5 proyek · langsung menuju 300 Juta/bln</span>
         <div class="sl-alerts">
           <span class="sl-alert sl-alert-red">1 Overdue</span>
         </div>
       </div>
-      <div class="sl-rows">
-        <!-- AUTO:START:iwdemy-projects -->
+      <div class="sl-rows" style="display:grid;grid-template-columns:1fr 1fr;gap:0">
         <a class="sl-row sl-overdue" href="https://www.notion.so/fa945afb057842dea01a0b78ccd34583" target="_blank" rel="noopener">
           <span class="sl-dot sld-overdue"></span>
-          <span class="sl-name">AI First Public</span>
+          <div class="sl-info"><span class="sl-name">AI First · Batch 1 Leaders</span><span class="sl-sub">Public program · sedang berjalan</span></div>
           <span class="sl-badge slb-red">Overdue</span>
+        </a>
+        <a class="sl-row sl-active" href="https://www.notion.so/3428ff32f8cf8001a2a6d7dc214862e7" target="_blank" rel="noopener">
+          <span class="sl-dot sld-active"></span>
+          <div class="sl-info"><span class="sl-name">AI First · Batch 1 Professionals</span><span class="sl-sub">Public program · sedang berjalan</span></div>
+        </a>
+        <a class="sl-row sl-active" href="https://www.notion.so/d2e921178d894b9cb7e408951f960b55" target="_blank" rel="noopener">
+          <span class="sl-dot sld-active"></span>
+          <div class="sl-info"><span class="sl-name">AI First · Batch 2 Leaders</span><span class="sl-sub">Public program · Juli 2026</span></div>
+        </a>
+        <a class="sl-row sl-active" href="https://www.notion.so/3dc8efdaaa904c84b33b17a3d9cda91e" target="_blank" rel="noopener">
+          <span class="sl-dot sld-active"></span>
+          <div class="sl-info"><span class="sl-name">Digital Lab</span><span class="sl-sub">Demo vehicle — klien melihat AI bekerja sebelum beli</span></div>
+        </a>
+        <a class="sl-row sl-active" href="https://www.notion.so/7264b935995c4e9d8efccd02b108630a" target="_blank" rel="noopener">
+          <span class="sl-dot sld-active"></span>
+          <div class="sl-info"><span class="sl-name">Marketing System</span><span class="sl-sub">Funnel AIF — awareness → conversion via socmed</span></div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Zone 2: Supporting + On Hold -->
+  <div class="swimlane-grid">
+
+    <!-- Supporting -->
+    <div class="swimlane">
+      <div class="sl-head">
+        <span class="sl-org-badge sl-org-iw">Supporting</span>
+        <span class="sl-count">5 proyek aktif</span>
+      </div>
+      <div class="sl-rows">
+        <a class="sl-row sl-active" href="https://www.notion.so/3428ff32f8cf8080b7e6f4d3d19bffb1" target="_blank" rel="noopener">
+          <span class="sl-dot sld-active"></span>
+          <span class="sl-name">IWDemy · Marwita | Aloysius</span>
+        </a>
+        <a class="sl-row sl-active" href="https://www.notion.so/bfaede5197fa4d2a8bbb099ee8ed540c" target="_blank" rel="noopener">
+          <span class="sl-dot sld-active"></span>
+          <span class="sl-name">Team Learning &amp; Growth</span>
         </a>
         <a class="sl-row sl-active" href="https://www.notion.so/f4731395c70f41b38f40bc781c102093" target="_blank" rel="noopener">
           <span class="sl-dot sld-active"></span>
@@ -482,49 +522,23 @@ window.OV_SYNC = '2026-05-10 18:30 WIB';
           <span class="sl-dot sld-active"></span>
           <span class="sl-name">Principal Connect 2026</span>
         </a>
-        <a class="sl-row sl-active" href="https://www.notion.so/3428ff32f8cf8080b7e6f4d3d19bffb1" target="_blank" rel="noopener">
+        <a class="sl-row sl-active" href="https://www.notion.so/3239a13449044e0babd346e82c5183d7" target="_blank" rel="noopener">
           <span class="sl-dot sld-active"></span>
-          <span class="sl-name">SinaD Aloy</span>
+          <span class="sl-name">BD Pipeline · AIF In-House</span>
         </a>
-        <a class="sl-row sl-active" href="https://www.notion.so/3428ff32f8cf8001a2a6d7dc214862e7" target="_blank" rel="noopener">
-          <span class="sl-dot sld-active"></span>
-          <span class="sl-name">AI First Aloy</span>
-        </a>
-        <a class="sl-row sl-active" href="https://www.notion.so/bfaede5197fa4d2a8bbb099ee8ed540c" target="_blank" rel="noopener">
-          <span class="sl-dot sld-active"></span>
-          <span class="sl-name">Team Learning &amp; Growth</span>
-        </a>
-        <a class="sl-row sl-active" href="https://www.notion.so/7264b935995c4e9d8efccd02b108630a" target="_blank" rel="noopener">
-          <span class="sl-dot sld-active"></span>
-          <span class="sl-name">Marketing System</span>
-        </a>
-        <a class="sl-row sl-active" href="https://www.notion.so/3dc8efdaaa904c84b33b17a3d9cda91e" target="_blank" rel="noopener">
-          <span class="sl-dot sld-active"></span>
-          <span class="sl-name">Digital Lab</span>
-        </a>
-        <a class="sl-row sl-active" href="https://www.notion.so/d2e921178d894b9cb7e408951f960b55" target="_blank" rel="noopener">
-          <span class="sl-dot sld-active"></span>
-          <span class="sl-name">AI First Bootcamp</span>
-        </a>
-        <!-- AUTO:END:iwdemy-projects -->
       </div>
     </div>
 
-    <!-- Tjitra -->
+    <!-- On Hold -->
     <div class="swimlane">
       <div class="sl-head">
-        <span class="sl-org-badge sl-org-tj">Tjitra</span>
-        <span class="sl-count">3 proyek</span>
+        <span class="sl-org-badge sl-org-tj">On Hold</span>
+        <span class="sl-count">2 proyek</span>
         <div class="sl-alerts">
           <span class="sl-alert sl-alert-yellow">2 On Hold</span>
         </div>
       </div>
       <div class="sl-rows">
-        <!-- AUTO:START:tjitra-projects -->
-        <a class="sl-row sl-active" href="https://www.notion.so/3239a13449044e0babd346e82c5183d7" target="_blank" rel="noopener">
-          <span class="sl-dot sld-active"></span>
-          <span class="sl-name">Business Development Pipeline</span>
-        </a>
         <a class="sl-row sl-hold" href="https://www.notion.so/db067adfcb5e4d74a4bef8fb00599cf4" target="_blank" rel="noopener">
           <span class="sl-dot sld-hold"></span>
           <span class="sl-name">Recruitment</span>
@@ -535,7 +549,6 @@ window.OV_SYNC = '2026-05-10 18:30 WIB';
           <span class="sl-name">Telkom Metra - L&amp;D</span>
           <span class="sl-badge slb-yellow">On Hold</span>
         </a>
-        <!-- AUTO:END:tjitra-projects -->
       </div>
     </div>
 
@@ -686,83 +699,8 @@ window.OV_SYNC = '2026-05-10 18:30 WIB';
   const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
   document.getElementById('navDate').textContent = days[d.getDay()] + ', ' + d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
 
-  // ── VALUE OF THE DAY — static crossfade ─────────────────────────
-  (function setValueBar(){
-    const valueMap = {
-      1: 'excellence', 2: 'trust', 3: 'impact',
-      4: 'care', 5: 'excellence', 6: 'care', 0: 'trust'
-    };
-    const values = {
-      excellence: {
-        label: '✦ Excellence',
-        items: [
-          ['Subject Mastery', 'Kamu tahu topik ini cukup, atau kamu benar-benar paham? Bedanya terlihat saat orang bertanya.'],
-          ['Personal Growth', 'Apa yang bisa kamu kerjakan hari ini yang bulan lalu belum bisa? Kalau tidak ada jawabannya, perlu dicek.'],
-          ['Drive to Learn', 'Ada yang tidak kamu mengerti hari ini? Bagus. Ikuti sampai kamu paham, bukan sekadar tahu.']
-        ]
-      },
-      trust: {
-        label: '✦ Trust',
-        items: [
-          ['Respect', 'Balas pesan tepat waktu. Hadir penuh saat berbicara. Dua hal kecil itu sudah lebih dari cukup.'],
-          ['Responsibility', 'Kamu yang pegang, kamu yang selesaikan. Kalau tidak bisa, bilang sebelum deadline, bukan sesudah.'],
-          ['Integrity', 'Lakukan hal yang benar meski tidak ada yang melihat. Itu saja definisinya.']
-        ]
-      },
-      impact: {
-        label: '✦ Impact',
-        items: [
-          ['Excellent Service', 'Sebelum kirim, tanya satu hal: ini menjawab masalah klien, atau sekadar selesai?'],
-          ['Entrepreneurship', 'Jangan tunggu semua siap. Ambil satu langkah, lihat hasilnya, pertanggungjawabkan.'],
-          ['Customer Relationship', 'Kapan terakhir kamu menghubungi klien tanpa ada keperluan tertentu?']
-        ]
-      },
-      care: {
-        label: '✦ Care',
-        items: [
-          ['Sharing', 'Ada yang kamu tahu dan belum dibagikan? Satu hal kecil hari ini bisa membantu orang lain.'],
-          ['Kedekatan', 'Sapa seseorang hari ini bukan karena ada perlu, tapi karena kamu memang peduli.'],
-          ['Togetherness', 'Ada anggota tim yang sedang berat hari ini? Tanya duluan, jangan tunggu mereka minta.']
-        ]
-      }
-    };
-
-    const v = values[valueMap[d.getDay()]];
-    document.getElementById('ticker-label').textContent = v.label;
-
-    // Build HTML for one message: sub-value highlighted + sentence
-    function buildHTML(item) {
-      return '<span class="ticker-sub">' + item[0] + '</span> &nbsp;' + item[1];
-    }
-
-    const el = document.getElementById('ticker-text');
-    let idx = 0;
-    el.innerHTML = buildHTML(v.items[0]);
-
-    // Crossfade to next sentence every 9 seconds
-    setInterval(function(){
-      idx = (idx + 1) % v.items.length;
-
-      // Exit current
-      el.classList.remove('visible');
-      el.classList.add('exit');
-
-      setTimeout(function(){
-        // Swap content, set enter state
-        el.innerHTML = buildHTML(v.items[idx]);
-        el.classList.remove('exit');
-        el.classList.add('enter');
-
-        // Small pause then enter
-        requestAnimationFrame(function(){
-          requestAnimationFrame(function(){
-            el.classList.remove('enter');
-            el.classList.add('visible');
-          });
-        });
-      }, 700); // matches transition duration
-    }, 9000);
-  })();
+  // ── OMG — One Mindset & Goal (static) ───────────────────────────
+  // Label dan pesan sudah di-set di HTML — tidak perlu JS dinamis.
 
   // ── COMMAND PALETTE ───────────────────────────────────────────────
   (function initCommandPalette(){
